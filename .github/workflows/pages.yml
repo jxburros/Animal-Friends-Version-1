@@ -1,0 +1,74 @@
+# Publish the browser game to GitHub Pages, on demand.
+#
+# The game is a buildless static site: index.html loads src/ui/main.js as a module, which fetches
+# spec/*.json and package.json relative to itself. So "building" is just copying those files into
+# _site — whatever is on the default branch when you press Run workflow is what goes live.
+#
+# Run it from the Actions tab: Actions -> "Deploy game to GitHub Pages" -> Run workflow.
+name: Deploy game to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: 'Run the engine tests before publishing (deploy is skipped if they fail)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; let a newer run wait rather than cancel a publish in flight.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        if: ${{ inputs.run_tests }}
+        with:
+          node-version: '22'
+
+      - name: Run the engine tests
+        if: ${{ inputs.run_tests }}
+        run: npm test
+
+      # enablement: true creates the Pages site on first run, so no manual setup in Settings.
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Assemble the site
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          # Everything the page actually loads at runtime, and nothing else.
+          cp index.html package.json _site/
+          cp -R src spec assets _site/
+          # Tell Pages to serve the files as they are (no Jekyll processing).
+          touch _site/.nojekyll
+          echo "Publishing version $(node -p "require('./package.json').version")"
+          find _site -type f | sort
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,22 @@
+Create ONE production game-art texture atlas, square 2048x2048, strict exact 4 by 4 grid of sixteen equally sized square illustrations. Every tile occupies precisely one quarter width and height. No gutters, no borders, no labels, no lettering, no watermarks. Sixteen separate compositions. Style: richly detailed cozy storybook oil and gouache paintings, cute anatomically recognizable anthropomorphic woodland animals wearing embroidered waistcoats and artisan clothes, warm amber lantern lighting against midnight blue and plum skies, lush timber-and-stone town, painterly tactile detail. Whimsical brass-and-wood science fiction fits the medieval woodland storybook world. Premium Animal Friends trading-card art. Keep each identifying subject, face and prop centered safely within its square for a slightly wide card crop. Species and occupations must be unmistakable. No humans. Read scene order strictly row-major, 0 through 15.
+ROW 1:
+0. Sage the telescope polisher: small round spectacled brown OWL with clear feathered wings, polishing the brass lens of a telescope with cloth in observatory workshop.
+1. Sage the royal astronomer: wise brown OWL in elaborate navy star-embroidered scholar robe, looking through a large brass telescope beneath an open observatory dome with stars.
+2. Bean the barista: cute tan barn OWL with heart-shaped white facial disc, green apron, feathered wings operating a brass espresso machine pouring coffee into ceramic cups, café counter.
+3. Tawny the night school teacher/headmistress: russet OWL in plum academic robe and spectacles, teaching small rabbit and mouse pupils with a chalkboard of simple geometric shapes (no text) inside a warmly lit night classroom.
+ROW 2:
+4. Tawny the night watch: russet OWL with feathered wings wearing blue watch cape, carrying a glowing lantern and keys on a quiet cobbled moonlit street.
+5. Barnaby the night auditor: grey OWL accountant with spectacles and sober vest, checking a ledger beside abacus and neat coin stacks at a candlelit desk.
+6. Hoot the night porter: cream barn OWL in burgundy porter vest, moving a luggage trolley with trunks through a welcoming hotel doorway at night, no text.
+7. Comet the rocket mechanic: orange tabby CAT in blue overalls and goggles, using a wrench on a brass riveted rocket engine in a tidy workshop, rocket nose cone in background.
+ROW 3:
+8. Comet the test pilot: same orange tabby CAT in leather flight cap and goggles, seated at the controls of a whimsical brass rocket cockpit with round gauges and curved window.
+9. Comet the astronaut: same orange tabby CAT in cream quilted spacesuit with clear round glass helmet, standing on the moon holding a plain teal pennant, small woodland planet glowing in space behind, whole face visible.
+10. Pippa the moon gardener: grey-and-white CAT in a cream spacesuit with clear helmet, tending leafy seedlings in raised beds inside a glass lunar greenhouse, moon craters outside.
+11. Clover the rocket botanist: RABBIT with long ears and green embroidered lab apron, inspecting a sprouting potato in a clear growing chamber, little brass rocket and scientific glassware nearby.
+ROW 4:
+12. Moss the rocketwright: striped black-and-white BADGER in leather apron assembling the pointed body of a wooden-and-brass rocket in a tall workshop, tools and plans.
+13. Brook the balloonist: brown OTTER in blue coat and goggles standing in wicker basket of hot-air balloon with striped fabric canopy above, floating over winding river and town.
+14. Mortar the steam engineer: striped BADGER wearing copper goggles and dark apron, turning valve on a polished brass steam boiler with round pressure gauges and wisps of steam.
+15. Thimble the spacesuit seamstress: calico CAT in plum dress, sewing a cream quilted spacesuit at a treadle machine; clear round astronaut helmet and unfinished suit on dress form beside her.
+Strict 4x4 equal tile grid, no divider lines, no printed card UI, no captions.

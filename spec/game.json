@@ -1,0 +1,247 @@
+{
+  "$comment": "Authoritative rules constants for the Animal Friends TCG prototype. Read by src/engine. Section numbers refer to docs/ANIMAL_FRIENDS_TCG_DESIGN_REFERENCE.md.",
+  "id": "AF-RULES-02",
+  "name": "Animal Friends TCG",
+  "setId": "AF-STARTER-01",
+  "players": 2,
+  "setup": {
+    "deckSize": 40,
+    "startingSupply": 6,
+    "secondPlayerBonusSupply": 0,
+    "startingHand": 6,
+    "marketDeckSize": 35,
+    "capitalCitySize": 5,
+    "secondPlayerBonusCards": 1,
+    "mulligan": {
+      "$comment": "Each Mayor may mulligan once, for free: shuffle the opening hand back and draw the same number again. There is no card penalty and no second mulligan.",
+      "allowed": 1,
+      "cardPenalty": 0
+    }
+  },
+  "deckbuilding": {
+    "$comment": "The Deck Workshop lets a player build any deck of minDeckSize to maxDeckSize cards from the Character, Event and Town Building catalogue. There is no Character floor and no Event ceiling any more: the deck is the Mayor's to get wrong, and the Workshop warns rather than refuses. warnMinCharacters is where that warning starts \u2014 a deck at full size with that few animals cannot pay its own Event requirements or staff its own Buildings. Copies are capped by rarity (maxCopiesByRarity), which src/engine/power.js derives from a card's power-to-opportunity-cost rating. Rarity here means how often a deck may repeat a card, not how hard it is to find: Common four times, Uncommon three, Rare twice, Super Rare once. An Event's Character requirement can be reduced by at most maxEventReduction, however many reductions a player holds.",
+    "maxCopiesPerCard": 4,
+    "maxCopiesByRarity": {
+      "Common": 4,
+      "Uncommon": 3,
+      "Rare": 2,
+      "Super Rare": 1
+    },
+    "maxEventReduction": 1,
+    "minDeckSize": 40,
+    "maxDeckSize": 50,
+    "warnMinCharacters": 6
+  },
+  "victory": {
+    "statueTotal": 9,
+    "statuesToWin": 5,
+    "rule": "strict majority of Statues",
+    "forbidStealingFinalStatue": true,
+    "statuesCarryBurdens": true,
+    "statueCostTiers": [
+      10,
+      20,
+      30
+    ],
+    "statueCostTierBreaks": [
+      2,
+      4
+    ],
+    "statueCostTierBreak": 2,
+    "$comment": "Statues are priced in tiers read from the buyer's own Victory Row. statueCostTierBreaks lists the holdings at which the price steps up, so with tiers [10,20,30] and breaks [2,4] a Mayor holding 0-1 pays 10, one holding 2-3 pays 20, and one holding 4 \u2014 buying the Statue that wins the game \u2014 pays 30. The fifth and winning Statue is therefore always the dearest thing in the game by a wide margin, which is the main brake on a runaway. statueCostTierBreak is the retired single-break form, kept only so older saves still read. Each Statue also grants a boon and imposes a burden that lasts as long as its Mayor controls it, so collecting Statues taxes the town that is winning twice over.",
+    "$comment2": "The tier is read from the bidder's own Victory Row, so the two Mayors can face different prices for the same card in the same auction.",
+    "requiresBuildingSlot": true,
+    "$comment3": "A Statue takes one of the town's eight Building places, so a Mayor needs an empty place to announce an auction for one and still needs an empty place when that auction resolves. A Statue that is won with nowhere to stand is offered a demolition first; a Mayor who will not or cannot demolish loses the purchase and is refunded."
+  },
+  "orientation": {
+    "upright": 0,
+    "busy": 270,
+    "masterEntry": 180,
+    "advanceOrder": [
+      180,
+      270,
+      0
+    ],
+    "$comment": "Section 5: non-upright Characters rotate clockwise one quarter turn at the start of their owner's turn: 180 -> 270 -> 0."
+  },
+  "ranks": {
+    "apprentice": {
+      "minCost": 0,
+      "maxCost": 1,
+      "entryOrientation": 0
+    },
+    "journeyman": {
+      "minCost": 2,
+      "maxCost": 3,
+      "entryOrientation": 270
+    },
+    "master": {
+      "minCost": 4,
+      "maxCost": 5,
+      "entryOrientation": 180
+    }
+  },
+  "phases": [
+    "start",
+    "resources",
+    "ready",
+    "actions",
+    "end"
+  ],
+  "resources": {
+    "choices": {
+      "draw": {
+        "cards": 1
+      },
+      "supply": {
+        "amount": 2
+      }
+    }
+  },
+  "shifts": {
+    "$comment": "A working Character stays Busy for its full delay: it does not advance orientation at Ready while a shift is in progress. The shift produces Supply at the End phase in which its remaining delay reaches 0; the Character readies normally afterwards. An effect that readies a working Character completes its shift immediately.",
+    "blocksReadyWhileInProgress": true,
+    "readyEffectCompletesShift": true
+  },
+  "buildings": {
+    "$comment": "Buildings are the permanent half of a town: Capital City Buildings bought at auction, Town Buildings built out of your own deck, and the Statues in the Victory Row, all standing in the same eight places. A Statue counts as a Building, so a Mayor closing on a victory is also running out of room to build, and cannot buy a Statue at all without an empty place to stand it in. A Building may be demolished to make room; a Statue never can. A demolished Capital City Building goes to the City Dump, where it can be dealt again; a demolished Town Building goes to its owner's Town Dump.",
+    "maxPerTown": 8,
+    "statuesOccupySlots": true,
+    "statuesCannotBeDemolished": true,
+    "demolishToCityDump": true,
+    "townBuildingsDemolishToTownDump": true
+  },
+  "town": {
+    "$comment": "A town holds at most maxCharacters animals. The count is the town's whole footprint: animals at work, animals pledged into a Capital City auction, and animals face down in Unemployment all take a slot. Capping bodies is what gives the upgrade path a reason to exist \u2014 with an unlimited field, recruiting a second animal always beat improving the one you had, and upgrades ran at a quarter of one per game. Rehiring and promoting move an animal from Unemployment back into work, so both are footprint-neutral and the cap can never block them; only a genuinely new body is refused. layOffToDump is the release valve: a Mayor may send one face-down animal to the Town Dump for good, as a free action, so a town buried under shared shocks is never locked out of recruiting.",
+    "maxCharacters": 10,
+    "countsPledged": true,
+    "countsUnemployment": true,
+    "layOffToDump": true
+  },
+  "market": {
+    "$comment": "Section 8. Whenever a card leaves the Capital City, deal from the Market Deck until the display is back to setup.capitalCitySize (top-up refill; the earlier refill-only-when-empty rule let the display silt up with unwanted cards). Reshuffle the City Dump into the Market Deck when the Market Deck runs out mid-deal; cards in use and Out of Play never return.",
+    "refillToFull": true,
+    "refillWhenEmpty": false,
+    "minimumBidIsCardCost": true,
+    "tiesGoToAnnouncer": true,
+    "bidsAreEscrowed": true,
+    "aging": {
+      "$comment": "The display ages. Once a round \u2014 at the start of the turn belonging to `agesAt`, the second player by default \u2014 the oldest card in the Capital City that nobody is bidding on is discarded and replaced. Whoever the aging fires for gets first sight of the card dealt to replace it, and that edge belongs to the Mayor who moves second, as part of their compensation for going second. Cards visibly age out, so the display always turns over, on-reveal cards keep flowing, and 'buy it now or lose it' is a real decision. This replaces the old six-turn stale-market sweep, which only fired when the display had gone completely dead.",
+      "enabled": true,
+      "agesAt": 1,
+      "cardsPerRound": 1,
+      "statuesReturnToDeck": true,
+      "skipCardsUnderAuction": true
+    },
+    "auction": {
+      "$comment": "Section 8. An announcement opens an auction rather than a one-shot challenge. On your own turn you may raise any auction you are not already winning by pledging another upright Character and bidding above the standing bid. There is no arithmetic increment: a raise need only beat the standing bid. What converges a war is the pledge ladder below, not the price.",
+      "unlimitedRaises": true,
+      "raiseRequiresUprightCharacter": true,
+      "raiseMustExceedStandingBid": true,
+      "incrementGrowsEveryNRounds": 0,
+      "resolvesAtHighBidderStart": true,
+      "biddersLockedUntilAuctionEnds": true,
+      "pledgeLadder": "cost",
+      "minPledgeCost": 1,
+      "$pledgeComment": "The pledge ladder: your Nth pledge in a given auction must be a Character costing at least N. Your opening bid needs a cost-1 animal, your second a cost-2, and so on, so a Mayor can bid at most five times in one auction and only if their town runs the whole curve. Cost-0 Characters cannot bid at all \u2014 they are pure economy. Every pledged Character moves to the Capital City beneath the card it is bidding on and stays there until the auction ends: it does not advance at Ready and no effect can wake it. This, not the price, is what ends a bidding war.",
+      "losingBidRefundsInFull": true,
+      "$refundComment": "A losing bidder is refunded everything they escrowed and gets their animals back. The old half-forfeit existed to punish a frivolous bid; the pledge ladder does that job better, because a bid you cannot follow through on has already cost you an expensive animal for the whole auction."
+    },
+    "disruptions": {
+      "$comment": "On-reveal cards (historically 'Disruptions') are never bought: the moment one is dealt into the Capital City it resolves and goes to the City Dump, and another card is dealt in its place. Some strike both towns at once, some pay the Mayor who is behind, and some set a condition for the next auction. One dealt during setup is set aside unresolved, since there is no game state yet.",
+      "resolveOnReveal": true,
+      "disposal": "cityDump",
+      "skipDuringSetup": true
+    },
+    "characters": {
+      "$comment": "A Character hired out of the Capital City is retained labour, not a citizen. They may be hired for a term (`leavesAfter`) or indefinitely, but either way they go back to the City Dump the moment they would be sent to Unemployment \u2014 by an opponent's effect, by a shared shock, or by their own Mayor laying them off. They are never face down in a town and can never be rehired or promoted: the animals who wait for another job are the ones who live there.",
+      "returnsWhenUnemployed": true,
+      "returnsTo": "cityDump"
+    },
+    "events": {
+      "$comment": "Two kinds of Event come out of the Capital City. An on-reveal card (`disruption`) fires the moment it is dealt and is never bought. An ordinary Market card resolves as it is won \u2014 unless it is printed `hold: true`, in which case winning the auction puts it in the buyer's hand instead, to be played at their leisure. A held Event was paid for at auction, so playing it costs nothing and asks for no Characters: that freedom from requirements is what the auction price bought.",
+      "heldCardsGoToHand": true,
+      "heldCardsCostNothingToPlay": true,
+      "heldCardsIgnoreRequirements": true,
+      "heldCardsNeverExpire": true
+    }
+  },
+  "unemployment": {
+    "$faceDownComment": "Unemployed animals are not a separate board area: they stay in their town, turned face down. Either Mayor may look at a face-down animal at any time \u2014 this is a visual state, not hidden information, and rehiring, promoting and the cards that compare the two queues all need to see who is there. Face down rather than rotated, because rotation means 'this clears by itself after a known number of turns' and Unemployment does not clear until somebody pays. That also keeps 90 degrees free for a future three-turn Busy.",
+    "faceDown": true,
+    "inspectableByBothPlayers": true,
+    "rehireCostsFullPrintedCost": true,
+    "rehiredEntersUpright": true,
+    "stackKnockdown": "top card to Town Dump, next card to Unemployment, rest to Town Dump",
+    "protectNewCharacters": true,
+    "$comment": "Anti-lockout guardrail (Section 2 / 12): a Character that has not yet been upright during one of its owner's turns cannot be targeted by an opponent's Unemployment effect."
+  },
+  "upgrades": {
+    "$comment": "A higher-cost version of a named Character may be played over a lower-cost one. fromUnemployment lets that target sit in Unemployment as well as in town: the animal is promoted straight back into work rather than rehired. It costs the plain printed difference, and brings the promoted animal straight back into work in a single action \u2014 where rehiring pays the full printed cost for the *old* version and then still needs a second action and the difference to upgrade it. That saved action, not a flat discount, is what makes the upgrade path worth taking; against a cost-0 base version a plain rehire is still the cheaper way back. The knockdown rule (top card to the Town Dump, the version beneath it to Unemployment) is what puts the material there in the first place. An animal promoted out of Unemployment enters upright, like a rehire.",
+    "fromUnemployment": true,
+    "sameNameHigherCost": true,
+    "payDifference": true,
+    "keepsOrientation": true,
+    "triggersRecruitAbilities": true
+  },
+  "deckOut": {
+    "$comment": "A town deck is a clock. When it runs out, its Mayor may shuffle the Town Dump back in \u2014 once in the whole game \u2014 and after that they simply draw nothing. Games are meant to finish before either Mayor gets there; the single reshuffle is a mercy, not a plan. The Market Deck is different and reshuffles freely: it cycles the whole game, and Statues returned by the ageing rule are in the City Dump waiting to come back out.",
+    "shuffleTownDumpIntoDeck": true,
+    "maxReshuffles": 1
+  },
+  "simulation": {
+    "maxTurnsPerPlayer": 40,
+    "$comment": "Safety cap for automated playtests; a game that reaches the cap is scored by Statue count, then Supply."
+  },
+  "assumptions": [
+    "The second player starts with one extra card and no extra Supply (setup.secondPlayerBonusSupply / secondPlayerBonusCards).",
+    "Each Mayor may mulligan their opening hand once, for free, drawing the same number of cards again.",
+    "A player may have several auctions running at once (one per Capital City card); each may be raised any number of times, but only on the raiser's own turn and only by a player who is not already the high bidder.",
+    "A raise need only exceed the standing bid; there is no growing minimum increment. Auctions converge on the pledge ladder instead.",
+    "The pledge ladder: your Nth pledge in an auction must be a Character costing at least N, so no Mayor can bid more than five times in one auction and cost-0 Characters cannot bid at all.",
+    "Pledged Characters move to the Capital City beneath the card they are bidding on and stay there until the auction ends.",
+    "A losing bidder is refunded their escrow in full and gets their animals back; there is no forfeit.",
+    "Statues cost 10 to a Mayor holding fewer than 2, 20 to one holding 2 or 3, and 30 to one holding 4, so the Statue that wins the game is always the dearest. The tier is read again when the auction resolves, against the Victory Row as it stands then, so several auctions opened at once cannot all be locked in at a cheaper tier.",
+    "Every Statue carries a burden as well as a boon; burdens apply while the Statue sits in that player's Victory Row.",
+    "The Capital City ages: one card that nobody is bidding on is discarded and replaced once a round, at the start of the second player's turn, so first sight of the replacement belongs to the Mayor who moves second.",
+    "On-reveal Market cards resolve as they are dealt and are never purchasable.",
+    "Upgrading keeps the stack's current orientation and re-triggers the new card's recruit abilities.",
+    "Readying a Character that is mid-shift completes the shift at once.",
+    "Reactive abilities are implemented as shields set on your own turn that last until your next turn starts.",
+    "When the player deck is empty, the Town Dump is shuffled into it.",
+    "Top-up refill: the Capital City is dealt back up to five cards as soon as a purchase resolves.",
+    "Species is a design space, not a keyword: each species owns a centre of gravity, a hole and a signature effect (Section 4a), enforced by scripts/identity.mjs rather than by a trait printed on every card.",
+    "Botany was merged into Agriculture; the set has five studies.",
+    "Owl is the tenth species (Night Shift): it owns the night, its signature is the wake-up call (advanceCharacter: one step toward upright, never for a Character mid-shift), and its hole is that it earns little and does not bid. Science is the sixth study.",
+    "A Busy ability that reads \"once per game: readies itself\" (the Cat's signature) is used from the wrong side of upright \u2014 while Busy, mid-shift, or still rotating in as a Master \u2014 and never from upright, where it would do nothing. Readying a working Character this way completes its shift at once, as any ready does.",
+    "A town has eight Building places, shared by Capital City Buildings, Town Buildings built out of a Mayor's own deck, and the Statues in the Victory Row. Buildings may be demolished to make room; Statues may not.",
+    "A Statue needs an empty Building place both to announce the auction and to resolve it.",
+    "A Town Building is played from hand for its Supply cost plus a head count of upright animals, who go Busy without producing and rotate back up as normal. It works from the moment it is built.",
+    "A hired Capital City Character goes back to the City Dump instead of to Unemployment, so an Unemployment effect aimed at hired help destroys it outright.",
+    "A Market card printed `hold: true` goes to the buyer's hand instead of resolving, and is played later for nothing, with no Character requirements.",
+    "A town deck is 40 to 50 cards with no Character floor and no Event ceiling; the Deck Workshop warns about a full-size deck with six or fewer animals rather than refusing it.",
+    "Every card carries a rarity computed from its power-to-opportunity-cost rating (src/engine/power.js): Common, Uncommon, Rare or Super Rare. Rarity caps copies in a town deck (4/3/2/1) and means repetition, not scarcity.",
+    "A Mayor may shuffle their Town Dump back into their deck once per game; after that an empty deck simply draws nothing.",
+    "Tokens are markers, not cards: one kind per species, one per field of study, and one for Buildings, held beside a Mayor's Supply. They are declared by `token` cards in the card set, never go in a deck, and no card spends one yet \u2014 the counter exists so the cards that will can be written without engine work.",
+    "A shift may be printed with `decay`: every shift that Character works pays less than the one before, down to `minOutput`. Burning out is a property of the animal, so the count is kept on their stack."
+  ],
+  "tokens": {
+    "$comment": "Tokens are the small change of the town: markers a Mayor holds beside their Supply rather than cards in anybody's deck. There is one kind for every species, one for every field of study, and one for Buildings, and each kind is declared by a card of type `token` in the card set — the card is the token's face and its rules text; the counts live in `player.tokens`, keyed `species:Rabbit`, `study:Food`, `building`. A token is never drawn, bought, bid on or discarded, and it takes neither a town place nor a Building place. The engine gives and spends them (`gainToken`, `spendToken`) and a card may ask after them (`tokensAtLeast`), but nothing in either shelf spends one yet: the counter is built ahead of the cards that will use it, so the first three of them do not each invent their own. `startingTokens` is the count every Mayor begins with, and `cap` is the most of any one kind a town may hold at once (null for no limit).",
+    "enabled": true,
+    "perSpecies": true,
+    "perStudy": true,
+    "buildingToken": true,
+    "startingTokens": 0,
+    "cap": null,
+    "inDecks": false,
+    "occupiesSlot": false
+  },
+  "townBuildings": {
+    "$comment": "A Town Building is a card in your own deck, not a lot in the Capital City. Building one costs its printed Supply cost and puts `build.animals` upright animals to work: they go Busy and rotate back up as normal over the next turn or two, and they produce nothing on the way \u2014 the Building is what the labour bought. The requirement is a head count, never a species or a study: gating on species is what Events do, and the two should not read the same. A Town Building works from the moment it is built, and takes one of the town's eight Building places like any other.",
+    "requiresUprightAnimals": true,
+    "animalsGoBusy": true,
+    "animalsProduceNoOutput": true,
+    "activeImmediately": true,
+    "gatesOnSpecies": false
+  }
+}

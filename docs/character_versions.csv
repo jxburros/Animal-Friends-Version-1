@@ -1,0 +1,199 @@
+Character,Species,Study,Job / Title,Card id,Card type,Set,Cost,Rarity,Expansion,Shift delay,Shift output,Power score,Rules text
+Acorn,Squirrel,Agriculture,Nut Runner,mh_acorn_0,character,AF-STARTER-01,0,Common,AF-HATS-01,1,1,2.95,"When Acorn completes a shift, put 1 Supply by on Acorn."
+Acorn,Squirrel,Commerce,Coffee Cart,ns_acorn_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.4,"Upgrades Acorn. When Acorn completes a shift, if you control an Owl, gain 1 Supply."
+Acorn,Squirrel,Commerce,Stall Runner,rr_acorn_1,character,AF-STARTER-01,2,Super Rare,AF-STARTER-01,1,2,5.69,Busy: take every Supply your Characters have put by.
+Acorn,Squirrel,Crafts,Trade Envoy,rr_acorn_3,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,5.12,Busy: take every Supply your Characters have put by.
+Acorn,Squirrel,Commerce,Guild Broker,rr_acorn_2,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,3,6,5.63,"Upgrades Acorn. When an opponent challenges one of your purchases, gain 2 Supply and draw 1 card."
+Barley,Badger,Civics,Ledger Boy,rw_barley_1,character,AF-STARTER-01,1,Rare,AF-STARTER-01,1,2,4.83,"When Barley is recruited, your town braces: the next shared shock passes it over."
+Barley,Badger,Science,Geologist,ns_barley_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,2,4.58,"Upgrades Barley. Recruit: if you control another Badger, gain 2 Supply."
+Barley,Badger,Lore,Warren Surveyor,mh_barley_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,2,4.51,"Upgrades Barley. When Barley becomes upright, you may rehire a Character from your Unemployment for 2 less Supply."
+Barley,Badger,Civics,Town Recorder,rw_barley_2,character,AF-STARTER-01,4,Super Rare,AF-STARTER-01,2,4,5.46,"Upgrades Barley. At the start of your turn, if you control a Rabbit Character, gain 2 Supply."
+Barnaby,Owl,Commerce,Night Auditor,ns_mkt_barnaby,marketCharacter,AF-STARTER-01,4,Uncommon,AF-NIGHT-01,2,3,4.41,"Hired from the Capital City; enters Busy. At the start of your turn, look at the top two cards of your deck and put any of them on the bottom."
+Barrow,Badger,Crafts,Stonecutter,mkt_barrow,marketCharacter,AF-STARTER-01,5,Super Rare,AF-MARKET-02,2,5,6.3,Hired from the Capital City; enters Busy. Busy: brace for the next shared shock and gain 1 Supply.
+Bean,Owl,Commerce,Espresso Puller,ns_bean_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,4.4,Busy: one of your other Characters turns one step toward upright.
+Bean,Owl,Commerce,Barista,ns_bean_3,character,AF-STARTER-01,3,Rare,AF-NIGHT-01,2,3,4.74,"When Bean becomes upright, one of your other Characters turns one step toward upright."
+Bean,Owl,Commerce,Café Proprietor,ns_bean_5,character,AF-STARTER-01,5,Rare,AF-NIGHT-01,2,4,5.21,"At the start of your turn, one of your other Characters turns one step toward upright."
+Bram,Badger,Crafts,Journeyman Carter,mkt_bram,marketCharacter,AF-STARTER-01,4,Rare,AF-MARKET-02,2,4,5.19,"Hired from the Capital City; enters Busy. At the start of your turn, your town braces: the next shared shock passes it over."
+Bramble,Hedgehog,Crafts,Tinker,br_bramble_1,character,AF-STARTER-01,0,Common,AF-STARTER-01,1,1,2.64,"When Bramble is recruited, Bramble cannot be targeted by an opponent's effect until your next turn."
+Bramble,Hedgehog,Science,Clockmaker,ns_bramble_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.61,"Upgrades Bramble. When Bramble becomes upright, a Character you control cannot be targeted by an opponent until your next turn."
+Bramble,Hedgehog,Crafts,Guild Apprentice Master,br_bramble_3,character,AF-STARTER-01,2,Rare,AF-STARTER-01,1,2,4.8,"While Bramble is in town, your Characters cannot be sent to Unemployment by an opponent."
+Bramble,Hedgehog,Crafts,Master Joiner,br_bramble_2,character,AF-STARTER-01,4,Uncommon,AF-STARTER-01,2,4,4.63,"Upgrades Bramble. While Bramble is in town, your Characters cannot be sent to Unemployment by an opponent."
+Bramble,Hedgehog,Civics,Guild Warden,mh_bramble_5,character,AF-STARTER-01,5,Rare,AF-HATS-01,2,3,5.19,"Upgrades Bramble. At the start of your turn, if you control another Crafts Character, gain 1 Supply and draw 1 card."
+Bristle,Hedgehog,Civics,Gate Hedgehog,mkt_bristle,marketCharacter,AF-STARTER-01,3,Uncommon,AF-MARKET-02,2,3,4.13,"Hired from the Capital City; enters Busy. When Bristle becomes upright, a Character you control cannot be targeted by an opponent until your next turn."
+Brook,Otter,Commerce,Canal Pilot,mh_brook_1,character,AF-STARTER-01,1,Uncommon,AF-HATS-01,2,2,3.69,"When Brook is recruited, another Character you control is upright at the start of your next turn."
+Brook,Otter,Lore,Ferry Hand,rr_brook_1,character,AF-STARTER-01,2,Uncommon,AF-STARTER-01,1,2,4.48,"When Brook is recruited, another Character you control is upright at the start of your next turn."
+Brook,Otter,Science,Balloonist,ns_brook_4,character,AF-STARTER-01,4,Rare,AF-NIGHT-01,2,3,5.2,"Upgrades Brook. When Brook becomes upright, look at the top two cards of the Market Deck and draw 1 card."
+Brook,Otter,Crafts,Riverwright,rr_brook_2,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,2,5,6,"Upgrades Brook. Whenever an opponent challenges one of your purchases, gain 2 Supply and draw 1 card."
+Burr,Hedgehog,Agriculture,Barn Sweeper,mh_burr_0,character,AF-STARTER-01,0,Common,AF-HATS-01,1,1,2.64,"When Burr is recruited, Burr cannot be targeted by an opponent's effect until your next turn."
+Burr,Hedgehog,Crafts,Whittler,br_burr_1,character,AF-STARTER-01,1,Rare,AF-STARTER-01,1,2,4.67,"When Burr is recruited, Burr cannot be targeted by an opponent's effect until your next turn."
+Burr,Hedgehog,Science,Kite Tester,ns_burr_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,2,4.39,"Upgrades Burr. Recruit: if you control another Science Character, draw 1 card."
+Burr,Hedgehog,Crafts,Cabinetmaker,br_burr_2,character,AF-STARTER-01,3,Uncommon,AF-STARTER-01,2,3,4.28,"Upgrades Burr. While Burr is in town, your Characters cannot be sent to Unemployment by an opponent."
+Clover,Rabbit,Agriculture,Seedling Helper,bb_clover_1,character,AF-STARTER-01,0,Rare,AF-STARTER-01,1,1,4.73,"When Clover is recruited, you may recruit a Character costing 1 or less from your hand; it enters Busy."
+Clover,Rabbit,Commerce,Market Gardener,mh_clover_2,character,AF-STARTER-01,2,Uncommon,AF-HATS-01,1,1,4.39,Upgrades Clover. Busy: ready another Rabbit you control.
+Clover,Rabbit,Agriculture,Community Gardener,bb_clover_2,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,5.21,"Upgrades Clover. When Clover is recruited, you may recruit a Character costing 1 or less from your hand; it enters Busy."
+Clover,Rabbit,Science,Rocket Botanist,ns_clover_4,character,AF-STARTER-01,4,Rare,AF-NIGHT-01,2,3,5.06,Upgrades Clover. Recruit: you may recruit a Character costing 1 or less from your hand for free; it enters Busy.
+Clover,Rabbit,Agriculture,Master Botanist,bb_clover_3,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,2,5,5.98,"Upgrades Clover. At the start of your turn, if you control another Agriculture Character, gain 2 Supply."
+Comet,Cat,Crafts,Rocket Mechanic,ns_comet_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.4,"When Comet completes a shift, if you control a Science Character, gain 1 Supply."
+Comet,Cat,Science,Test Pilot,ns_comet_3,character,AF-STARTER-01,3,Uncommon,AF-NIGHT-01,2,3,4.33,"Busy, once per game: Comet readies herself."
+Comet,Cat,Science,Astronaut,ns_comet_5,character,AF-STARTER-01,5,Super Rare,AF-NIGHT-01,2,3,5.9,"When Comet becomes upright, look at the top three cards of the Market Deck and gain 1 Supply. Busy, once per game: Comet readies herself."
+Copper,Cat,Commerce,Penny Counter,ns_copper_0,character,AF-STARTER-01,0,Uncommon,AF-NIGHT-01,1,1,3.53,"Busy, once per game: Copper readies himself."
+Copper,Cat,Commerce,Scale Polisher,ww_copper_1,character,AF-STARTER-01,1,Rare,AF-WHISKER-01,1,2,5.11,"When Copper is recruited, your Characters advance an extra step at your next Ready."
+Copper,Cat,Civics,Weights Inspector,mh_copper_2,character,AF-STARTER-01,2,Uncommon,AF-HATS-01,1,2,4.53,"Upgrades Copper. When Copper is recruited, your Characters advance an extra step at your next Ready."
+Copper,Cat,Commerce,Arcade Merchant,ww_copper_2,character,AF-STARTER-01,3,Uncommon,AF-WHISKER-01,2,3,4.02,"Upgrades Copper. When Copper is recruited, your Characters advance an extra step at your next Ready."
+Copper,Cat,Commerce,Market Steward,ww_copper_3,character,AF-STARTER-01,5,Uncommon,AF-WHISKER-01,2,4,4.48,"Upgrades Copper. The first time Copper announces a purchase each turn, draw 1 card."
+Dabble,Otter,Commerce,River Pilot,mkt_dabble,marketCharacter,AF-STARTER-01,3,Super Rare,AF-MARKET-02,1,3,7.63,"Hired from the Capital City; enters Busy. Busy: move a shift from one of your Characters to another, then gain 1 Supply."
+Dill,Mouse,Agriculture,Herb Girl,bb_dill_1,character,AF-STARTER-01,0,Common,AF-STARTER-01,1,1,3.18,"When Dill is recruited, your next Event needs one fewer Character."
+Dill,Mouse,Science,Research Chemist,ns_dill_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,2,4.58,Upgrades Dill. Recruit: you may return an Event from your Town Dump to your hand.
+Dill,Mouse,Civics,Apothecary,bb_dill_2,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,4.77,Upgrades Dill. Busy: return an Event from your Town Dump to your hand.
+Dill,Mouse,Lore,Herbalist Surgeon,mh_dill_5,character,AF-STARTER-01,5,Super Rare,AF-HATS-01,2,3,5.43,"Upgrades Dill. When Dill becomes upright, you may rehire a Character from your Unemployment for 1 less Supply; if you control Fern, draw 1 card as well."
+Fern,Mouse,Science,Field Scientist,ns_fern_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.94,"When Fern completes a shift, draw 1 card."
+Fern,Mouse,Agriculture,Forager,bb_fern_1,character,AF-STARTER-01,2,Uncommon,AF-STARTER-01,1,2,4.58,"When Fern is recruited, your next Event needs one fewer Character."
+Fern,Mouse,Agriculture,Wildlife Warden,bb_fern_3,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,4.77,Busy: return an Event from your Town Dump to your hand.
+Fern,Mouse,Lore,Field Recorder,mh_fern_4,character,AF-STARTER-01,4,Uncommon,AF-HATS-01,2,4,4.44,"Upgrades Fern. When Fern is recruited, your next Event needs one fewer Character."
+Fern,Mouse,Agriculture,Ecologist,bb_fern_2,character,AF-STARTER-01,5,Rare,AF-STARTER-01,2,5,4.96,Upgrades Fern. The first Event you play each turn also gives you 1 Supply.
+Flint,Fox,Commerce,Auctioneer’s Boy,ns_flint_0,character,AF-STARTER-01,0,Common,AF-NIGHT-01,1,1,2.94,Busy: you may pay 1 Supply to raise one of your open bids by 1.
+Flint,Fox,Commerce,Peddler,pp_flint_1,character,AF-STARTER-01,1,Rare,AF-STARTER-01,1,2,5.11,"When you announce a purchase, add 1 Supply to it and look at the top card of the Market Deck."
+Flint,Fox,Civics,Fair Warden,mh_flint_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,3,3.89,Upgrades Flint. Busy: add 2 Supply to an auction you are winning.
+Flint,Fox,Commerce,Trade Broker,pp_flint_2,character,AF-STARTER-01,4,Uncommon,AF-STARTER-01,2,4,4.22,"Upgrades Flint. Whenever you gain a non-Statue Capital City card, gain 1 Supply."
+Hazel,Raccoon,Commerce,Barrow Girl,mh_hazel_0,character,AF-STARTER-01,0,Common,AF-HATS-01,2,1,2.76,"When Hazel completes a shift, draw 1 card."
+Hazel,Raccoon,Commerce,Night Market Vendor,ns_hazel_1,character,AF-STARTER-01,1,Common,AF-NIGHT-01,1,1,3.1,"Upgrades Hazel. Recruit: draw 1 card, then discard 1 card."
+Hazel,Raccoon,Commerce,Market Vendor,pp_hazel_1,character,AF-STARTER-01,2,Rare,AF-STARTER-01,1,2,4.84,"When Hazel completes a shift, draw 1 card."
+Hazel,Raccoon,Crafts,Guildmaster,pp_hazel_3,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,5.16,Busy: take a Market card from the City Dump and gain it.
+Hazel,Raccoon,Commerce,Merchant,pp_hazel_2,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,2,6,5.58,"Upgrades Hazel. Whenever you gain a non-Statue Market card, draw 1 card."
+Hoot,Owl,Civics,Night Porter,ns_mkt_hoot,marketCharacter,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,1,4.02,Hired from the Capital City; enters Busy. Busy: one of your other Characters turns one step toward upright.
+Inkwell,Cat,Lore,Bookmark Keeper,ww_inkwell_1,character,AF-STARTER-01,1,Uncommon,AF-WHISKER-01,2,3,4.59,"When Inkwell is recruited, your Characters advance an extra step at your next Ready."
+Inkwell,Cat,Commerce,Ledger Scribe,mh_inkwell_2,character,AF-STARTER-01,2,Rare,AF-HATS-01,1,1,4.98,"Upgrades Inkwell. When Inkwell becomes upright, nobody's Characters advance at the next Ready."
+Inkwell,Cat,Lore,Night Librarian,ww_inkwell_2,character,AF-STARTER-01,3,Super Rare,AF-WHISKER-01,2,3,5.69,"Upgrades Inkwell. When Inkwell becomes upright, nobody's Characters advance at the next Ready."
+Inkwell,Cat,Science,Astronomer,ns_inkwell_4,character,AF-STARTER-01,4,Uncommon,AF-NIGHT-01,2,3,4.52,"Upgrades Inkwell. When Inkwell completes a shift, look at the top two cards of the Market Deck. Busy, once per game: Inkwell readies himself."
+Inkwell,Cat,Lore,Keeper of Stories,ww_inkwell_3,character,AF-STARTER-01,5,Uncommon,AF-WHISKER-01,2,4,4.48,Upgrades Inkwell. The first Event you play each turn that requires Lore lets you draw 1 card.
+Juniper,Fox,Civics,Messenger,pp_juniper_1,character,AF-STARTER-01,1,Rare,AF-STARTER-01,1,2,4.94,"When you announce a purchase, look at the top 2 cards of the Market Deck."
+Juniper,Fox,Lore,Courier Captain,pp_juniper_3,character,AF-STARTER-01,2,Uncommon,AF-STARTER-01,1,2,4.58,"While Juniper is upright, your first bid each turn counts as 1 higher."
+Juniper,Fox,Crafts,Border Warden,mh_juniper_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,3,4.07,"Upgrades Juniper. While Juniper is upright, your first bid each turn counts as 1 higher."
+Juniper,Fox,Civics,Diplomat,pp_juniper_2,character,AF-STARTER-01,4,Rare,AF-STARTER-01,2,4,5,Upgrades Juniper. Your opponent cannot raise a pending bid.
+Juniper,Fox,Science,Stargazer,ns_juniper_5,character,AF-STARTER-01,5,Rare,AF-NIGHT-01,2,3,4.79,"Upgrades Juniper. At the start of your turn, look at the top two cards of the Market Deck; if you control another Science Character, gain 1 Supply as well."
+Kestrel,Fox,Civics,City Fox,mkt_kestrel,marketCharacter,AF-STARTER-01,4,Uncommon,AF-MARKET-02,2,3,3.93,Hired from the Capital City; enters Busy. Busy: add 2 Supply to an auction you are winning.
+Linnet,Rabbit,Crafts,Night Printer,ns_linnet_0,character,AF-STARTER-01,0,Uncommon,AF-NIGHT-01,1,1,3.25,"When Linnet completes a shift, if you control an Owl, draw 1 card."
+Linnet,Rabbit,Crafts,Bookbinder,ww_linnet_1,character,AF-STARTER-01,1,Uncommon,AF-WHISKER-01,1,1,3.2,"When Linnet is recruited, if you control another Rabbit, gain 1 Supply."
+Linnet,Rabbit,Lore,Lending Librarian,mh_linnet_3,character,AF-STARTER-01,3,Rare,AF-HATS-01,2,3,5.12,Upgrades Linnet. Busy: ready another Rabbit you control.
+Linnet,Rabbit,Crafts,Master Printer,mh_linnet_5,character,AF-STARTER-01,5,Super Rare,AF-HATS-01,2,4,5.4,"Upgrades Linnet. Busy: draw 2 cards, then discard 1 card."
+Mabel,Mouse,Agriculture,Seed Keeper,bb_mabel_1,character,AF-STARTER-01,1,Uncommon,AF-STARTER-01,1,1,3.64,"When Mabel is recruited, your next Event needs one fewer Character."
+Mabel,Mouse,Agriculture,Seed Bank Clerk,bb_mabel_3,character,AF-STARTER-01,2,Rare,AF-STARTER-01,1,2,4.88,The first Event you play each turn lets you draw 1 card.
+Mabel,Mouse,Science,Seed Vault Scientist,ns_mabel_3,character,AF-STARTER-01,3,Uncommon,AF-NIGHT-01,2,3,4.16,Upgrades Mabel. The first Event you play each turn that requires Science lets you draw 1 card.
+Mabel,Mouse,Agriculture,Horticulturist,bb_mabel_2,character,AF-STARTER-01,4,Rare,AF-STARTER-01,2,4,4.7,Upgrades Mabel. The first Event you play each turn lets you draw 1 card.
+Mabel,Mouse,Civics,Seed Bank Director,mh_mabel_5,character,AF-STARTER-01,5,Rare,AF-HATS-01,2,5,5.23,"Upgrades Mabel. Once per turn, an Event you play requires one fewer Character. (This does not stack with the Statue of Ingenuity.)"
+Marlow,Raccoon,Lore,Bylaw Reader,mh_marlow_1,character,AF-STARTER-01,1,Common,AF-HATS-01,3,1,3.04,"When Marlow completes a shift, draw 1 card."
+Marlow,Raccoon,Civics,Ward Clerk,pp_marlow_1,character,AF-STARTER-01,2,Rare,AF-STARTER-01,1,2,4.9,"When Marlow completes a shift, you may return an Event from your Town Dump to your hand."
+Marlow,Raccoon,Civics,Lamplighter’s Clerk,ns_marlow_3,character,AF-STARTER-01,3,Rare,AF-NIGHT-01,2,3,4.91,"Upgrades Marlow. When Marlow becomes upright, you may return an Event from your Town Dump to your hand."
+Marlow,Raccoon,Civics,Registrar General,pp_marlow_2,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,2,5,6.3,Upgrades Marlow. Your challenge bids win ties. Busy: the next Event you play this turn requires one fewer Character.
+Marmalade,Cat,Agriculture,Night Baker,ns_marmalade_0,character,AF-STARTER-01,0,Common,AF-NIGHT-01,2,2,3.09,"A patient shift: 2 turns, then 2 Supply. When Marmalade completes a shift, if you control an Owl, gain 1 Supply."
+Marmalade,Cat,Agriculture,Dough Kneader,ww_marmalade_1,character,AF-STARTER-01,1,Rare,AF-WHISKER-01,1,2,5.11,"When Marmalade is recruited, your Characters advance an extra step at your next Ready."
+Marmalade,Cat,Commerce,Market Baker,mh_marmalade_2,character,AF-STARTER-01,2,Uncommon,AF-HATS-01,1,2,4.53,"Upgrades Marmalade. When Marmalade is recruited, your Characters advance an extra step at your next Ready."
+Marmalade,Cat,Agriculture,Neighborhood Baker,ww_marmalade_2,character,AF-STARTER-01,3,Uncommon,AF-WHISKER-01,2,3,4.02,"Upgrades Marmalade. When Marmalade is recruited, your Characters advance an extra step at your next Ready."
+Marmalade,Cat,Agriculture,Harvest Head Baker,ww_marmalade_3,character,AF-STARTER-01,5,Rare,AF-WHISKER-01,2,5,4.94,"Upgrades Marmalade. The first time Marmalade completes a shift each turn, gain 1 extra Supply."
+Mittens,Cat,Lore,Rooftop Cat,mkt_mittens,marketCharacter,AF-STARTER-01,4,Rare,AF-MARKET-02,2,4,5.02,"Hired from the Capital City; enters Busy. Busy, once per game: Mittens readies itself."
+Mortar,Badger,Agriculture,Grain Miller,mh_mortar_1,character,AF-STARTER-01,1,Uncommon,AF-HATS-01,1,1,3.31,"When Mortar is recruited, your town braces: the next shared shock passes it over."
+Mortar,Badger,Crafts,Watermill Mechanic,ww_mortar_1,character,AF-STARTER-01,3,Rare,AF-WHISKER-01,2,3,5.19,"When Mortar becomes upright, you may rehire a Character from your Unemployment for 2 less Supply."
+Mortar,Badger,Science,Steam Engineer,ns_mortar_4,character,AF-STARTER-01,4,Rare,AF-NIGHT-01,2,4,4.68,"Upgrades Mortar. When Mortar becomes upright, your town braces: the next shared shock passes it over."
+Mortar,Badger,Crafts,Master Millwright,mh_mortar_5,character,AF-STARTER-01,5,Rare,AF-HATS-01,3,6,4.71,Upgrades Mortar. The first shift you complete each turn produces 1 extra Supply.
+Moss,Badger,Agriculture,Ploughwright,mh_moss_1,character,AF-STARTER-01,1,Uncommon,AF-HATS-01,1,1,3.31,"When Moss is recruited, your town braces: the next shared shock passes it over."
+Moss,Badger,Crafts,Toolsmith,br_moss_1,character,AF-STARTER-01,2,Uncommon,AF-STARTER-01,1,2,4.2,"While Moss is upright, your Characters cannot be sent to Unemployment by an opponent."
+Moss,Badger,Crafts,Guild Architect,br_moss_3,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,5.19,"When Moss becomes upright, you may rehire a Character from your Unemployment for 2 less Supply."
+Moss,Badger,Crafts,Rocketwright,ns_moss_4,character,AF-STARTER-01,4,Uncommon,AF-NIGHT-01,2,3,4.59,"Upgrades Moss. When Moss becomes upright, if you control Comet, gain 2 Supply."
+Moss,Badger,Crafts,Bridgewright,br_moss_2,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,3,6,5.48,Upgrades Moss. Busy: ready one of your Characters.
+Nib,Mouse,Lore,Ink Mixer,mh_nib_0,character,AF-STARTER-01,0,Common,AF-HATS-01,3,1,2.18,"When Nib is recruited, your next Event needs one fewer Character."
+Nib,Mouse,Lore,Canal Cartographer,ww_nib_1,character,AF-STARTER-01,2,Uncommon,AF-WHISKER-01,2,3,4.13,"When Nib is recruited, your next Event needs one fewer Character."
+Nib,Mouse,Science,Star Charter,ns_nib_3,character,AF-STARTER-01,3,Rare,AF-NIGHT-01,2,3,4.77,Upgrades Nib. Busy: the next Event you play requires one fewer Character.
+Nib,Mouse,Lore,Master Cartographer,mh_nib_4,character,AF-STARTER-01,4,Super Rare,AF-HATS-01,2,4,5.42,"Upgrades Nib. When Nib becomes upright, look at the top three cards of your deck and put them back in any order, then look at the top two cards of the Market Deck."
+Nim,Squirrel,Lore,Page Runner,rr_nim_1,character,AF-STARTER-01,1,Rare,AF-STARTER-01,1,2,4.96,"When Nim completes a shift, put 1 Supply by on Nim."
+Nim,Squirrel,Lore,Night Archivist,ns_nim_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,2,4.55,"Upgrades Nim. When Nim becomes upright, look at the top two cards of your deck and put them back in any order."
+Nim,Squirrel,Lore,Reference Librarian,rr_nim_2,character,AF-STARTER-01,4,Rare,AF-STARTER-01,2,4,4.72,"Upgrades Nim. When Nim becomes upright, look at the top three cards of your deck and put them back in any order."
+Nim,Squirrel,Civics,Chancellor of Records,mh_nim_5,character,AF-STARTER-01,5,Uncommon,AF-HATS-01,2,4,4.59,"Upgrades Nim. At the start of your turn, if you control Pip, gain 1 Supply."
+Nutmeg,Squirrel,Agriculture,Petal Sweeper,mh_nutmeg_0,character,AF-STARTER-01,0,Common,AF-HATS-01,1,1,2.95,"When Nutmeg completes a shift, put 1 Supply by on Nutmeg."
+Nutmeg,Squirrel,Agriculture,Bouquet Weaver,ww_nutmeg_1,character,AF-STARTER-01,2,Rare,AF-WHISKER-01,1,2,4.91,"When Nutmeg becomes upright, look at the top 3 cards of your deck and put them back in any order."
+Nutmeg,Squirrel,Agriculture,Night-Bloom Florist,ns_nutmeg_3,character,AF-STARTER-01,3,Uncommon,AF-NIGHT-01,2,3,3.9,"Upgrades Nutmeg. When Nutmeg completes a shift, put 1 Supply by on Nutmeg."
+Nutmeg,Squirrel,Commerce,Festival Florist,mh_nutmeg_4,character,AF-STARTER-01,4,Rare,AF-HATS-01,2,4,5.39,Upgrades Nutmeg. Busy: take every Supply your Characters have put by.
+Oakley,Badger,Crafts,Stonemason,br_oakley_1,character,AF-STARTER-01,2,Rare,AF-STARTER-01,2,3,5.32,"When Oakley becomes upright, you may rehire a Character from your Unemployment for 2 less Supply."
+Oakley,Badger,Lore,Boundary Surveyor,mh_oakley_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,3,3.72,"Upgrades Oakley. While Oakley is upright, your Characters cannot be sent to Unemployment by an opponent."
+Oakley,Badger,Science,Bridge Engineer,ns_oakley_4,character,AF-STARTER-01,4,Uncommon,AF-NIGHT-01,2,4,4.63,"Upgrades Oakley. At the start of your turn, if you control a Crafts Character, gain 1 Supply."
+Oakley,Badger,Civics,Town Planner,br_oakley_2,character,AF-STARTER-01,5,Uncommon,AF-STARTER-01,3,6,4.64,Upgrades Oakley. Busy: your Characters cannot be sent to Unemployment until your next turn.
+Patch,Raccoon,Commerce,Recycling Scout,pp_patch_1,character,AF-STARTER-01,0,Uncommon,AF-STARTER-01,1,1,3.51,"When Patch completes a shift, draw 1 card."
+Patch,Raccoon,Science,Junkyard Inventor,ns_patch_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,1,4.43,Upgrades Patch. Busy: take a Market card from the City Dump and gain it.
+Patch,Raccoon,Civics,Town Auditor,pp_patch_2,character,AF-STARTER-01,3,Rare,AF-STARTER-01,2,3,5.16,Upgrades Patch. Busy: take a Market card from the City Dump and gain it.
+Patch,Raccoon,Crafts,Salvage Foreman,mh_patch_4,character,AF-STARTER-01,4,Rare,AF-HATS-01,2,4,4.72,"Upgrades Patch. When Patch completes a shift, you may return an Event from your Town Dump to your hand."
+Patch,Raccoon,Commerce,Guild Investigator,pp_patch_3,character,AF-STARTER-01,5,Rare,AF-STARTER-01,2,5,5.08,"Upgrades Patch. Whenever a card effect sends any Character to Unemployment, draw 1 card."
+Pebble,Otter,Commerce,Night Ferry,ns_pebble_0,character,AF-STARTER-01,0,Uncommon,AF-NIGHT-01,1,1,4.37,Busy: move a shift from one of your Characters to another.
+Pebble,Otter,Civics,Bridge Courier,ww_pebble_1,character,AF-STARTER-01,1,Uncommon,AF-WHISKER-01,1,1,3.53,"When Pebble is recruited, another Character you control is upright at the start of your next turn."
+Pebble,Otter,Commerce,Ferry Master,mh_pebble_3,character,AF-STARTER-01,3,Rare,AF-HATS-01,2,3,4.95,Upgrades Pebble. Busy: move a shift from one of your Characters to another.
+Pebble,Otter,Civics,Harbour Warden,mh_pebble_5,character,AF-STARTER-01,5,Rare,AF-HATS-01,2,4,5.39,"Upgrades Pebble. At the start of your turn, if you control Characters of at least three species, gain 2 Supply."
+Pip,Squirrel,Lore,Story Collector,rr_pip_1,character,AF-STARTER-01,0,Uncommon,AF-STARTER-01,1,1,4.03,"When Pip completes a shift, put 2 Supply by on Pip, then look at the top card of the Market Deck."
+Pip,Squirrel,Commerce,Travelling Storyteller,mh_pip_2,character,AF-STARTER-01,2,Rare,AF-HATS-01,1,2,4.91,"Upgrades Pip. When Pip becomes upright, look at the top 3 cards of your deck and put them back in any order."
+Pip,Squirrel,Lore,Archivist,rr_pip_2,character,AF-STARTER-01,3,Uncommon,AF-STARTER-01,2,3,4.38,"Upgrades Pip. When Pip becomes upright, look at the top 3 cards of your deck and put them back in any order."
+Pip,Squirrel,Science,Natural Philosopher,ns_pip_4,character,AF-STARTER-01,4,Rare,AF-NIGHT-01,2,3,4.85,"Upgrades Pip. When Pip becomes upright, look at the top three cards of your deck and put them back in any order, then put 1 Supply by on Pip."
+Pip,Squirrel,Lore,Chief Archivist,rr_pip_3,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,2,5,6.41,"Upgrades Pip. When Pip becomes upright, you may return an Event from your Town Dump to your hand, then look at the top two cards of the Market Deck."
+Pippa,Cat,Agriculture,Potting Helper,ww_pippa_1,character,AF-STARTER-01,0,Uncommon,AF-WHISKER-01,2,2,3.29,"When Pippa is recruited, your Characters advance an extra step at your next Ready."
+Pippa,Cat,Agriculture,Conservatory Keeper,ww_pippa_2,character,AF-STARTER-01,2,Uncommon,AF-WHISKER-01,1,2,4.53,"Upgrades Pippa. When Pippa is recruited, your Characters advance an extra step at your next Ready."
+Pippa,Cat,Agriculture,Herb Cook,mh_pippa_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,3,4.33,"Upgrades Pippa. Busy, once per game: Pippa readies itself."
+Pippa,Cat,Agriculture,Glasshouse Curator,ww_pippa_3,character,AF-STARTER-01,4,Uncommon,AF-WHISKER-01,2,4,4.28,Upgrades Pippa. The first Event you play each turn that requires Agriculture gives you 1 Supply.
+Pippa,Cat,Science,Moon Gardener,ns_pippa_5,character,AF-STARTER-01,5,Super Rare,AF-NIGHT-01,2,4,5.65,"Upgrades Pippa. When Pippa becomes upright, gain 1 Supply; if you control Comet, draw 1 card as well."
+Pockets,Raccoon,Commerce,Salvage Raccoon,mkt_pockets,marketCharacter,AF-STARTER-01,4,Rare,AF-MARKET-02,2,3,5.16,Hired from the Capital City; enters Busy. Busy: take a Market card from the City Dump and gain it.
+Poppy,Rabbit,Civics,Postmaster,bb_poppy_1,character,AF-STARTER-01,1,Uncommon,AF-STARTER-01,2,2,3.37,"When Poppy is recruited, if you control another Rabbit, gain 1 Supply."
+Poppy,Rabbit,Civics,Night Mail,ns_poppy_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,2,2,3.69,"Upgrades Poppy. When Poppy becomes upright, gain 1 Supply."
+Poppy,Rabbit,Civics,Ward Alderman,bb_poppy_3,character,AF-STARTER-01,3,Uncommon,AF-STARTER-01,2,3,3.72,"When Poppy is recruited, if you control another Rabbit, gain 1 Supply."
+Poppy,Rabbit,Commerce,Mail Coach Driver,mh_poppy_4,character,AF-STARTER-01,4,Uncommon,AF-HATS-01,2,4,4.4,"Upgrades Poppy. The first time you announce a purchase each turn, gain 1 Supply."
+Poppy,Rabbit,Civics,Civic Planner,bb_poppy_2,character,AF-STARTER-01,5,Uncommon,AF-STARTER-01,3,5,4.28,Upgrades Poppy. Your challenge bids win ties.
+Quill,Hedgehog,Agriculture,Night Gardener,ns_quill_0,character,AF-STARTER-01,0,Common,AF-NIGHT-01,2,2,3,"A patient shift: 2 turns, then 2 Supply. Recruit: your next rehire costs 1 less Supply."
+Quill,Hedgehog,Agriculture,Orchard Keeper,br_quill_1,character,AF-STARTER-01,2,Rare,AF-STARTER-01,1,2,4.8,"While Quill is in town, your Characters cannot be sent to Unemployment by an opponent."
+Quill,Hedgehog,Agriculture,Seed Vault Keeper,br_quill_3,character,AF-STARTER-01,3,Uncommon,AF-STARTER-01,2,3,4.28,"While Quill is in town, your Characters cannot be sent to Unemployment by an opponent."
+Quill,Mouse,Lore,Town Scrivener,mkt_quill,marketCharacter,AF-STARTER-01,3,Super Rare,AF-MARKET-02,1,2,5.44,"Hired from the Capital City; enters Busy. When Quill becomes upright, you may return an Event from your Town Dump to your hand."
+Quill,Hedgehog,Lore,Orchard Scribe,mh_quill_4,character,AF-STARTER-01,4,Uncommon,AF-HATS-01,2,4,4.57,"Upgrades Quill. When Quill starts a shift, draw 1 card."
+Quill,Hedgehog,Agriculture,Harvest Steward,br_quill_2,character,AF-STARTER-01,5,Rare,AF-STARTER-01,2,5,5.31,Upgrades Quill. Your Masters arrive one turn sooner.
+Rowan,Fox,Civics,Night Magistrate,ns_rowan_1,character,AF-STARTER-01,1,Common,AF-NIGHT-01,1,1,3.05,"When Rowan starts a shift, look at the top card of the Market Deck."
+Rowan,Fox,Commerce,Records Clerk,pp_rowan_1,character,AF-STARTER-01,2,Uncommon,AF-STARTER-01,2,3,3.95,"When you announce a purchase, look at the top 2 cards of the Market Deck."
+Rowan,Fox,Crafts,Locksmith,mh_rowan_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,3,3.89,"Upgrades Rowan. When you announce a purchase, look at the top 2 cards of the Market Deck."
+Rowan,Fox,Commerce,Circuit Judge,pp_rowan_3,character,AF-STARTER-01,4,Uncommon,AF-STARTER-01,2,4,3.8,"A steady shift: 2 turns, 4 Supply."
+Rowan,Fox,Civics,Ombudsperson,pp_rowan_2,character,AF-STARTER-01,5,Uncommon,AF-STARTER-01,3,6,4.64,"Upgrades Rowan. Busy: until your next turn, your Characters cannot be sent to Unemployment."
+Russet,Fox,Commerce,Tea Boy,mh_russet_0,character,AF-STARTER-01,0,Common,AF-HATS-01,1,1,2.58,"When you announce a purchase, look at the top card of the Market Deck."
+Russet,Fox,Commerce,Tea Trader,ww_russet_1,character,AF-STARTER-01,2,Uncommon,AF-WHISKER-01,1,2,4.58,"While Russet is upright, your first bid each turn counts as 1 higher."
+Russet,Fox,Commerce,Coffee Roaster,ns_russet_3,character,AF-STARTER-01,3,Rare,AF-NIGHT-01,2,3,4.77,"Upgrades Russet. Busy: gain 1 Supply, then you may pay 2 Supply to raise one of your open bids by 2."
+Russet,Fox,Civics,Tea House Keeper,mh_russet_4,character,AF-STARTER-01,4,Uncommon,AF-HATS-01,2,4,4.63,"Upgrades Russet. At the start of your turn, if you control a Cat, gain 1 Supply."
+Sage,Owl,Science,Telescope Polisher,ns_sage_0,character,AF-STARTER-01,0,Common,AF-NIGHT-01,1,1,2.76,Recruit: look at the top two cards of your deck and put any of them on the bottom.
+Sage,Owl,Science,Astronomer,ns_sage_3,character,AF-STARTER-01,3,Uncommon,AF-NIGHT-01,2,3,4.62,"When Sage becomes upright, look at the top card of the Market Deck, then look at the top two cards of your deck and put any of them on the bottom."
+Sage,Owl,Science,Royal Astronomer,ns_sage_5,character,AF-STARTER-01,5,Super Rare,AF-NIGHT-01,2,3,5.59,"At the start of your turn, look at the top two cards of your deck and put any of them on the bottom, then draw 1 card."
+Sorrel,Rabbit,Agriculture,Sprout Tender,bb_sorrel_1,character,AF-STARTER-01,1,Rare,AF-STARTER-01,1,2,4.73,"When Sorrel is recruited, if you control another Rabbit, gain 1 Supply."
+Sorrel,Rabbit,Civics,Harvest Caller,mh_sorrel_2,character,AF-STARTER-01,2,Uncommon,AF-HATS-01,1,2,4.2,"Upgrades Sorrel. When Sorrel is recruited, if you control another Rabbit, gain 1 Supply."
+Sorrel,Rabbit,Agriculture,Night Harvester,ns_sorrel_3,character,AF-STARTER-01,3,Rare,AF-NIGHT-01,2,2,4.75,Upgrades Sorrel. Recruit: you may recruit a Character costing 1 or less from your hand for free; it enters Busy.
+Sorrel,Rabbit,Agriculture,Row Boss,bb_sorrel_2,character,AF-STARTER-01,4,Uncommon,AF-STARTER-01,2,4,4.12,"Upgrades Sorrel. When Sorrel is recruited, if you control another Rabbit, gain 1 Supply."
+Tansy,Otter,Lore,Observatory Keeper,ns_tansy_0,character,AF-STARTER-01,0,Common,AF-NIGHT-01,1,1,3.06,Recruit: choose another Character you control; it becomes upright at the start of your next turn.
+Tansy,Otter,Lore,Lamplighter,rr_tansy_1,character,AF-STARTER-01,2,Super Rare,AF-STARTER-01,1,2,5.69,Busy: ready one of your Characters.
+Tansy,Otter,Civics,Town Historian,rr_tansy_3,character,AF-STARTER-01,3,Super Rare,AF-STARTER-01,2,3,5.83,"Busy: move a shift from one of your Characters to another, then gain 1 Supply."
+Tansy,Otter,Crafts,Lantern Maker,mh_tansy_4,character,AF-STARTER-01,4,Rare,AF-HATS-01,2,3,4.78,Upgrades Tansy. Busy: ready one of your Characters.
+Tansy,Otter,Lore,Loremaster,rr_tansy_2,character,AF-STARTER-01,5,Rare,AF-STARTER-01,2,5,4.99,"Upgrades Tansy. At the start of your turn, draw 1 card, then discard 1 card."
+Tawny,Owl,Civics,Night Watch,ns_tawny_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.31,"When Tawny becomes upright, look at the top card of your deck; you may put it on the bottom."
+Tawny,Owl,Lore,Night School Teacher,ns_tawny_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,2,4.49,Recruit: one of your other Characters turns one step toward upright.
+Tawny,Owl,Lore,Headmistress,ns_tawny_4,character,AF-STARTER-01,4,Rare,AF-NIGHT-01,2,4,4.65,The first Event you play each turn lets one of your other Characters turn one step toward upright.
+Thimble,Cat,Crafts,Thread Sorter,ww_thimble_1,character,AF-STARTER-01,0,Common,AF-WHISKER-01,1,1,3.12,"When Thimble is recruited, your Characters advance an extra step at your next Ready."
+Thimble,Cat,Science,Spacesuit Seamstress,ns_thimble_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.42,"Upgrades Thimble. Recruit: if you control Comet, draw 1 card."
+Thimble,Rabbit,Agriculture,Warren Runner,mkt_thimble,marketCharacter,AF-STARTER-01,2,Super Rare,AF-MARKET-02,1,2,5.93,"Hired from the Capital City; enters Busy. When Thimble is recruited, you may recruit a Character costing 1 or less from your hand; it enters Busy."
+Thimble,Cat,Crafts,Quilt Maker,ww_thimble_2,character,AF-STARTER-01,2,Super Rare,AF-WHISKER-01,2,3,5.84,"Upgrades Thimble. When Thimble becomes upright, nobody's Characters advance at the next Ready."
+Thimble,Cat,Commerce,Sailmaker,mh_thimble_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,2,3.65,"Upgrades Thimble. Busy, once per game: Thimble readies itself."
+Thimble,Cat,Crafts,Master of Mending,ww_thimble_3,character,AF-STARTER-01,4,Rare,AF-WHISKER-01,2,4,4.92,Upgrades Thimble. Busy: choose another Character you control; it becomes upright at the start of your next turn.
+Thistle,Badger,Lore,Almanac Keeper,ns_thistle_1,character,AF-STARTER-01,1,Uncommon,AF-NIGHT-01,1,1,3.86,Busy: your town braces: the next shared shock passes it over.
+Thistle,Badger,Agriculture,Field Hand,br_thistle_1,character,AF-STARTER-01,2,Common,AF-STARTER-01,2,2,3.04,"While Thistle is upright, your Characters cannot be sent to Unemployment by an opponent."
+Thistle,Badger,Agriculture,Grange Warden,br_thistle_2,character,AF-STARTER-01,3,Uncommon,AF-STARTER-01,2,3,3.72,"Upgrades Thistle. While Thistle is upright, your Characters cannot be sent to Unemployment by an opponent."
+Thistle,Badger,Civics,Field Surveyor,mh_thistle_4,character,AF-STARTER-01,4,Uncommon,AF-HATS-01,2,3,3.5,"Upgrades Thistle. While Thistle is upright, your Characters cannot be sent to Unemployment by an opponent."
+Thistle,Badger,Agriculture,Grange Elder,br_thistle_3,character,AF-STARTER-01,5,Super Rare,AF-STARTER-01,3,6,5.62,"Upgrades Thistle. At the start of your turn, if you have no more Characters in Unemployment than your opponent, gain 2 Supply."
+Tuppence,Squirrel,Commerce,Market Squirrel,mkt_tuppence,marketCharacter,AF-STARTER-01,3,Rare,AF-MARKET-02,1,2,4.96,"Hired from the Capital City; enters Busy. When Tuppence completes a shift, put 2 Supply by on Tuppence."
+Velvet,Cat,Civics,Petition Runner,ww_velvet_1,character,AF-STARTER-01,1,Rare,AF-WHISKER-01,1,2,5.11,"When Velvet is recruited, your Characters advance an extra step at your next Ready."
+Velvet,Cat,Lore,Notary,mh_velvet_2,character,AF-STARTER-01,2,Rare,AF-HATS-01,1,1,4.98,"Upgrades Velvet. When Velvet becomes upright, nobody's Characters advance at the next Ready."
+Velvet,Cat,Civics,Neighborhood Registrar,ww_velvet_2,character,AF-STARTER-01,3,Uncommon,AF-WHISKER-01,2,3,3.82,Upgrades Velvet. The first non-Statue Market card you gain each turn gives you 1 extra Supply.
+Velvet,Cat,Science,Registrar of Stars,ns_velvet_4,character,AF-STARTER-01,4,Uncommon,AF-NIGHT-01,2,4,4.52,"Upgrades Velvet. When you announce a purchase with Velvet, draw 1 card."
+Velvet,Cat,Civics,Guild Speaker,ww_velvet_3,character,AF-STARTER-01,5,Uncommon,AF-WHISKER-01,2,4,4.41,"Upgrades Velvet. While Velvet is upright, your first bid each turn counts as 1 higher."
+Vesper,Fox,Lore,Night Courier,ll_vesper_1,character,AF-STARTER-01,1,Common,AF-STARTER-01,1,1,3.1,"When you announce a purchase, look at the top card of the Market Deck."
+Vesper,Fox,Science,Weather Watcher,ns_vesper_2,character,AF-STARTER-01,2,Uncommon,AF-NIGHT-01,1,2,4.31,"Upgrades Vesper. When Vesper starts a shift, look at the top two cards of the Market Deck."
+Vesper,Fox,Commerce,Moonlight Trader,mh_vesper_3,character,AF-STARTER-01,3,Uncommon,AF-HATS-01,2,3,4.07,"Upgrades Vesper. While Vesper is upright, your first bid each turn counts as 1 higher."
+Vesper,Fox,Lore,Keeper of Tales,ll_vesper_2,character,AF-STARTER-01,4,Uncommon,AF-STARTER-01,2,4,4.28,"Upgrades Vesper. When you announce a purchase, look at the top 2 cards of the Market Deck."
+Willow,Otter,Commerce,Ferry Trader,rr_willow_1,character,AF-STARTER-01,1,Uncommon,AF-STARTER-01,2,2,3.69,"When Willow is recruited, another Character you control is upright at the start of your next turn."
+Willow,Otter,Commerce,Toll Keeper,rr_willow_3,character,AF-STARTER-01,2,Uncommon,AF-STARTER-01,1,2,4.48,"When Willow is recruited, another Character you control is upright at the start of your next turn."
+Willow,Otter,Science,Tide Reckoner,ns_willow_3,character,AF-STARTER-01,3,Rare,AF-NIGHT-01,2,3,4.72,"Upgrades Willow. When Willow becomes upright, another Character you control becomes upright at the start of your next turn."
+Willow,Otter,Commerce,Harbourmaster,rr_willow_2,character,AF-STARTER-01,4,Uncommon,AF-STARTER-01,2,4,4.36,"Upgrades Willow. When Willow is recruited, another Character you control is upright at the start of your next turn."
+Willow,Otter,Civics,Harbour Admiral,mh_willow_5,character,AF-STARTER-01,5,Super Rare,AF-HATS-01,3,6,5.42,"Upgrades Willow. Whenever you gain a non-Statue Capital City card, gain 2 Supply and draw 1 card."

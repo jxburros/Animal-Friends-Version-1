@@ -1,0 +1,22 @@
+Create ONE production game-art texture atlas, square 2048x2048, strict exact 4 by 4 grid of sixteen equally sized square illustrations. Every tile occupies precisely one quarter width and height. No gutters, no borders, no labels, no lettering, no watermarks. Sixteen separate compositions. Style: richly detailed cozy storybook oil and gouache paintings, cute anatomically recognizable anthropomorphic woodland animals wearing embroidered waistcoats and artisan clothes, warm amber lantern lighting against midnight blue and plum skies, lush timber-and-stone town, painterly tactile detail. Whimsical brass-and-wood science fiction fits the medieval woodland storybook world. Premium Animal Friends trading-card art. Keep each identifying subject, face and prop centered safely within its square for a slightly wide card crop. Species and occupations must be unmistakable. No humans. Read scene order strictly row-major, 0 through 15.
+ROW 1:
+0. Solar Eclipse: dominant central black sun surrounded by brilliant pale corona in dark blue sky above a quiet woodland town, tiny silhouetted animal observers, absolutely not a crescent moon.
+1. Meteor Shower: several brilliant diagonal shooting stars with long luminous trails crossing a rich indigo sky above forest and town rooftops, no telescope in foreground.
+2. Full Moon: huge luminous complete round full moon above sleepy woodland cottages and deep blue hills, unmistakably circular moon with softly visible craters, flowering night garden below.
+3. Rocket countdown and launch: whimsical wooden-and-brass rocket lifting off from a safe grassy launch platform outside town, warm exhaust and white vapor, small orange tabby cat pilot visible through round window, animal spectators far back.
+ROW 2:
+4. The Observatory: beautiful dominant domed stone hilltop observatory with open copper dome revealing large brass telescope, winding steps and tiny owl visitor, clear starry sky. Building is main subject.
+5. Star Chart: close-up tabletop still life of parchment celestial charts covered in fine constellation dots and lines, brass astrolabe, compass and telescope eyepiece, glowing candle; no letters or words.
+6. Owl Post: cheerful brown OWL courier in burgundy postal cape, feathered wings carrying tied parcels and sealed envelopes above moonlit town rooftops.
+7. Russet the coffee roaster: red FOX in cream shirt and russet apron turning a hand-cranked brass coffee roasting drum, coffee beans in baskets, aromatic steam in warm café workshop.
+ROW 3:
+8. Vesper the weather watcher: red FOX in blue rain cape reading a brass barometer and wind vane on a weather station balcony, cloudy dusk sky, rain in the distance.
+9. Quill the night gardener: HEDGEHOG with clear spines in green gardening waistcoat, tending white night-bloom flowers with watering can under lantern and moonlight.
+10. Bramble the clockmaker: HEDGEHOG artisan with magnifying eyeglass assembling an intricate brass clock mechanism on a wooden bench, gears, pendulums and clock cases.
+11. Landslide: clearly visible cascade of brown rocks and earth down a hillside blocking a village road, broken fence, tiny animal travelers safely stopped far away, no snow, no injuries.
+ROW 4:
+12. Swarm of Gnats: cute rabbit and otter villagers waving hand fans at a clearly visible swirling cloud of many tiny gnats hovering over their vegetable stand beside river; insects small dark specks, no giant insects, no harm.
+13. Recession and slow season: subdued woodland market square with shuttered stalls, sparse goods, empty baskets, worried badger and raccoon workers seated with idle tools; mild overcast autumn light, no snow, no festive crowd.
+14. Root Cellar: inviting cutaway view into a stone underground pantry, wooden shelves lined with carrots, turnips, potatoes, squash and woven baskets, open wooden cellar door, warm lamplight, no large animal portrait.
+15. Glut of Squash: enormous abundant heap of many colorful pumpkins, zucchini and yellow squash filling baskets and spilling from a wooden cart at a sunny vegetable market, cheerful small rabbit farmer amazed by harvest.
+Strict 4x4 equal tile grid, no divider lines, no printed card UI, no captions.

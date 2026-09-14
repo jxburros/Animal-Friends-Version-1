@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animal Friends TCG — A Storybook of the First Boroughs</title>
+<link rel="stylesheet" href="src/ui/styles.css">
+<link rel="stylesheet" href="src/ui/storybook.css">
+<link rel="stylesheet" href="src/ui/full-art.css">
+<link rel="stylesheet" href="src/ui/surroundings.css">
+<link rel="stylesheet" href="src/ui/versions.css">
+<link rel="stylesheet" href="src/ui/book.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ MENU (book cover) ============ -->
+  <!--
+    The book opens here: the printed collection, played as published. The Book — the gallery of
+    every card in every printing it exists in — opens from the cover and plays nothing.
+  -->
+  <section id="screen-menu" class="screen active">
+    <div class="book-cover">
+      <div class="cover-inner">
+        <div class="cover-landscape" aria-hidden="true">
+          <img src="assets/ui/borough-daylight.webp" alt="" width="1536" height="1024" fetchpriority="high">
+          <span class="cover-caption">Welcome to the First Boroughs</span>
+        </div>
+        <h1 class="logo">Animal Friends</h1>
+        <div class="logo-sub">A Storybook of the First Boroughs</div>
+        <p class="tagline">Build your town. Win the Capital City. Collect the Statues.</p>
+        <p class="expansion-note" id="expansionNote">Night Shift · Owls, a Science of the stars, an all-night café and a Cat in space</p>
+        <p class="edition" id="edition" title="Which version of the game is loaded">Loading…</p>
+        <div class="cover-shelf">
+          <button type="button" class="full-art-gallery-link" id="fullArtGalleryBtn">Explore the Full Art cards</button>
+          <button type="button" class="full-art-gallery-link" id="bookBtn">Open the Book</button>
+        </div>
+
+        <div class="menu-field">
+          <div class="menu-label">Choose your deck</div>
+          <div class="deck-choice" id="deckChoice"></div>
+          <div class="deck-tools">
+            <button type="button" id="buildDeckBtn">✎ Build your own deck</button>
+            <button type="button" id="editDeckBtn" hidden>Edit this deck</button>
+            <button type="button" id="deleteDeckBtn" class="danger" hidden>Delete</button>
+          </div>
+        </div>
+
+        <div class="menu-field">
+          <div class="menu-label">Choose the Capital City</div>
+          <div class="deck-choice market-choice" id="marketChoice"></div>
+        </div>
+
+        <div class="menu-grid">
+          <div class="menu-field">
+            <label class="menu-label" for="seedInput">Seed (optional)</label>
+            <input type="text" id="seedInput" class="seed-input" placeholder="random" inputmode="numeric">
+          </div>
+          <div class="menu-field">
+            <label class="menu-label" for="paceSelectMenu">Pace</label>
+            <select id="paceSelectMenu" class="pace-select">
+              <option value="storybook">Storybook — slow, watch every card</option>
+              <option value="brisk">Brisk — quicker animations</option>
+              <option value="instant">Instant — no animations</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="primary big" id="startGameBtn">Open the book</button>
+        <div class="cover-links">
+          <button type="button" id="tutorialBtn" title="A short match with the moves laid out for you and a coach explaining each one">Play the tutorial</button>
+          <button type="button" id="howToPlayBtn">How to play</button>
+          <button type="button" id="welcomeBtn" title="The welcome and introduction to the game">Welcome</button>
+        </div>
+        <div class="cover-orn bottom">❦</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DECK WORKSHOP ============ -->
+  <section id="screen-deck" class="screen">
+    <div class="deckbuilder" id="deckBuilder"></div>
+  </section>
+
+  <!-- ============ THE BOOK (gallery) ============ -->
+  <section id="screen-book" class="screen">
+    <div class="book" id="bookHost"></div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section id="screen-game" class="screen">
+    <header class="topbar">
+      <div class="turn-banner" id="turnBanner">—</div>
+      <div class="topbar-controls">
+        <label class="pace-label" for="paceSelect">Pace</label>
+        <select id="paceSelect" class="pace-select small">
+          <option value="storybook">Storybook</option>
+          <option value="brisk">Brisk</option>
+          <option value="instant">Instant</option>
+        </select>
+        <button id="howToPlayBtn2" aria-label="How to play" title="How to play">?</button>
+        <button id="quitBtn" class="danger">Close the book</button>
+      </div>
+    </header>
+
+    <!-- The tutorial's coach: dialog chips that say what to do and why. Empty unless a tutorial is running. -->
+    <aside id="coach" class="coach" hidden></aside>
+
+    <!--
+      The table, seen from your chair. Your rival's town is laid out at the top and mirrored: their
+      back row (deck, dump, the eight Building places) furthest away, their animals nearer. Between
+      the two towns is the middle of the table — the Market Deck, the Capital City display and the
+      City Dump — with each Mayor's Events at their own right hand. The Chronicle rails down the
+      left and folds away; what you can do sits down the right, beside the hand you do it with.
+    -->
+    <div class="table" id="board">
+      <aside class="chronicle-rail page" id="chronicleRail">
+        <button type="button" class="rail-fold" id="logToggle" aria-expanded="true" aria-controls="gameLog" title="Fold the Chronicle away">❦ <span class="rail-fold-text">The Town Chronicle</span></button>
+        <div class="log-scroll" id="gameLog"></div>
+      </aside>
+
+      <div class="board-rows">
+        <div class="town-row-panel page rival back" id="oppBackRow" data-side="opponent"></div>
+        <div class="town-row-panel page rival front" id="oppFrontRow" data-side="opponent"></div>
+        <div class="middle-row page" id="middleRow"></div>
+        <div class="town-row-panel page you front" id="yourFrontRow" data-side="you"></div>
+        <div class="town-row-panel page you back" id="yourBackRow" data-side="you"></div>
+        <div class="hand-rail page" id="handRow"></div>
+      </div>
+
+      <aside class="action-rail page" id="actionRail"></aside>
+    </div>
+  </section>
+
+  <!-- ============ OVERLAYS ============ -->
+  <div class="overlay" id="welcomeOverlay">
+    <div class="box welcome-box">
+      <div class="welcome-landscape" aria-hidden="true"></div>
+      <div class="cover-orn">❦</div>
+      <h2>Welcome, Mayor</h2>
+      <div class="welcome" id="welcomeBody"></div>
+      <div class="welcome-actions">
+        <button type="button" class="primary big" id="welcomeTutorialBtn">Play the tutorial</button>
+        <button type="button" id="welcomeRulesBtn">Read how to play</button>
+        <button type="button" id="welcomePlayBtn">Skip to the cover</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="howToPlayOverlay">
+    <div class="box help-box">
+      <h2>How to Play</h2>
+      <div class="help-tabs" role="tablist" aria-label="How to play">
+        <button type="button" class="help-tab on" id="helpTab-quick" role="tab" aria-selected="true" aria-controls="help-quick">Quick start</button>
+        <button type="button" class="help-tab" id="helpTab-rules" role="tab" aria-selected="false" aria-controls="help-rules">The rules</button>
+        <button type="button" class="help-tab" id="helpTab-faq" role="tab" aria-selected="false" aria-controls="help-faq">Questions &amp; answers</button>
+      </div>
+      <div class="help" id="help-quick" role="tabpanel"></div>
+      <div class="help" id="help-rules" role="tabpanel" hidden></div>
+      <div class="help" id="help-faq" role="tabpanel" hidden></div>
+      <div class="help-actions">
+        <button type="button" id="helpTutorialBtn">Play the tutorial</button>
+        <button type="button" class="primary" id="closeHowToPlay">Got it!</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="winOverlay">
+    <div class="box win-box">
+      <div class="cover-orn">❦</div>
+      <h2 id="winTitle">Game Over</h2>
+      <p id="winBody"></p>
+      <button class="primary big" id="playAgainBtn">Read another story</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalOverlay">
+    <div class="box modal-box" id="modalBox"></div>
+  </div>
+
+  <div class="popover" id="popover" hidden></div>
+  <div class="card-peek" id="cardPeek" hidden></div>
+
+</div>
+<script type="module" src="src/ui/main.js"></script>
+</body>
+</html>
