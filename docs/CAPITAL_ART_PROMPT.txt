@@ -1,0 +1,18 @@
+Create ONE production game-art texture atlas, square 2048x2048, exact 4 by 4 grid of sixteen equally sized square illustrations. No gutters, no borders, no labels, no text, no watermarks. Each tile fills precisely one quarter width and height and is a separate composition. Style: richly detailed cozy storybook oil and gouache paintings of an anthropomorphic woodland town, warm golden light, expressive cute realistic animals in embroidered waistcoats and medieval artisan clothes, flowers, timber and stone architecture. Painterly tactile detail, jewel colors, lush backgrounds, matching a premium Animal Friends trading card game. Center the identifying subject in each tile so card crops remain legible. Distinct species anatomy essential, no raccoons in this atlas. Row-major scenes:
+Row 1 col 1: Dabble, brown OTTER river pilot in blue coat, paws steering a wooden boat wheel on a canal boat, waterways behind.
+Row 1 col 2: Barrow, black and white striped BADGER stonecutter, leather apron, mallet and chisel carving a limestone block in a masonry yard.
+Row 1 col 3: Mittens, black and white CAT with white paws, small violet cloak, perched confidently on terracotta rooftops under moonlit sky, town below.
+Row 1 col 4: Thimble, RABBIT warren runner, conspicuous long ears, green waistcoat, running with seed satchel between grassy burrow doorways.
+Row 2 col 1: Quill, tiny MOUSE town scrivener, round ears thin tail, seated writing with feather quill at a desk with parchment and ink bottles.
+Row 2 col 2: Bram, striped BADGER journeyman carter in russet vest, pulling a two wheeled wooden handcart loaded with timber along a cobbled lane.
+Row 2 col 3: Tuppence, red SQUIRREL market trader with unmistakable huge fluffy tail, blue vest, counting copper coins beside a savings jar and baskets at a stall.
+Row 2 col 4: Bristle, HEDGEHOG gatekeeper with clearly visible spines, green uniform coat and large key ring, standing by a town gate.
+Row 3 col 1: Kestrel, red FOX city resident with pointed ears and bushy white tipped tail, elegant burgundy civic coat, holding a rolled city map in a busy stone town square.
+Row 3 col 2: Apprentice School building and classroom visible through open doors, small rabbit and mouse pupils learning woodworking from an elderly badger, school architecture dominant.
+Row 3 col 3: Grain Exchange building, covered timber grain hall with golden wheat sacks, weighing scale and carts, animal traders small in the scene, architecture dominant.
+Row 3 col 4: Hiring Hall building, welcoming civic hall with open doors, noticeboard of blank pinned paper and varied animal workers arriving with tools, architecture dominant.
+Row 4 col 1: The Old Wall, ancient protective stone town wall with ivy, archway, village sheltered behind, no large portrait.
+Row 4 col 2: Counting House, elegant timber and stone treasury with open windows revealing ledgers, abacus and stacks of coins, a small mouse clerk, architecture dominant.
+Row 4 col 3: The Auction House, grand warmly lit public auction hall, auctioneer podium with gavel, rows of small woodland animal bidders raising plain paddles, architectural interior dominant.
+Row 4 col 4: Town Workshop, welcoming timber communal workshop with open doors, workbenches, hand tools, timber and small badger and hedgehog craftspeople building a chair, architecture dominant.
+Make all 16 images equally detailed. Strict equal 4x4 geometry. All identifying faces/tools centered well within each tile. No written text anywhere.

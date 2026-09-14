@@ -1,0 +1,88 @@
+{
+  "$comment": "Species charters. A species is a design space, not a keyword: nothing is printed on every card of a species. Each charter names a centre of gravity (the effects this species should get a disproportionate share of), a hole (what it is genuinely bad at, which is what actually creates identity), and a signature (an effect only this species does). scripts/identity.mjs measures the card set against this file and fails when two species become indistinguishable or a signature goes unused. Owl is the tenth species (Night Shift, v0.7.0). Studies are the other, horizontal axis: species is what a card IS, study is what it DOES, and a deck is one or two of each.",
+  "id": "AF-SPECIES-01",
+  "signatureFloor": 2,
+  "maxPairSimilarity": 0.86,
+  "species": {
+    "Rabbit": {
+      "owns": "numbers",
+      "blurb": "Rabbits arrive in crowds. One Rabbit is nothing much; six Rabbits are a town.",
+      "centre": ["recruitFromHand", "readyCharacter", "gainSupply"],
+      "hole": "Low output per animal, and a cheap curve that runs out of ladder early in a bidding war.",
+      "signature": "recruitFromHand",
+      "signatureText": "Recruiting further Characters out of hand, especially other Rabbits."
+    },
+    "Mouse": {
+      "owns": "Events",
+      "blurb": "Mice do the paperwork. They make the Events everyone else cannot afford to play.",
+      "centre": ["eventFromDumpToHand", "eventFromDumpToDeckBottom", "addMod", "draw"],
+      "hole": "Weak shifts and almost no presence in the Capital City.",
+      "signature": "eventFromDumpToHand",
+      "signatureText": "Replaying Events and discounting their requirements."
+    },
+    "Badger": {
+      "owns": "endurance",
+      "blurb": "Badgers dig in. What knocks a town over leaves a Badger standing.",
+      "centre": ["rehire", "addMod", "gainSupply"],
+      "hole": "Slow, and very little card flow — a Badger town sees fewer cards than anyone's.",
+      "signature": "cancelReveal",
+      "signatureText": "Shrugging off an on-reveal Market card that would hit both towns."
+    },
+    "Hedgehog": {
+      "owns": "protection",
+      "blurb": "Hedgehogs are impossible to move and impossible to bother.",
+      "centre": ["addMod", "readyCharacter"],
+      "hole": "No reach whatsoever: a Hedgehog deck cannot touch the rival's town at all.",
+      "signature": "protectCharacter",
+      "signatureText": "Making a Character untargetable, or immune to Unemployment."
+    },
+    "Raccoon": {
+      "owns": "the dumps",
+      "blurb": "Raccoons work the bins. One town's discard is a Raccoon's hand.",
+      "centre": ["eventFromDumpToHand", "draw", "discard"],
+      "hole": "Fragile and poor at shifts; a Raccoon rarely out-earns anyone.",
+      "signature": "takeFromCityDump",
+      "signatureText": "Taking a card out of the shared City Dump — nobody else touches it."
+    },
+    "Fox": {
+      "owns": "the auction",
+      "blurb": "Foxes read the room. They know what is coming and what it is worth.",
+      "centre": ["peekMarketDeck", "raiseOwnBid", "addMod"],
+      "hole": "Poor raw economy — Foxes never win by out-earning you.",
+      "signature": "raiseOwnBid",
+      "signatureText": "Changing a bid, a pledge or an auction's terms after it has opened."
+    },
+    "Otter": {
+      "owns": "tempo",
+      "blurb": "Otters keep everything moving. Work slides from paw to paw and nothing sits still.",
+      "centre": ["readyCharacter", "readyNextTurn", "moveShift"],
+      "hole": "No protection and no disruption: Otters cannot stop anything, only outpace it.",
+      "signature": "moveShift",
+      "signatureText": "Moving a shift or a readiness from one Character to another."
+    },
+    "Squirrel": {
+      "owns": "storage",
+      "blurb": "Squirrels put things by. A Squirrel town is poor all game and rich exactly once.",
+      "centre": ["storeSupply", "reorderDeckTop", "peekMarketDeck"],
+      "hole": "Slow starts — everything a Squirrel does pays later than everyone else's.",
+      "signature": "storeSupply",
+      "signatureText": "Caching Supply on a card, safe from shared shocks, to be spent later."
+    },
+    "Cat": {
+      "owns": "timing",
+      "blurb": "Cats do as they please, which is usually the right thing at the wrong moment.",
+      "centre": ["readyCharacter", "blockNextReady", "addMod"],
+      "hole": "Cats do not co-operate: they are the worst species for anything counting friends or species.",
+      "signature": "selfReady",
+      "signatureText": "Ignoring an orientation rule — acting when a Character should not be able to."
+    },
+    "Owl": {
+      "owns": "the night",
+      "blurb": "Owls are awake when the rest of the town is asleep. They see what is coming, and they have everybody up and working before dawn.",
+      "centre": ["advanceCharacter", "scryDeck", "draw"],
+      "hole": "Owls earn almost nothing on their own and want no part of a bidding war: an Owl town is wise, awake and poor, and an Owl would sooner read the pledge ladder than climb it.",
+      "signature": "advanceCharacter",
+      "signatureText": "The wake-up call: turning a Character one step toward upright outside the Ready phase, never one that is mid-shift."
+    }
+  }
+}

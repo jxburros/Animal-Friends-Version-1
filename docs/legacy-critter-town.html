@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Critter Town</title>
+<style>
+:root{
+  --bg:#f3ead7; --panel:#fffaf0; --ink:#3b2a1a; --muted:#8a7256; --line:#d9c9a8;
+  --res:#4c9a5f; --res2:#dff3e2; --bld:#c78a2f; --bld2:#fbebc9; --dis:#b8434e; --dis2:#fadada;
+  --acorn:#7a4a1f; --wood:#a0662d; --stone:#6f7d8a; --food:#c94a52;
+  --shadow:0 4px 14px rgba(60,40,10,.18);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:"Trebuchet MS",Verdana,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+body{background:
+  radial-gradient(circle at 10% 10%, #fff7e3 0, transparent 40%),
+  radial-gradient(circle at 90% 90%, #e5f0d6 0, transparent 40%), var(--bg);overflow:hidden}
+button{font:inherit;cursor:pointer;border:2px solid var(--ink);background:#fff3d6;color:var(--ink);border-radius:10px;padding:8px 16px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+button.primary{background:#8fd18c}
+button.danger{background:#f6a7a7}
+.screen{display:none;position:absolute;inset:0;overflow:auto}
+.screen.active{display:block}
+h1,h2,h3{margin:0}
+
+/* ---------- Menu ---------- */
+#screen-menu{display:none;align-items:center;justify-content:center;text-align:center}
+#screen-menu.active{display:flex}
+.menu-box{background:var(--panel);border:3px solid var(--ink);border-radius:24px;padding:36px 48px;box-shadow:var(--shadow);max-width:560px}
+.logo{font-size:56px;letter-spacing:2px;line-height:1;margin-bottom:4px;text-shadow:3px 3px 0 #e8c57a}
+.tagline{color:var(--muted);margin-bottom:20px}
+.menu-box button{display:block;width:100%;margin:10px 0;font-size:18px;padding:12px}
+.menu-critters{display:flex;justify-content:center;gap:6px;margin-bottom:12px}
+.menu-critters svg{width:64px;height:64px}
+
+/* ---------- Deck select ---------- */
+.page{max-width:1100px;margin:0 auto;padding:24px 16px}
+.page header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.deck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.deck-tile{background:var(--panel);border:3px solid var(--ink);border-radius:18px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s}
+.deck-tile:hover{transform:translateY(-4px) rotate(-1deg)}
+.deck-tile h3{font-size:22px;margin-bottom:4px}
+.deck-tile p{margin:6px 0;color:var(--muted);font-size:14px}
+.deck-tile .pips{display:flex;gap:4px;margin:8px 0}
+.pip{height:8px;flex:1;border-radius:4px}
+.pip.res{background:var(--res)}.pip.bld{background:var(--bld)}.pip.dis{background:var(--dis)}
+.deck-tile .preview{display:flex;gap:4px;margin-top:8px}
+.deck-tile .preview svg{width:52px;height:52px;border-radius:8px;border:2px solid var(--line);background:#fff}
+
+/* ---------- Deck builder ---------- */
+.builder{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+.pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{padding:4px 10px;font-size:13px}
+.filters button.on{background:#ffd98a}
+.decklist{background:var(--panel);border:3px solid var(--ink);border-radius:16px;padding:12px;position:sticky;top:12px}
+.decklist ul{list-style:none;padding:0;margin:8px 0;max-height:52vh;overflow:auto}
+.decklist li{display:flex;align-items:center;gap:6px;padding:4px 6px;border-bottom:1px dashed var(--line);font-size:14px}
+.decklist li .n{flex:1}
+.decklist li .rm{padding:0 8px;font-size:12px;box-shadow:none;border-width:1px}
+.decklist .stats{font-size:13px;color:var(--muted)}
+.decklist .invalid{color:var(--dis);font-weight:bold}
+.pool .card{cursor:pointer}
+.pool .card.maxed{opacity:.45;cursor:not-allowed}
+.pool .card .count{position:absolute;top:-8px;right:-8px;background:var(--ink);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px}
+
+/* ---------- Card ---------- */
+.card{position:relative;width:150px;height:210px;border-radius:12px;border:2px solid var(--ink);background:var(--panel);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;user-select:none;flex:none}
+.card .stripe{height:26px;display:flex;align-items:center;padding:0 6px 0 32px;font-weight:bold;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card.t-resource .stripe{background:var(--res)}.card.t-building .stripe{background:var(--bld)}.card.t-disruption .stripe{background:var(--dis)}
+.card .cost{position:absolute;top:2px;left:3px;width:24px;height:24px;border-radius:50%;background:#f8d58c;border:2px solid var(--acorn);color:var(--acorn);font-weight:bold;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2}
+.card .art{height:86px;background:#fff;display:flex;align-items:center;justify-content:center;border-bottom:2px solid var(--line)}
+.card.t-resource .art{background:var(--res2)}.card.t-building .art{background:var(--bld2)}.card.t-disruption .art{background:var(--dis2)}
+.card .art svg{width:100%;height:100%}
+.card .body{flex:1;padding:4px 6px;font-size:10.5px;line-height:1.25;display:flex;flex-direction:column;gap:3px}
+.card .body .sub{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:flex;justify-content:space-between}
+.card .reqs{display:flex;gap:3px;flex-wrap:wrap}
+.res-pill{display:inline-flex;align-items:center;gap:2px;border-radius:8px;padding:0 5px;font-size:10px;font-weight:bold;color:#fff}
+.res-pill.wood{background:var(--wood)}.res-pill.stone{background:var(--stone)}.res-pill.food{background:var(--food)}.res-pill.work{background:#555}.res-pill.score{background:#3f6fb5}
+.gem{width:9px;height:9px;transform:rotate(45deg);display:inline-block;border:1px solid #0003}
+.gem.common{background:#bfc7c9}.gem.uncommon{background:#5ea1e6}.gem.rare{background:#f0b429}
+.card.playable{box-shadow:0 0 0 3px #ffd54a,0 0 16px #ffd54a}
+.card.selected{transform:translateY(-10px) scale(1.04)!important;z-index:20}
+.card-back{background:repeating-linear-gradient(45deg,#7a4a1f 0 8px,#8f5b2b 8px 16px);border:2px solid var(--ink);border-radius:12px;width:150px;height:210px;box-shadow:var(--shadow);position:relative;flex:none}
+.card-back::after{content:"🌰";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px}
+.card-back.mini{width:44px;height:62px}.card-back.mini::after{font-size:18px}
+
+/* ---------- Game screen ---------- */
+#screen-game{display:none;flex-direction:column;padding:6px 8px;gap:6px}
+#screen-game.active{display:flex}
+.area{background:var(--panel);border:3px solid var(--ink);border-radius:16px;padding:8px 10px;box-shadow:var(--shadow);position:relative}
+.area.turn-active{border-color:#e6a400;box-shadow:0 0 0 4px #ffd54a80,var(--shadow)}
+.area.hit{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+#opp-area{flex:0 0 auto}
+#me-area{flex:0 0 auto}
+.arearow{display:flex;gap:10px;align-items:stretch}
+.town{flex:1;min-width:0}
+.town-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;font-size:14px}
+.town-head .pname{font-weight:bold;font-size:16px}
+.resbar{display:flex;gap:6px;align-items:center}
+.resbox{display:flex;align-items:center;gap:3px;background:#fff;border:2px solid var(--line);border-radius:10px;padding:2px 8px;font-weight:bold;font-size:14px;transition:transform .2s}
+.resbox.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.35)}}
+.scorebox{background:#3f6fb5;color:#fff;border-radius:10px;padding:2px 10px;font-weight:bold}
+.pilebox{display:flex;gap:6px;align-items:center;font-size:12px}
+.pile{display:flex;flex-direction:column;align-items:center;gap:2px}
+.pile .slot{width:44px;height:62px;border:2px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#fff8}
+.villagers{display:flex;gap:6px;flex-wrap:wrap;min-height:44px;margin-bottom:6px}
+.villager{width:44px;height:44px;border-radius:50%;border:2px solid var(--ink);background:#fff;overflow:hidden;position:relative;animation:pop .4s}
+.villager svg{width:100%;height:100%}
+.villager.frozen{filter:saturate(.2) brightness(1.2);border-color:#5ea1e6;box-shadow:0 0 0 3px #bfe3ff}
+.villager.leaving{animation:leave .5s forwards}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes leave{to{transform:scale(0) rotate(180deg);opacity:0}}
+.villager .tip{display:none}
+.buildings{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px}
+.bslot{border:2px dashed var(--line);border-radius:10px;min-height:76px;padding:4px;font-size:11px;background:#fffaf0;position:relative;display:flex;flex-direction:column;gap:2px;transition:border-color .2s}
+.bslot.ghost{opacity:.55;justify-content:center;align-items:center;text-align:center;color:var(--muted)}
+.bslot.ghost svg{width:34px;height:34px;opacity:.5}
+.bslot.placed{border-style:solid;animation:place .5s}
+@keyframes place{0%{transform:scale(.3) rotate(-10deg);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1)}}
+.bslot.done{border-color:#4c9a5f;background:#eaf7ea}
+.bslot.done .name::after{content:" ✓";color:#2e7d32}
+.bslot.hammerable{cursor:pointer;border-color:#e6a400;box-shadow:0 0 8px #ffd54a}
+.bslot.hammerable:hover{background:#fff1c2}
+.bslot .name{font-weight:bold;display:flex;align-items:center;gap:4px}
+.bslot .name svg{width:22px;height:22px}
+.bslot .bar{height:9px;background:#e8dfc9;border-radius:5px;overflow:hidden;border:1px solid var(--line)}
+.bslot .bar i{display:block;height:100%;background:linear-gradient(90deg,#f0b429,#4c9a5f);width:0;transition:width .6s ease}
+.bslot .st{color:var(--muted)}
+.bslot .scaffold{position:absolute;right:3px;top:3px;font-size:12px}
+.bslot.complete-fx{animation:complete .8s}
+@keyframes complete{0%{box-shadow:0 0 0 0 #4c9a5f}50%{box-shadow:0 0 0 10px #4c9a5f00;transform:scale(1.06)}100%{transform:scale(1)}}
+.bslot.wreck{animation:wreck .7s}
+@keyframes wreck{0%{transform:rotate(0)}30%{transform:rotate(-6deg) translateY(2px)}60%{transform:rotate(5deg)}100%{transform:rotate(0)}}
+.bslot.demolish{animation:demolish .8s forwards}
+@keyframes demolish{to{transform:scale(0) rotate(25deg);opacity:0}}
+
+#center-bar{display:flex;gap:10px;align-items:stretch;flex:1 1 0;min-height:110px;overflow:hidden}
+#play-zone{flex:0 0 190px;display:flex;align-items:center;justify-content:center;position:relative}
+#play-zone .card{transform:scale(.9)}
+#turn-ind{flex:0 0 200px;display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:center}
+#turn-ind .big{font-size:22px;font-weight:bold}
+.phases{display:flex;gap:4px;justify-content:center}
+.phase{font-size:11px;padding:2px 8px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--muted)}
+.phase.on{background:#ffd54a;color:var(--ink);border-color:var(--ink);font-weight:bold}
+#acorn-disp{font-size:18px}
+#log{flex:1;min-height:0;font-size:12.5px;overflow:auto;background:#fff;border:2px solid var(--line);border-radius:10px;padding:6px 8px;line-height:1.35}
+#log div{padding:1px 0;border-bottom:1px dotted #eee}
+#log .me{color:#2e7d32}#log .ai{color:#b8434e}#log .sys{color:var(--muted);font-style:italic}
+#hand-row{display:flex;align-items:flex-end;gap:10px}
+#hand{flex:1;display:flex;gap:6px;justify-content:center;align-items:flex-end;min-height:216px;padding-top:6px;overflow:visible;flex-wrap:nowrap}
+#hand .card{transition:transform .2s,box-shadow .2s;cursor:pointer;margin-left:-28px}
+#hand .card:first-child{margin-left:0}
+#hand .card:hover{transform:translateY(-10px);z-index:10}
+#hand .card.drawn{animation:draw .55s cubic-bezier(.2,.8,.3,1)}
+@keyframes draw{from{transform:translate(var(--dx,-400px),var(--dy,0)) rotate(-30deg) scale(.4);opacity:0}}
+.card.unplayable{filter:grayscale(.6) brightness(.9)}
+#controls{display:flex;flex-direction:column;gap:8px;align-items:center;flex:0 0 130px}
+#controls button{width:100%}
+#hint{font-size:12px;color:var(--muted);text-align:center;min-height:32px}
+.opp-hand{display:flex;gap:2px}
+.opp-hand .card-back.mini{margin-left:-20px}
+.opp-hand .card-back.mini:first-child{margin-left:0}
+#fx-layer{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden}
+.fly{position:fixed;transition:transform .55s cubic-bezier(.3,.7,.3,1),opacity .55s;will-change:transform}
+.float-txt{position:fixed;font-weight:bold;font-size:18px;animation:floatup 1.1s forwards;text-shadow:0 1px 0 #fff,0 0 6px #fff}
+@keyframes floatup{to{transform:translateY(-60px);opacity:0}}
+.zap{position:fixed;font-size:44px;animation:zap .9s forwards}
+@keyframes zap{0%{transform:scale(.3);opacity:0}40%{transform:scale(1.3);opacity:1}100%{transform:scale(1);opacity:0}}
+.spark{position:fixed;width:8px;height:8px;border-radius:50%;animation:spark .9s forwards}
+@keyframes spark{to{transform:translate(var(--sx),var(--sy)) scale(0);opacity:0}}
+.flash{position:fixed;inset:0;background:#ffdddd;animation:flash .5s forwards}
+@keyframes flash{from{opacity:.6}to{opacity:0}}
+.status-tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:10px;padding:1px 6px;border-radius:6px;background:#eee;border:1px solid var(--line)}
+.tag.bad{background:#fadada;border-color:var(--dis)}
+
+/* ---------- Overlays ---------- */
+.overlay{position:fixed;inset:0;background:#3b2a1acc;display:none;align-items:center;justify-content:center;z-index:200}
+.overlay.active{display:flex}
+.overlay .box{background:var(--panel);border:3px solid var(--ink);border-radius:20px;padding:30px 40px;text-align:center;max-width:620px;max-height:90vh;overflow:auto;animation:pop .4s}
+.overlay h2{font-size:38px;margin-bottom:8px}
+.overlay .box button{margin:6px}
+.help{ text-align:left;font-size:14px;line-height:1.45}
+.help h3{margin-top:12px}
+#target-list{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+#target-list button{padding:6px 10px;font-size:13px}
+.confetti{position:fixed;top:-10px;width:10px;height:14px;animation:fall 3s linear forwards;z-index:300}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+@media (max-width:900px){
+  #center-bar{flex-wrap:wrap;min-height:auto}
+  #play-zone{flex-basis:100%;min-height:0}
+  #play-zone:empty{display:none}
+  #turn-ind{flex:1}
+  #log{flex-basis:100%;max-height:90px}
+  .builder{grid-template-columns:1fr}
+  .decklist{position:static}
+  .card{width:130px;height:190px}
+  #hand{min-height:200px}
+  #hand .card{margin-left:-50px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<section id="screen-menu" class="screen active">
+  <div class="menu-box">
+    <div class="menu-critters" id="menu-critters"></div>
+    <h1 class="logo">Critter Town</h1>
+    <div class="tagline">Build your cozy animal town before your rival does!</div>
+    <button class="primary" onclick="showScreen('decks')">Play vs. AI</button>
+    <button onclick="openBuilder()">Deck Builder</button>
+    <button onclick="openHelp()">How to Play</button>
+  </div>
+</section>
+
+<section id="screen-decks" class="screen">
+  <div class="page">
+    <header><h2>Choose your deck</h2><button onclick="showScreen('menu')">← Back</button></header>
+    <div class="deck-grid" id="deck-grid"></div>
+  </div>
+</section>
+
+<section id="screen-builder" class="screen">
+  <div class="page">
+    <header><h2>Deck Builder</h2><div><button onclick="showScreen('menu')">← Back</button></div></header>
+    <div class="builder">
+      <div>
+        <div class="filters" id="filters"></div>
+        <div class="pool" id="pool"></div>
+      </div>
+      <div class="decklist">
+        <h3>Your Deck <span id="deck-count"></span></h3>
+        <div class="stats" id="deck-rules"></div>
+        <ul id="deck-list"></ul>
+        <div id="deck-valid" class="stats"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+          <button class="primary" id="btn-play-custom" onclick="playCustom()">Play this deck</button>
+          <button onclick="clearDeck()">Clear</button>
+          <button onclick="loadPremadeIntoBuilder()">Load starter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen-game" class="screen">
+  <div class="area" id="opp-area">
+    <div class="arearow">
+      <div class="town" id="town-1"></div>
+      <div class="pilebox" id="piles-1"></div>
+    </div>
+  </div>
+  <div id="center-bar">
+    <div class="area" id="turn-ind"></div>
+    <div id="play-zone"></div>
+    <div id="log"></div>
+  </div>
+  <div class="area" id="me-area">
+    <div class="arearow">
+      <div class="town" id="town-0"></div>
+      <div class="pilebox" id="piles-0"></div>
+    </div>
+    <div id="hand-row">
+      <div id="hand"></div>
+      <div id="controls">
+        <div id="hint"></div>
+        <button class="primary" id="btn-end" onclick="humanEndTurn()">End Turn</button>
+        <button onclick="openHelp()">Help</button>
+        <button class="danger" onclick="quitGame()">Quit</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="fx-layer"></div>
+<div class="overlay" id="overlay-win"><div class="box" id="win-box"></div></div>
+<div class="overlay" id="overlay-help"><div class="box"><div class="help" id="help-body"></div><button class="primary" onclick="closeOverlay('overlay-help')">Got it</button></div></div>
+<div class="overlay" id="overlay-target"><div class="box"><h3 id="target-title"></h3><div id="target-list"></div><button onclick="cancelTarget()">Cancel</button></div></div>
+</div>
+<script>
+/* =====================================================================
+   CARD DATA
+   ===================================================================== */
+const RES_ICON = {wood:'🪵', stone:'🪨', food:'🍎'};
+const RES_NAME = {wood:'Wood', stone:'Stone', food:'Food'};
+const REQUIRED_BUILDINGS = ['well','market','bakery','workshop','townhall'];
+const SCORE_TO_WIN = 12;
+const BASE_ACORNS = 3, MAX_ACORNS = 6, HAND_LIMIT = 8, MAX_VILLAGERS = 5, MAX_BUILDINGS = 8;
+const DECK_MIN = 20, DECK_MAX = 30, COPY_LIMIT = {common:2, uncommon:2, rare:1};
+
+const CARDS = [
+  // ---------------- RESOURCE ----------------
+  {id:'fox', name:'Fox Forager', type:'resource', sub:'Villager', cost:1, rarity:'common',
+   text:'Villager. At the start of your turn, gather 1 Wood.', villager:{gather:{wood:1}}, animal:'fox'},
+  {id:'otter', name:'Otter Fisher', type:'resource', sub:'Villager', cost:1, rarity:'common',
+   text:'Villager. At the start of your turn, gather 1 Food.', villager:{gather:{food:1}}, animal:'otter'},
+  {id:'badger', name:'Badger Miner', type:'resource', sub:'Villager', cost:1, rarity:'common',
+   text:'Villager. At the start of your turn, gather 1 Stone.', villager:{gather:{stone:1}}, animal:'badger'},
+  {id:'hedgehog', name:'Hedgehog Helper', type:'resource', sub:'Villager', cost:2, rarity:'uncommon',
+   text:'Villager. At the start of your turn, gather 1 Wood and 1 Food.', villager:{gather:{wood:1,food:1}}, animal:'hedgehog'},
+  {id:'beaver', name:'Beaver Builder', type:'resource', sub:'Villager', cost:2, rarity:'uncommon',
+   text:'Villager. At the start of your turn, add 1 progress to your least-finished building.', villager:{work:1}, animal:'beaver'},
+  {id:'owl', name:'Owl Librarian', type:'resource', sub:'Villager', cost:2, rarity:'rare',
+   text:'Villager. At the start of your turn, draw 1 extra card.', villager:{draw:1}, animal:'owl'},
+  {id:'bear', name:'Bear Foreman', type:'resource', sub:'Villager', cost:3, rarity:'rare',
+   text:'Villager. You get +1 Acorn each turn.', villager:{acorn:1}, animal:'bear'},
+  {id:'squirrel', name:'Squirrel Stash', type:'resource', sub:'Supply', cost:1, rarity:'common',
+   text:'Gain 2 Wood.', gain:{wood:2}, animal:'squirrel'},
+  {id:'mole', name:'Mole Quarry', type:'resource', sub:'Supply', cost:1, rarity:'common',
+   text:'Gain 2 Stone.', gain:{stone:2}, animal:'mole'},
+  {id:'berries', name:'Berry Harvest', type:'resource', sub:'Supply', cost:1, rarity:'common',
+   text:'Gain 2 Food.', gain:{food:2}, animal:'mouse'},
+  {id:'caravan', name:'Trade Caravan', type:'resource', sub:'Supply', cost:2, rarity:'uncommon',
+   text:'Gain 1 Wood, 1 Stone and 1 Food. Draw a card.', gain:{wood:1,stone:1,food:1}, draw:1, animal:'goat'},
+  {id:'planner', name:'Deer Planner', type:'resource', sub:'Supply', cost:1, rarity:'uncommon',
+   text:'Search your deck for a Building card and put it in your hand.', tutor:'building', animal:'deer'},
+
+  // ---------------- BUILDING ----------------
+  {id:'well', name:'Village Well', type:'building', sub:'Required', cost:1, rarity:'common', required:true,
+   req:{stone:2}, work:2, score:1, text:'Required. When completed, gain 2 Food.', onComplete:{gain:{food:2}}, building:'well'},
+  {id:'market', name:'Market Square', type:'building', sub:'Required', cost:2, rarity:'common', required:true,
+   req:{wood:2,stone:1}, work:3, score:2, text:'Required. When completed, draw 2 cards.', onComplete:{draw:2}, building:'market'},
+  {id:'bakery', name:'Cozy Bakery', type:'building', sub:'Required', cost:2, rarity:'common', required:true,
+   req:{wood:2,food:2}, work:3, score:2, text:'Required. Each turn, gain 1 Food.', perTurn:{gain:{food:1}}, building:'bakery'},
+  {id:'workshop', name:'Workshop', type:'building', sub:'Required', cost:2, rarity:'common', required:true,
+   req:{wood:2,stone:2}, work:3, score:2, text:'Required. Your Hammer action adds 2 progress instead of 1.', hammerBonus:1, building:'workshop'},
+  {id:'townhall', name:'Town Hall', type:'building', sub:'Required', cost:3, rarity:'uncommon', required:true,
+   req:{wood:3,stone:3,food:1}, work:5, score:3, text:'Required. You get +1 Acorn each turn.', acornBonus:1, building:'townhall'},
+  {id:'park', name:'Acorn Park', type:'building', sub:'Bonus', cost:1, rarity:'common',
+   req:{wood:1,food:1}, work:2, score:1, text:'Bonus. When completed, gain 1 Wood and 1 Food.', onComplete:{gain:{wood:1,food:1}}, building:'park'},
+  {id:'fence', name:'Sturdy Fence', type:'building', sub:'Bonus', cost:1, rarity:'uncommon',
+   req:{wood:1}, work:1, score:1, text:'Bonus. Blocks the next Disruption played against you, then falls apart.', shield:true, building:'fence'},
+  {id:'windmill', name:'Windmill', type:'building', sub:'Bonus', cost:2, rarity:'uncommon',
+   req:{wood:2,stone:1}, work:3, score:2, text:'Bonus. Each turn, gain 1 Wood.', perTurn:{gain:{wood:1}}, building:'windmill'},
+  {id:'library', name:'Owl Library', type:'building', sub:'Bonus', cost:2, rarity:'uncommon',
+   req:{stone:2,wood:1}, work:3, score:2, text:'Bonus. When completed, draw 3 cards.', onComplete:{draw:3}, building:'library'},
+  {id:'lighthouse', name:'Lighthouse', type:'building', sub:'Bonus', cost:3, rarity:'rare',
+   req:{stone:3,wood:1}, work:4, score:3, text:'Bonus. Each turn, gain 1 Stone.', perTurn:{gain:{stone:1}}, building:'lighthouse'},
+
+  // ---------------- DISRUPTION ----------------
+  {id:'raid', name:'Raccoon Raid', type:'disruption', sub:'Sabotage', cost:2, rarity:'common',
+   text:'Steal up to 2 random resources from your opponent.', effect:'steal', amount:2, animal:'raccoon'},
+  {id:'magpie', name:'Magpie Mischief', type:'disruption', sub:'Sabotage', cost:1, rarity:'common',
+   text:'Your opponent discards a random card.', effect:'discard', amount:1, animal:'magpie'},
+  {id:'storm', name:'Sudden Storm', type:'disruption', sub:'Weather', cost:2, rarity:'common',
+   text:'Remove 2 progress from the opponent building that is closest to completion.', effect:'storm', amount:2, animal:'storm'},
+  {id:'termites', name:'Termite Trouble', type:'disruption', sub:'Sabotage', cost:3, rarity:'rare',
+   text:'Demolish an unfinished opponent building. Its card goes to their discard pile.', effect:'demolish', animal:'termite'},
+  {id:'wolf', name:'Wolf Howl', type:'disruption', sub:'Scare', cost:2, rarity:'uncommon',
+   text:'Scare an opponent villager back into their hand.', effect:'bounce', animal:'wolf'},
+  {id:'frost', name:'Frost Snap', type:'disruption', sub:'Weather', cost:2, rarity:'uncommon',
+   text:'Opponent villagers do nothing at the start of their next turn.', effect:'freeze', animal:'frost'},
+  {id:'skunk', name:'Skunk Stink', type:'disruption', sub:'Scare', cost:1, rarity:'uncommon',
+   text:'Your opponent has 1 fewer Acorn on their next turn.', effect:'acornDrain', amount:1, animal:'skunk'},
+  {id:'crow', name:'Crow Snatch', type:'disruption', sub:'Sabotage', cost:2, rarity:'uncommon',
+   text:'Steal a random card from your opponent\'s hand.', effect:'snatch', animal:'crow'},
+  {id:'hex', name:'Hibernation Hex', type:'disruption', sub:'Curse', cost:4, rarity:'rare',
+   text:'Your opponent skips their next turn entirely.', effect:'skip', animal:'sloth'},
+];
+const CARD_BY_ID = Object.fromEntries(CARDS.map(c=>[c.id,c]));
+
+const PREMADE_DECKS = [
+  {name:'Forest Builders', blurb:'Steady wood income, a Beaver to speed construction, and a Windmill for extra points.',
+   list:['fox','fox','badger','badger','hedgehog','beaver','beaver','squirrel','squirrel','mole','planner',
+         'well','well','market','market','bakery','bakery','workshop','workshop','townhall','townhall','windmill','park','storm']},
+  {name:'River Traders', blurb:'Card-draw and trade goods keep your hand full; race with the Library and Lighthouse.',
+   list:['otter','otter','fox','badger','owl','caravan','caravan','berries','mole','planner','planner',
+         'well','well','market','market','bakery','bakery','workshop','workshop','townhall','townhall','library','lighthouse','raid']},
+  {name:'Rowdy Rascals', blurb:'Lean economy backed by raccoons, storms and a curse to keep your rival stumbling.',
+   list:['fox','otter','badger','badger','hedgehog','squirrel','berries','mole',
+         'well','well','market','bakery','bakery','workshop','workshop','townhall','townhall','fence',
+         'raid','raid','magpie','storm','storm','wolf','skunk','crow','termites','hex']},
+];
+
+/* =====================================================================
+   CARD ART (SVG generators)
+   ===================================================================== */
+const ANIMALS = {
+  fox:      {body:'#e8772e', belly:'#fff1e0', ears:'point', earIn:'#3b2a1a', cheeks:'#f5a15b', extra:'foxmask'},
+  otter:    {body:'#8a5a34', belly:'#d9b48f', ears:'round', earIn:'#c99a6c', cheeks:'#a9784f', extra:'whiskers'},
+  badger:   {body:'#5f5f66', belly:'#e9e9ee', ears:'round', earIn:'#ccc', cheeks:'#7c7c85', extra:'badgerstripe'},
+  hedgehog: {body:'#c99a6c', belly:'#f3dfc2', ears:'round', earIn:'#e2b48c', cheeks:'#e0a679', extra:'spikes'},
+  beaver:   {body:'#7d4b26', belly:'#c48b5a', ears:'round', earIn:'#a86d3e', cheeks:'#a86d3e', extra:'teeth'},
+  owl:      {body:'#8c6a4a', belly:'#e6d3b3', ears:'tuft', earIn:'#8c6a4a', cheeks:'#c9a97f', extra:'owleyes'},
+  bear:     {body:'#6b4423', belly:'#c5936a', ears:'round', earIn:'#c5936a', cheeks:'#8a5a34', extra:'hat'},
+  squirrel: {body:'#b8672a', belly:'#f6dfc4', ears:'point', earIn:'#f0a86f', cheeks:'#d98a4e', extra:'acorn'},
+  mole:     {body:'#4f4a5a', belly:'#8f8aa0', ears:'none', earIn:'#000', cheeks:'#6c6680', extra:'nose'},
+  mouse:    {body:'#a9a1b8', belly:'#eee9f5', ears:'biground', earIn:'#f4bccb', cheeks:'#c7b8d6', extra:'berry'},
+  goat:     {body:'#d9d2c2', belly:'#f7f3ea', ears:'droop', earIn:'#e2b48c', cheeks:'#e5dccc', extra:'horns'},
+  deer:     {body:'#c98f5a', belly:'#f3dfc2', ears:'droop', earIn:'#f0c9a8', cheeks:'#d9a06e', extra:'antlers'},
+  raccoon:  {body:'#8a8a94', belly:'#e9e9ee', ears:'point', earIn:'#ccc', cheeks:'#a0a0aa', extra:'mask'},
+  magpie:   {body:'#2f2f3a', belly:'#f5f5f5', ears:'none', earIn:'#000', cheeks:'#3d3d4a', extra:'beak'},
+  wolf:     {body:'#6d7480', belly:'#d9dde3', ears:'point', earIn:'#3b2a1a', cheeks:'#8891a0', extra:'howl'},
+  skunk:    {body:'#2b2b33', belly:'#f5f5f5', ears:'round', earIn:'#555', cheeks:'#3d3d4a', extra:'skunkstripe'},
+  crow:     {body:'#23232b', belly:'#3a3a45', ears:'none', earIn:'#000', cheeks:'#33333d', extra:'beak'},
+  sloth:    {body:'#a08a6a', belly:'#d8c8a8', ears:'none', earIn:'#000', cheeks:'#b59d7c', extra:'sleep'},
+  termite:  {body:'#c9a24e', belly:'#e9d39a', ears:'none', earIn:'#000', cheeks:'#d6b56a', extra:'antennae'},
+  storm:    null, frost:null,
+};
+
+function animalSVG(kind, opts={}){
+  const a = ANIMALS[kind];
+  if(!a) return weatherSVG(kind);
+  const bg = opts.bg || 'none';
+  let s = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">`;
+  if(bg!=='none') s += `<rect width="100" height="100" fill="${bg}"/>`;
+  // ears (behind head)
+  if(a.ears==='point'){ s += `<polygon points="22,40 30,8 46,34" fill="${a.body}"/><polygon points="78,40 70,8 54,34" fill="${a.body}"/><polygon points="27,36 31,16 41,32" fill="${a.earIn}"/><polygon points="73,36 69,16 59,32" fill="${a.earIn}"/>`; }
+  else if(a.ears==='round'){ s += `<circle cx="28" cy="26" r="12" fill="${a.body}"/><circle cx="72" cy="26" r="12" fill="${a.body}"/><circle cx="28" cy="26" r="6" fill="${a.earIn}"/><circle cx="72" cy="26" r="6" fill="${a.earIn}"/>`; }
+  else if(a.ears==='biground'){ s += `<circle cx="22" cy="28" r="17" fill="${a.body}"/><circle cx="78" cy="28" r="17" fill="${a.body}"/><circle cx="22" cy="28" r="10" fill="${a.earIn}"/><circle cx="78" cy="28" r="10" fill="${a.earIn}"/>`; }
+  else if(a.ears==='droop'){ s += `<ellipse cx="18" cy="48" rx="8" ry="15" fill="${a.body}" transform="rotate(20 18 48)"/><ellipse cx="82" cy="48" rx="8" ry="15" fill="${a.body}" transform="rotate(-20 82 48)"/><ellipse cx="18" cy="49" rx="4" ry="10" fill="${a.earIn}" transform="rotate(20 18 48)"/><ellipse cx="82" cy="49" rx="4" ry="10" fill="${a.earIn}" transform="rotate(-20 82 48)"/>`; }
+  else if(a.ears==='tuft'){ s += `<polygon points="26,34 20,10 40,26" fill="${a.body}"/><polygon points="74,34 80,10 60,26" fill="${a.body}"/>`; }
+  if(a.extra==='antlers') s += `<path d="M30 30 L24 8 M24 14 L16 10 M25 20 L18 22 M70 30 L76 8 M76 14 L84 10 M75 20 L82 22" stroke="#6b4423" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  if(a.extra==='horns') s += `<path d="M34 28 Q20 10 30 4 M66 28 Q80 10 70 4" stroke="#8a7256" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  if(a.extra==='spikes') s += `<path d="M20 40 L12 22 L28 30 L26 12 L38 26 L44 8 L50 26 L56 8 L62 26 L74 12 L72 30 L88 22 L80 40 Z" fill="#5a3d24"/>`;
+  if(a.extra==='hat') s += `<rect x="30" y="18" width="40" height="14" rx="3" fill="#f0b429"/><rect x="24" y="30" width="52" height="6" rx="3" fill="#d99a1e"/>`;
+  // head
+  s += `<circle cx="50" cy="55" r="32" fill="${a.body}"/>`;
+  if(a.extra==='foxmask') s += `<path d="M50 87 Q30 80 30 60 Q40 72 50 70 Q60 72 70 60 Q70 80 50 87Z" fill="${a.belly}"/>`;
+  else if(a.extra==='badgerstripe') s += `<path d="M42 24 Q50 22 58 24 L58 60 Q50 58 42 60Z" fill="${a.belly}"/><ellipse cx="34" cy="55" rx="6" ry="10" fill="#222"/><ellipse cx="66" cy="55" rx="6" ry="10" fill="#222"/>`;
+  else if(a.extra==='skunkstripe') s += `<path d="M44 24 Q50 22 56 24 L56 46 Q50 44 44 46Z" fill="${a.belly}"/>`;
+  else s += `<ellipse cx="50" cy="66" rx="20" ry="14" fill="${a.belly}"/>`;
+  if(a.extra==='mask') s += `<path d="M20 50 Q35 40 50 48 Q65 40 80 50 Q72 62 58 58 Q50 54 42 58 Q28 62 20 50Z" fill="#3b2a1a"/>`;
+  // eyes
+  if(a.extra==='owleyes'){ s += `<circle cx="38" cy="50" r="12" fill="#fff"/><circle cx="62" cy="50" r="12" fill="#fff"/><circle cx="38" cy="50" r="6" fill="#222"/><circle cx="62" cy="50" r="6" fill="#222"/><circle cx="40" cy="48" r="2" fill="#fff"/><circle cx="64" cy="48" r="2" fill="#fff"/><polygon points="50,54 44,62 56,62" fill="#f0b429"/>`; }
+  else if(a.extra==='sleep'){ s += `<path d="M32 50 Q38 56 44 50 M56 50 Q62 56 68 50" stroke="#222" stroke-width="3" fill="none" stroke-linecap="round"/><text x="72" y="30" font-size="16" font-weight="bold" fill="#3f6fb5">z</text><text x="82" y="18" font-size="12" font-weight="bold" fill="#3f6fb5">z</text>`; }
+  else { const ey = a.extra==='mask'?50:48; s += `<circle cx="38" cy="${ey}" r="4.5" fill="#222"/><circle cx="62" cy="${ey}" r="4.5" fill="#222"/><circle cx="39.5" cy="${ey-1.5}" r="1.5" fill="#fff"/><circle cx="63.5" cy="${ey-1.5}" r="1.5" fill="#fff"/>`; }
+  // cheeks
+  s += `<circle cx="28" cy="62" r="5" fill="${a.cheeks}" opacity=".7"/><circle cx="72" cy="62" r="5" fill="${a.cheeks}" opacity=".7"/>`;
+  // nose / beak / mouth
+  if(a.extra==='beak') s += `<polygon points="50,52 40,62 60,62" fill="#f0b429"/><polygon points="42,62 58,62 50,68" fill="#d99a1e"/>`;
+  else if(a.extra==='nose') s += `<ellipse cx="50" cy="66" rx="9" ry="7" fill="#f4a6b0"/><path d="M42 74 Q50 80 58 74" stroke="#222" stroke-width="2.5" fill="none"/>`;
+  else if(a.extra==='teeth') s += `<ellipse cx="50" cy="60" rx="5" ry="4" fill="#222"/><rect x="44" y="66" width="5" height="9" fill="#fff" stroke="#999" stroke-width="1"/><rect x="51" y="66" width="5" height="9" fill="#fff" stroke="#999" stroke-width="1"/>`;
+  else if(a.extra==='howl') s += `<ellipse cx="50" cy="62" rx="5" ry="4" fill="#222"/><ellipse cx="50" cy="74" rx="6" ry="7" fill="#3b2a1a"/><text x="76" y="26" font-size="14" fill="#666">♪</text>`;
+  else if(a.extra!=='owleyes') s += `<ellipse cx="50" cy="61" rx="5" ry="4" fill="#222"/><path d="M42 68 Q46 72 50 68 Q54 72 58 68" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+  if(a.extra==='whiskers') s += `<path d="M28 60 L12 56 M28 66 L12 68 M72 60 L88 56 M72 66 L88 68" stroke="#3b2a1a" stroke-width="2" stroke-linecap="round"/>`;
+  if(a.extra==='acorn') s += `<ellipse cx="80" cy="82" rx="10" ry="12" fill="#a0662d"/><path d="M68 76 Q80 66 92 76 Z" fill="#5a3d24"/>`;
+  if(a.extra==='berry') s += `<circle cx="80" cy="84" r="8" fill="#c94a52"/><circle cx="90" cy="80" r="6" fill="#e0606a"/><path d="M80 76 L82 68" stroke="#4c9a5f" stroke-width="3"/>`;
+  if(a.extra==='antennae') s += `<path d="M40 26 Q30 10 20 12 M60 26 Q70 10 80 12" stroke="#5a3d24" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="20" cy="12" r="4" fill="#5a3d24"/><circle cx="80" cy="12" r="4" fill="#5a3d24"/>`;
+  return s + `</svg>`;
+}
+function weatherSVG(kind){
+  if(kind==='storm') return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="45" rx="34" ry="20" fill="#6d7480"/><circle cx="32" cy="38" r="16" fill="#6d7480"/><circle cx="58" cy="30" r="20" fill="#7d8592"/><polygon points="52,52 40,74 50,74 44,96 66,66 55,66 62,52" fill="#f0b429"/><path d="M20 66 L16 80 M32 72 L28 86 M76 66 L72 80" stroke="#5ea1e6" stroke-width="4" stroke-linecap="round"/></svg>`;
+  if(kind==='frost') return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g stroke="#5ea1e6" stroke-width="5" stroke-linecap="round" fill="none"><path d="M50 12 V88 M17 31 L83 69 M17 69 L83 31"/><path d="M50 12 L42 22 M50 12 L58 22 M50 88 L42 78 M50 88 L58 78 M17 31 L30 30 M17 31 L20 44 M83 69 L70 70 M83 69 L80 56 M17 69 L30 70 M17 69 L20 56 M83 31 L70 30 M83 31 L80 44"/></g><circle cx="50" cy="50" r="8" fill="#bfe3ff"/></svg>`;
+  return `<svg viewBox="0 0 100 100"></svg>`;
+}
+function buildingSVG(kind){
+  const g = `<rect x="0" y="82" width="100" height="18" fill="#8fd18c"/>`;
+  const wrap = inner => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${g}${inner}</svg>`;
+  switch(kind){
+    case 'well': return wrap(`<rect x="28" y="52" width="44" height="30" rx="3" fill="#8a8a94"/><path d="M28 60 h44 M28 70 h44 M50 52 v30 M39 52 v30 M61 52 v30" stroke="#5f5f66" stroke-width="2"/><rect x="30" y="20" width="6" height="34" fill="#7d4b26"/><rect x="64" y="20" width="6" height="34" fill="#7d4b26"/><polygon points="20,24 50,6 80,24" fill="#c94a52"/><rect x="42" y="30" width="16" height="10" fill="#5a3d24"/><circle cx="50" cy="42" r="4" fill="#3f6fb5"/>`);
+    case 'market': return wrap(`<rect x="18" y="48" width="64" height="34" fill="#e8c57a"/><path d="M12 48 L88 48 L82 30 L18 30 Z" fill="#c94a52"/><path d="M12 48 Q18 40 24 48 Q30 40 36 48 Q42 40 48 48 Q54 40 60 48 Q66 40 72 48 Q78 40 84 48" fill="#fff" stroke="#c94a52"/><rect x="24" y="58" width="52" height="10" fill="#a0662d"/><circle cx="34" cy="56" r="4" fill="#c94a52"/><circle cx="46" cy="56" r="4" fill="#f0b429"/><circle cx="58" cy="56" r="4" fill="#4c9a5f"/><circle cx="70" cy="56" r="4" fill="#e8772e"/>`);
+    case 'bakery': return wrap(`<rect x="20" y="40" width="60" height="42" fill="#f3dfc2"/><polygon points="14,42 50,16 86,42" fill="#a0662d"/><rect x="60" y="14" width="10" height="16" fill="#7d4b26"/><rect x="28" y="52" width="16" height="16" fill="#8fd1ff" stroke="#7d4b26" stroke-width="2"/><rect x="56" y="58" width="14" height="24" fill="#7d4b26"/><ellipse cx="36" cy="46" rx="10" ry="5" fill="#e0a679"/><path d="M28 46 h16" stroke="#c48b5a" stroke-width="2"/><path d="M64 10 q4 -4 0 -8" stroke="#bbb" stroke-width="2" fill="none"/>`);
+    case 'workshop': return wrap(`<rect x="16" y="44" width="68" height="38" fill="#c48b5a"/><polygon points="10,46 50,20 90,46" fill="#5f5f66"/><rect x="42" y="60" width="16" height="22" fill="#5a3d24"/><path d="M26 40 L34 22 M34 22 l8 4" stroke="#333" stroke-width="5" stroke-linecap="round"/><rect x="60" y="52" width="14" height="12" fill="#8fd1ff" stroke="#5a3d24" stroke-width="2"/><circle cx="26" cy="60" r="6" fill="none" stroke="#333" stroke-width="3"/><path d="M26 54 v-4 M26 66 v4 M20 60 h-4 M32 60 h4" stroke="#333" stroke-width="3"/>`);
+    case 'townhall': return wrap(`<rect x="12" y="44" width="76" height="38" fill="#f6efe0"/><rect x="20" y="52" width="10" height="30" fill="#d9c9a8"/><rect x="36" y="52" width="10" height="30" fill="#d9c9a8"/><rect x="54" y="52" width="10" height="30" fill="#d9c9a8"/><rect x="70" y="52" width="10" height="30" fill="#d9c9a8"/><polygon points="8,46 50,26 92,46" fill="#3f6fb5"/><rect x="42" y="10" width="16" height="20" fill="#f6efe0"/><polygon points="38,12 50,2 62,12" fill="#3f6fb5"/><circle cx="50" cy="20" r="5" fill="#f0b429"/><rect x="60" y="4" width="2" height="10" fill="#333"/><polygon points="62,4 74,7 62,10" fill="#c94a52"/>`);
+    case 'park': return wrap(`<circle cx="30" cy="40" r="18" fill="#4c9a5f"/><rect x="27" y="52" width="6" height="30" fill="#7d4b26"/><circle cx="72" cy="46" r="14" fill="#5faa6a"/><rect x="69" y="56" width="6" height="26" fill="#7d4b26"/><rect x="44" y="64" width="20" height="4" fill="#a0662d"/><rect x="46" y="68" width="3" height="12" fill="#a0662d"/><rect x="59" y="68" width="3" height="12" fill="#a0662d"/><ellipse cx="50" cy="20" rx="5" ry="6" fill="#a0662d"/><path d="M44 17 Q50 12 56 17Z" fill="#5a3d24"/>`);
+    case 'fence': return wrap(`<rect x="10" y="58" width="80" height="5" fill="#a0662d"/><rect x="10" y="72" width="80" height="5" fill="#a0662d"/>${[16,32,48,64,80].map(x=>`<polygon points="${x},46 ${x+4},40 ${x+8},46 ${x+8},82 ${x},82" fill="#c48b5a" stroke="#7d4b26" stroke-width="1"/>`).join('')}<circle cx="20" cy="30" r="5" fill="#fff" opacity=".8"/><circle cx="30" cy="26" r="7" fill="#fff" opacity=".8"/>`);
+    case 'windmill': return wrap(`<polygon points="34,82 66,82 60,40 40,40" fill="#f3dfc2" stroke="#a0662d" stroke-width="2"/><polygon points="36,42 64,42 50,26" fill="#c94a52"/><g stroke="#7d4b26" stroke-width="4" fill="#fff"><path d="M50 36 L50 6 L60 6 L54 36Z"/><path d="M50 36 L80 36 L80 46 L50 40Z"/><path d="M50 36 L50 66 L40 66 L46 36Z"/><path d="M50 36 L20 36 L20 26 L50 32Z"/></g><circle cx="50" cy="36" r="4" fill="#333"/><rect x="45" y="64" width="10" height="18" fill="#7d4b26"/>`);
+    case 'library': return wrap(`<rect x="16" y="40" width="68" height="42" fill="#c98f5a"/><polygon points="10,42 50,18 90,42" fill="#7d4b26"/><rect x="22" y="48" width="16" height="12" fill="#c94a52"/><rect x="42" y="48" width="16" height="12" fill="#3f6fb5"/><rect x="62" y="48" width="16" height="12" fill="#4c9a5f"/><rect x="22" y="64" width="16" height="12" fill="#f0b429"/><rect x="42" y="64" width="16" height="18" fill="#5a3d24"/><rect x="62" y="64" width="16" height="12" fill="#8fd1ff"/><circle cx="50" cy="30" r="6" fill="#f6efe0"/><circle cx="48" cy="30" r="2" fill="#222"/><circle cx="53" cy="30" r="2" fill="#222"/>`);
+    case 'lighthouse': return wrap(`<rect x="0" y="70" width="100" height="14" fill="#5ea1e6"/><polygon points="38,82 62,82 58,30 42,30" fill="#fff"/><rect x="40" y="44" width="20" height="8" fill="#c94a52"/><rect x="39" y="60" width="22" height="8" fill="#c94a52"/><rect x="40" y="18" width="20" height="14" fill="#f0b429"/><polygon points="36,18 50,8 64,18" fill="#333"/><path d="M60 22 L96 10 M60 28 L96 40" stroke="#fff3a0" stroke-width="6" opacity=".8"/>`);
+  }
+  return wrap('');
+}
+function cardArt(card){
+  if(card.type==='building') return buildingSVG(card.building);
+  return animalSVG(card.animal);
+}
+function resPill(k,v){ return `<span class="res-pill ${k}">${RES_ICON[k]||''} ${v}</span>`; }
+function cardHTML(card, extraCls=''){
+  let reqs = '';
+  if(card.type==='building'){
+    reqs = `<div class="reqs">${Object.entries(card.req).map(([k,v])=>resPill(k,v)).join('')}<span class="res-pill work">🔨 ${card.work}</span><span class="res-pill score">★ ${card.score}</span></div>`;
+  } else if(card.gain){
+    reqs = `<div class="reqs">${Object.entries(card.gain).map(([k,v])=>resPill(k,v)).join('')}</div>`;
+  } else if(card.villager && card.villager.gather){
+    reqs = `<div class="reqs">${Object.entries(card.villager.gather).map(([k,v])=>resPill(k,'+'+v+'/turn')).join('')}</div>`;
+  }
+  return `<div class="card t-${card.type} ${extraCls}" data-id="${card.id}">
+    <div class="cost">${card.cost}</div>
+    <div class="stripe" title="${card.name}">${card.name}</div>
+    <div class="art">${cardArt(card)}</div>
+    <div class="body"><div class="sub"><span>${card.type} · ${card.sub}</span><span class="gem ${card.rarity}" title="${card.rarity}"></span></div>${reqs}<div>${card.text}</div></div>
+  </div>`;
+}
+</script>
+<script>
+/* =====================================================================
+   GAME ENGINE
+   ===================================================================== */
+let G = null;
+let uidCounter = 0, gameCounter = 0;
+const uid = () => ++uidCounter;
+let ANIM_SPEED = 1; // multiplier for all animation/AI pacing delays
+const sleep = ms => new Promise(r=>setTimeout(r, Math.max(5, ms*ANIM_SPEED)));
+const rnd = n => Math.floor(Math.random()*n);
+const pick = arr => arr[rnd(arr.length)];
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=rnd(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const other = pi => 1-pi;
+const cardOf = o => CARD_BY_ID[o.id];
+
+function makePlayer(idx, name, isAI, deckList, deckName){
+  return {
+    idx, name, isAI, deckName,
+    deck: shuffle(deckList.map(id=>({uid:uid(), id}))),
+    hand:[], discard:[], res:{wood:0,stone:0,food:0}, acorns:0,
+    villagers:[], buildings:[],
+    flags:{skip:false, frozen:false, drain:0},
+  };
+}
+
+function newGame(humanDeck, humanDeckName){
+  const aiDeck = pick(PREMADE_DECKS);
+  G = {
+    players:[ makePlayer(0,'You',false,humanDeck,humanDeckName), makePlayer(1,'Mayor Grizzle (AI)',true,aiDeck.list,aiDeck.name) ],
+    id: ++gameCounter, current:0, turn:1, phase:'start', winner:null, log:[], newlyDrawn:new Set(), started:false,
+  };
+  UI.selectedUid = null; UI.busy = true;
+  showScreen('game');
+  render();
+  log(`A new game begins! The AI plays the <b>${aiDeck.name}</b> deck.`, 'sys');
+  (async ()=>{
+    const gid = G.id;
+    drawCards(G.players[0], 5, true);
+    drawCards(G.players[1], 6, true); // second player gets one extra card
+    render(); await sleep(700);
+    if(!alive(gid)) return;
+    G.started = true;
+    await startTurn(0);
+  })();
+}
+
+function log(msg, cls='sys'){
+  G.log.push({msg, cls});
+  const el = document.getElementById('log');
+  if(el){ const d=document.createElement('div'); d.className=cls; d.innerHTML=msg; el.appendChild(d); el.scrollTop = el.scrollHeight; }
+}
+const who = p => p.isAI ? 'ai' : 'me';
+// verb agreement: the human is addressed as "You"
+const vb = (p, ai, you) => p.isAI ? ai : you;
+const alive = gid => !!G && G.id === gid;
+
+/* ---------- helpers ---------- */
+function score(p){ return p.buildings.filter(b=>b.done).reduce((s,b)=>s+cardOf(b).score,0); }
+function requiredDone(p){ return REQUIRED_BUILDINGS.filter(id=>p.buildings.some(b=>b.id===id&&b.done)).length; }
+function hasDone(p,id){ return p.buildings.some(b=>b.id===id&&b.done); }
+function acornIncome(p){
+  let a = BASE_ACORNS;
+  if(hasDone(p,'townhall')) a += 1;
+  a += p.villagers.reduce((s,v)=>s+(cardOf(v).villager.acorn||0),0);
+  return Math.min(MAX_ACORNS, a);
+}
+function hammerPower(p){ return 1 + (hasDone(p,'workshop') ? 1 : 0); }
+function totalRes(p){ return p.res.wood+p.res.stone+p.res.food; }
+function canAfford(p, card){
+  if(p.acorns < card.cost) return false;
+  if(card.type==='building'){
+    if(p.buildings.some(b=>b.id===card.id)) return false;
+    if(p.buildings.length >= MAX_BUILDINGS) return false;
+    for(const [k,v] of Object.entries(card.req)) if(p.res[k] < v) return false;
+  }
+  if(card.villager && p.villagers.length >= MAX_VILLAGERS) return false;
+  if(card.type==='disruption' && disruptionTargets(other(p.idx), card).length===0 && !['steal','discard','freeze','acornDrain','snatch','skip'].includes(card.effect)) return false;
+  return true;
+}
+function whyNot(p, card){
+  if(p.acorns < card.cost) return 'Not enough acorns';
+  if(card.type==='building'){
+    if(p.buildings.some(b=>b.id===card.id)) return 'Already in your town';
+    if(p.buildings.length >= MAX_BUILDINGS) return 'Town is full';
+    for(const [k,v] of Object.entries(card.req)) if(p.res[k] < v) return `Need ${v} ${RES_NAME[k]}`;
+  }
+  if(card.villager && p.villagers.length >= MAX_VILLAGERS) return 'No room for more villagers';
+  if(card.type==='disruption' && !canAfford(p,card)) return 'No valid target';
+  return '';
+}
+function disruptionTargets(pi, card){
+  const o = G.players[pi];
+  if(card.effect==='demolish' || card.effect==='storm') return o.buildings.filter(b=>!b.done);
+  if(card.effect==='bounce') return o.villagers.slice();
+  return [];
+}
+
+/* ---------- draw / discard ---------- */
+function drawCards(p, n, silent=false){
+  let drawn = 0;
+  for(let i=0;i<n;i++){
+    if(p.deck.length===0){
+      if(p.discard.length===0) break;
+      p.deck = shuffle(p.discard.splice(0));
+      log(`${p.name} ${vb(p,'reshuffles','reshuffle')} the discard pile into a new deck.`, 'sys');
+    }
+    const c = p.deck.pop();
+    if(p.hand.length >= HAND_LIMIT){ p.discard.push(c); log(`${vb(p,p.name+"'s",'Your')} hand is full — ${cardOf(c).name} was discarded.`, 'sys'); continue; }
+    p.hand.push(c); G.newlyDrawn.add(c.uid); drawn++;
+  }
+  if(!silent && drawn) log(`${p.name} ${vb(p,'draws','draw')} ${drawn} card${drawn>1?'s':''}.`, who(p));
+  return drawn;
+}
+function gainRes(p, gain){
+  for(const [k,v] of Object.entries(gain)){ p.res[k] += v; }
+}
+
+/* ---------- turn flow ---------- */
+async function startTurn(pi){
+  if(G.winner) return;
+  const p = G.players[pi], gid = G.id;
+  G.current = pi; G.phase = 'start'; UI.busy = true; UI.selectedUid = null;
+  render();
+  if(p.flags.skip){
+    p.flags.skip = false;
+    log(`😴 ${p.name} ${vb(p,'is','are')} hibernating and ${vb(p,'skips','skip')} this turn!`, who(p));
+    fxZap(pi, '💤'); render(); await sleep(1200);
+    if(!alive(gid)) return;
+    return endTurn();
+  }
+  p.acorns = Math.max(0, acornIncome(p) - p.flags.drain);
+  if(p.flags.drain){ log(`🦨 ${p.name} ${vb(p,'loses','lose')} ${p.flags.drain} acorn to the skunk stink.`, who(p)); p.flags.drain = 0; }
+  render();
+  // villagers act
+  if(p.flags.frozen){
+    p.flags.frozen = false;
+    log(`❄️ ${vb(p,p.name+"'s",'Your')} villagers are frozen and do nothing this turn.`, who(p));
+    fxZap(pi, '❄️'); render(); await sleep(900);
+    if(!alive(gid)) return;
+  } else if(p.villagers.length){
+    for(const v of p.villagers){
+      const vc = cardOf(v).villager;
+      if(vc.gather){ gainRes(p, vc.gather); fxGather(pi, v.uid, Object.entries(vc.gather).map(([k,n])=>`+${n}${RES_ICON[k]}`).join(' ')); }
+      if(vc.work){ const b = leastFinished(p); if(b){ addProgress(p, b, vc.work); fxGather(pi, v.uid, '🔨+1'); } }
+      if(vc.draw){ drawCards(p, vc.draw); }
+      render(); await sleep(260);
+      if(!alive(gid) || G.winner) return;
+    }
+  }
+  // building per-turn effects
+  for(const b of p.buildings){
+    const bc = cardOf(b);
+    if(b.done && bc.perTurn && bc.perTurn.gain){ gainRes(p, bc.perTurn.gain); fxBuildingText(pi, b.uid, Object.entries(bc.perTurn.gain).map(([k,n])=>`+${n}${RES_ICON[k]}`).join(' ')); }
+  }
+  render();
+  // draw phase
+  G.phase = 'draw'; render(); await sleep(250);
+  if(!alive(gid)) return;
+  drawCards(p, 1);
+  render(); await sleep(600);
+  if(!alive(gid) || G.winner) return;
+  G.phase = 'main'; render();
+  if(p.isAI){ await sleep(500); if(!alive(gid)) return; await aiTurn(); }
+  else { UI.busy = false; render(); setHint('Your turn! Play cards, hammer buildings, then End Turn.'); }
+}
+async function endTurn(){
+  if(G.winner) return;
+  const p = G.players[G.current], gid = G.id;
+  G.phase = 'end'; UI.busy = true; UI.selectedUid = null; render();
+  log(`— ${p.name} ${vb(p,'ends','end')} turn ${G.turn}. —`, 'sys');
+  await sleep(400);
+  if(!alive(gid)) return;
+  const next = other(G.current);
+  if(next===0) G.turn++;
+  await startTurn(next);
+}
+function humanEndTurn(){ if(UI.busy || G.current!==0 || G.phase!=='main') return; endTurn(); }
+
+/* ---------- building progress ---------- */
+function leastFinished(p){
+  const u = p.buildings.filter(b=>!b.done);
+  if(!u.length) return null;
+  return u.reduce((m,b)=> (b.progress/cardOf(b).work) < (m.progress/cardOf(m).work) ? b : m, u[0]);
+}
+function closestToDone(p){
+  const u = p.buildings.filter(b=>!b.done);
+  if(!u.length) return null;
+  return u.reduce((m,b)=> (cardOf(b).work-b.progress) < (cardOf(m).work-m.progress) ? b : m, u[0]);
+}
+function addProgress(p, b, n){
+  const c = cardOf(b);
+  b.progress = Math.min(c.work, b.progress + n);
+  if(b.progress >= c.work && !b.done) completeBuilding(p, b);
+}
+function completeBuilding(p, b){
+  const c = cardOf(b);
+  b.done = true;
+  log(`🏗️ ${p.name} ${vb(p,'completes','complete')} the <b>${c.name}</b>! (+${c.score} ★)`, who(p));
+  UI.completed.add(b.uid);
+  if(c.onComplete){
+    if(c.onComplete.gain){ gainRes(p, c.onComplete.gain); }
+    if(c.onComplete.draw){ drawCards(p, c.onComplete.draw); }
+  }
+  checkWin();
+}
+function checkWin(){
+  if(G.winner) return true;
+  for(const p of G.players){
+    const rd = requiredDone(p), sc = score(p);
+    if(rd >= REQUIRED_BUILDINGS.length || sc >= SCORE_TO_WIN){
+      G.winner = p.idx;
+      G.winReason = rd >= REQUIRED_BUILDINGS.length ? 'completed every required structure' : `reached a Town Score of ${sc}`;
+      UI.busy = true;
+      log(`🎉 <b>${p.name} ${vb(p,'wins','win')}</b> — ${G.winReason}!`, who(p));
+      const gid = G.id; setTimeout(()=>{ if(alive(gid)) showWin(); }, 900);
+      return true;
+    }
+  }
+  return false;
+}
+
+/* ---------- actions ---------- */
+async function hammer(pi, buildingUid){
+  const p = G.players[pi];
+  if(G.current!==pi || G.phase!=='main' || p.acorns<1) return false;
+  const b = p.buildings.find(x=>x.uid===buildingUid);
+  if(!b || b.done) return false;
+  p.acorns -= 1;
+  const n = hammerPower(p);
+  addProgress(p, b, n);
+  fxBuildingText(pi, b.uid, `🔨 +${n}`);
+  if(!b.done) log(`${p.name} ${vb(p,'hammers','hammer')} the ${cardOf(b).name} (${b.progress}/${cardOf(b).work}).`, who(p));
+  render();
+  return true;
+}
+
+async function playCard(pi, cardUid, target){
+  const p = G.players[pi], o = G.players[other(pi)];
+  const ci = p.hand.findIndex(c=>c.uid===cardUid);
+  if(ci<0) return false;
+  const c = cardOf(p.hand[ci]);
+  if(G.current!==pi || G.phase!=='main' || !canAfford(p,c)) return false;
+  const inst = p.hand[ci], gid = G.id;
+  UI.busy = true; UI.selectedUid = null;
+  p.acorns -= c.cost;
+  p.hand.splice(ci,1);
+  await animPlayCard(pi, inst);
+  if(!alive(gid)) return false;
+  log(`${p.name} ${vb(p,'plays','play')} <b>${c.name}</b>.`, who(p));
+
+  if(c.type==='resource'){
+    if(c.villager){ p.villagers.push({uid:inst.uid, id:c.id}); }
+    else {
+      if(c.gain){ gainRes(p, c.gain); fxResBump(pi); }
+      if(c.draw){ drawCards(p, c.draw); }
+      if(c.tutor){
+        const bi = p.deck.map((x,i)=>[x,i]).filter(([x])=>cardOf(x).type===c.tutor);
+        if(bi.length){
+          // AI grabs a building it doesn't have; human gets the same sensible choice
+          const want = bi.find(([x])=>!p.buildings.some(b=>b.id===x.id) && !p.hand.some(h=>h.id===x.id)) || bi[0];
+          const [card, idx] = want; p.deck.splice(idx,1); shuffle(p.deck);
+          if(p.hand.length < HAND_LIMIT){ p.hand.push(card); G.newlyDrawn.add(card.uid); log(`${p.name} ${vb(p,'finds','find')} the <b>${cardOf(card).name}</b> blueprint.`, who(p)); }
+          else { p.discard.push(card); log(`Hand full — the blueprint was lost.`, 'sys'); }
+        } else log(`No building cards left in the deck!`, 'sys');
+      }
+      p.discard.push(inst);
+    }
+  } else if(c.type==='building'){
+    for(const [k,v] of Object.entries(c.req)) p.res[k] -= v;
+    fxResBump(pi);
+    const b = {uid:inst.uid, id:c.id, progress:0, done:false};
+    p.buildings.push(b);
+    UI.placed.add(b.uid);
+    log(`${p.name} ${vb(p,'lays','lay')} the foundation for the <b>${c.name}</b> (needs ${c.work} 🔨).`, who(p));
+  } else if(c.type==='disruption'){
+    p.discard.push(inst);
+    await resolveDisruption(p, o, c, target);
+    if(!alive(gid)) return false;
+  }
+  render();
+  checkWin();
+  if(!p.isAI && !G.winner){ UI.busy = false; render(); }
+  return true;
+}
+
+async function resolveDisruption(p, o, c, target){
+  const oi = o.idx;
+  // Fence shield?
+  const fence = o.buildings.find(b=>b.id==='fence' && b.done);
+  if(fence){
+    log(`🛡️ ${vb(o,o.name+"'s",'Your')} Sturdy Fence blocks <b>${c.name}</b> and falls apart!`, who(o));
+    const gid = G.id;
+    fxZap(oi, '🛡️'); await sleep(700);
+    if(!alive(gid)) return;
+    UI.demolished.add(fence.uid); render(); await sleep(700);
+    if(!alive(gid)) return;
+    o.buildings = o.buildings.filter(b=>b!==fence); o.discard.push({uid:fence.uid, id:'fence'});
+    return;
+  }
+  fxShake(oi); fxZap(oi, {steal:'🦝',discard:'🐦‍⬛',storm:'⛈️',demolish:'🐛',bounce:'🐺',freeze:'❄️',acornDrain:'🦨',snatch:'🐦‍⬛',skip:'💤'}[c.effect]||'💥');
+  const gid = G.id;
+  await sleep(500);
+  if(!alive(gid)) return;
+  switch(c.effect){
+    case 'steal': {
+      let got = {wood:0,stone:0,food:0}, n=0;
+      for(let i=0;i<c.amount;i++){
+        const avail = Object.keys(o.res).filter(k=>o.res[k]>0);
+        if(!avail.length) break;
+        const k = pick(avail); o.res[k]--; p.res[k]++; got[k]++; n++;
+      }
+      log(n ? `🦝 ${p.name} ${vb(p,'steals','steal')} ${Object.entries(got).filter(([,v])=>v).map(([k,v])=>`${v}${RES_ICON[k]}`).join(' ')} from ${o.name}!` : `🦝 ${o.name} had nothing to steal.`, who(p));
+      fxResBump(oi); fxResBump(p.idx); break; }
+    case 'discard': {
+      if(o.hand.length){ const i = rnd(o.hand.length); const [x] = o.hand.splice(i,1); o.discard.push(x); log(`🐦‍⬛ ${o.name} ${vb(o,'discards','discard')} <b>${cardOf(x).name}</b>.`, who(p)); }
+      else log(`${o.name} had no cards to discard.`, 'sys');
+      break; }
+    case 'storm': {
+      const b = target ? o.buildings.find(x=>x.uid===target) : closestToDone(o);
+      if(b){ b.progress = Math.max(0, b.progress - c.amount); UI.wrecked.add(b.uid); log(`⛈️ The storm batters ${o.name}'s <b>${cardOf(b).name}</b> (now ${b.progress}/${cardOf(b).work}).`, who(p)); }
+      else log(`The storm finds nothing to damage.`, 'sys');
+      break; }
+    case 'demolish': {
+      const b = o.buildings.find(x=>x.uid===target) || closestToDone(o);
+      if(b){ UI.demolished.add(b.uid); render(); await sleep(800); if(!alive(gid)) return; o.buildings = o.buildings.filter(x=>x!==b); o.discard.push({uid:b.uid, id:b.id}); log(`🐛 Termites devour ${o.name}'s unfinished <b>${cardOf(b).name}</b>!`, who(p)); }
+      break; }
+    case 'bounce': {
+      const v = o.villagers.find(x=>x.uid===target) || o.villagers[0];
+      if(v){ UI.leaving.add(v.uid); render(); await sleep(500); if(!alive(gid)) return; o.villagers = o.villagers.filter(x=>x!==v);
+        if(o.hand.length < HAND_LIMIT){ o.hand.push(v); G.newlyDrawn.add(v.uid); } else o.discard.push(v);
+        log(`🐺 ${vb(o,o.name+"'s",'Your')} <b>${cardOf(v).name}</b> flees back to ${vb(o,'their','your')} hand!`, who(p)); }
+      break; }
+    case 'freeze': o.flags.frozen = true; log(`❄️ ${vb(o,o.name+"'s",'Your')} villagers will be frozen next turn.`, who(p)); break;
+    case 'acornDrain': o.flags.drain += c.amount; log(`🦨 ${o.name} will have ${c.amount} fewer acorn next turn.`, who(p)); break;
+    case 'snatch': {
+      if(o.hand.length){ const i = rnd(o.hand.length); const [x] = o.hand.splice(i,1);
+        if(p.hand.length < HAND_LIMIT){ p.hand.push(x); G.newlyDrawn.add(x.uid); } else p.discard.push(x);
+        log(`🐦‍⬛ ${p.name} ${vb(p,'snatches','snatch')} <b>${p.isAI?'a card':cardOf(x).name}</b> from ${vb(o,o.name+"'s",'your')} hand!`, who(p)); }
+      else log(`${vb(o,o.name+"'s",'Your')} hand was empty.`, 'sys');
+      break; }
+    case 'skip': o.flags.skip = true; log(`💤 ${o.name} will skip their next turn!`, who(p)); break;
+  }
+}
+
+/* =====================================================================
+   AI OPPONENT
+   ===================================================================== */
+function threatLevel(h){
+  const rd = requiredDone(h), sc = score(h);
+  let t = Math.max(rd/REQUIRED_BUILDINGS.length, sc/SCORE_TO_WIN);
+  const near = h.buildings.filter(b=>!b.done && b.progress >= cardOf(b).work-2).length;
+  t += near*0.08;
+  return Math.min(1, t);
+}
+function neededResources(p){
+  // total resource deficit for building cards in hand
+  const need = {wood:0,stone:0,food:0};
+  for(const c of p.hand.map(cardOf)){
+    if(c.type!=='building' || p.buildings.some(b=>b.id===c.id)) continue;
+    for(const [k,v] of Object.entries(c.req)) need[k] += v;
+  }
+  return {wood:Math.max(0,need.wood-p.res.wood), stone:Math.max(0,need.stone-p.res.stone), food:Math.max(0,need.food-p.res.food)};
+}
+function aiChooseAction(p, h){
+  const acts = [];
+  const threat = threatLevel(h);
+  const deficit = neededResources(p);
+  const haveBuildingInHand = p.hand.some(x=>cardOf(x).type==='building' && !p.buildings.some(b=>b.id===x.id));
+  for(const inst of p.hand){
+    const c = cardOf(inst);
+    if(!canAfford(p,c)) continue;
+    let s = 0, target = null;
+    if(c.type==='building'){
+      const unfinished = p.buildings.filter(b=>!b.done).length;
+      s = 50 + (c.required?25:0) + c.score*4 - c.work*2 - Math.max(0, unfinished-1)*14;
+      if(c.required && requiredDone(p) >= 3) s += 20;
+      if(!c.required && requiredDone(p) < 3 && score(p) < 6) s -= 10;
+      if(c.shield && threat<0.4) s -= 20;
+    } else if(c.villager){
+      const v = c.villager;
+      s = 30 + (p.villagers.length<3 ? 12 : 0) - p.villagers.length*4 - c.cost*2 + (G.turn<=3 ? 10 : 0);
+      if(v.gather) for(const k of Object.keys(v.gather)) s += deficit[k]>0 ? 8 : 3;
+      if(v.work) s += p.buildings.some(b=>!b.done) ? 16 : 4;
+      if(v.draw) s += 8; if(v.acorn) s += 10;
+      if(G.turn > 8) s -= 10;
+    } else if(c.gain){
+      s = 18; for(const k of Object.keys(c.gain)) s += deficit[k]>0 ? 12 : 0;
+      if(c.draw) s += 5;
+    } else if(c.tutor){
+      s = haveBuildingInHand ? 12 : 40;
+    } else if(c.type==='disruption'){
+      s = 8 + threat*45;
+      const tg = disruptionTargets(h.idx, c);
+      switch(c.effect){
+        case 'storm': { const b = closestToDone(h); if(!b) continue; s += b.progress*6 + (cardOf(b).required?5:0); target = b.uid; break; }
+        case 'demolish': { const b = closestToDone(h); if(!b) continue; s += 10 + b.progress*8 + (cardOf(b).required?8:0); target = b.uid; break; }
+        case 'bounce': { if(!tg.length) continue; const v = tg.reduce((m,x)=>cardOf(x).cost>cardOf(m).cost?x:m, tg[0]); s += 4 + h.villagers.length*4 + cardOf(v).cost*3; target = v.uid; break; }
+        case 'steal': if(totalRes(h)<2) continue; s += Math.min(12, totalRes(h)*3); break;
+        case 'discard': if(!h.hand.length) continue; s += h.hand.length*2; break;
+        case 'snatch': if(!h.hand.length) continue; s += 4 + h.hand.length*2; break;
+        case 'freeze': if(h.villagers.length<2) continue; s += h.villagers.length*4; break;
+        case 'acornDrain': s += 4; break;
+        case 'skip': if(threat<0.45) s -= 15; else s += 25; break;
+      }
+      if(h.buildings.some(b=>b.id==='fence'&&b.done) && c.cost>=3) s -= 25;
+    }
+    acts.push({kind:'play', uid:inst.uid, target, s, name:c.name});
+  }
+  if(p.acorns >= 1){
+    for(const b of p.buildings){
+      if(b.done) continue;
+      const c = cardOf(b);
+      const finishes = b.progress + hammerPower(p) >= c.work;
+      const unfinished = p.buildings.filter(x=>!x.done).length;
+      let s = finishes ? 62 + (c.required?10:0) + c.score*3 : 22 + (b.progress/c.work)*12 + (c.required?4:0) + Math.max(0, unfinished-1)*6;
+      if(!finishes && unfinished<2 && p.hand.some(x=>cardOf(x).type==='building' && canAfford(p,cardOf(x)))) s -= 10;
+      acts.push({kind:'hammer', uid:b.uid, s, name:c.name});
+    }
+  }
+  if(!acts.length) return null;
+  acts.sort((a,b)=>b.s-a.s);
+  return acts[0];
+}
+async function aiTurn(){
+  const p = G.players[1], h = G.players[0], gid = G.id;
+  let guard = 0;
+  setHint('The AI is thinking…');
+  while(guard++ < 25 && alive(gid) && !G.winner){
+    const a = aiChooseAction(p, h);
+    if(!a) break;
+    let ok;
+    if(a.kind==='play') ok = await playCard(1, a.uid, a.target);
+    else ok = await hammer(1, a.uid);
+    if(!alive(gid)) return;
+    if(!ok) break;
+    await sleep(650);
+  }
+  if(alive(gid) && !G.winner){ await sleep(400); if(alive(gid)) await endTurn(); }
+}
+</script>
+<script>
+/* =====================================================================
+   UI STATE, SCREENS
+   ===================================================================== */
+const UI = {busy:false, selectedUid:null, completed:new Set(), placed:new Set(), wrecked:new Set(), demolished:new Set(), leaving:new Set(), lastDeck:null};
+const $ = s => document.querySelector(s);
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.id==='screen-'+name));
+  if(name==='decks') renderDeckSelect();
+}
+function openHelp(){
+  $('#help-body').innerHTML = `
+    <h2 style="font-size:28px">How to play Critter Town</h2>
+    <p><b>Goal:</b> be the first to complete all <b>5 required structures</b> (Well, Market, Bakery, Workshop, Town Hall) <i>or</i> reach a <b>Town Score of ${SCORE_TO_WIN}★</b> from completed buildings.</p>
+    <h3>Your turn</h3>
+    <ul>
+      <li><b>Start:</b> you get 🌰 Acorns (${BASE_ACORNS} base, +1 with a Town Hall or Bear Foreman, max ${MAX_ACORNS}). Your villagers gather resources or work.</li>
+      <li><b>Draw:</b> draw 1 card (hand limit ${HAND_LIMIT}; extra draws are discarded). An empty deck reshuffles your discard pile. You start with 5 cards and go first; the AI starts with 6.</li>
+      <li><b>Main:</b> spend acorns to play cards from your hand, or click one of your unfinished buildings to <b>Hammer</b> it (1 🌰 = +1 progress, +2 with a Workshop). Unused acorns are lost.</li>
+    </ul>
+    <h3>Card types</h3>
+    <ul>
+      <li><span class="res-pill" style="background:var(--res)">Resource</span> Villagers stay in your town and gather every turn (max ${MAX_VILLAGERS}). Supplies give an instant boost.</li>
+      <li><span class="res-pill" style="background:var(--bld)">Building</span> Pay acorns plus the 🪵🪨🍎 cost to lay a foundation, then add 🔨 progress to finish it. Each building can be built once.</li>
+      <li><span class="res-pill" style="background:var(--dis)">Disruption</span> Sabotage your rival: steal, discard, wreck buildings, scare villagers, freeze, or force a skipped turn. A finished Sturdy Fence blocks one disruption.</li>
+    </ul>
+    <h3>Deck rules</h3>
+    <p>${DECK_MIN}–${DECK_MAX} cards. Up to 2 copies of a common or uncommon card, and only 1 copy of each rare (gold gem).</p>`;
+  $('#overlay-help').classList.add('active');
+}
+function closeOverlay(id){ document.getElementById(id).classList.remove('active'); }
+function quitGame(){ if(confirm('Leave this game and return to the menu?')){ G = null; showScreen('menu'); } }
+function setHint(t){ const h = $('#hint'); if(h) h.textContent = t; }
+
+/* ---------- Menu critters ---------- */
+$('#menu-critters').innerHTML = ['fox','otter','hedgehog','owl','raccoon','bear'].map(a=>animalSVG(a)).join('');
+
+/* ---------- Deck select ---------- */
+function deckTypeCounts(list){ const c={resource:0,building:0,disruption:0}; list.forEach(id=>c[CARD_BY_ID[id].type]++); return c; }
+function renderDeckSelect(){
+  const grid = $('#deck-grid'); grid.innerHTML = '';
+  PREMADE_DECKS.forEach((d,i)=>{
+    const c = deckTypeCounts(d.list);
+    const div = document.createElement('div'); div.className='deck-tile';
+    div.innerHTML = `<h3>${d.name}</h3><p>${d.blurb}</p>
+      <div class="pips"><span class="pip res" style="flex:${c.resource}" title="${c.resource} resource"></span><span class="pip bld" style="flex:${c.building}" title="${c.building} building"></span><span class="pip dis" style="flex:${c.disruption}" title="${c.disruption} disruption"></span></div>
+      <p>${d.list.length} cards · ${c.resource} resource / ${c.building} building / ${c.disruption} disruption</p>
+      <div class="preview">${[...new Set(d.list)].filter(id=>CARD_BY_ID[id].type!=='building').slice(0,5).map(id=>cardArt(CARD_BY_ID[id])).join('')}</div>`;
+    div.onclick = ()=>newGame(d.list.slice(), d.name);
+    grid.appendChild(div);
+  });
+  const custom = loadCustomDeck();
+  const div = document.createElement('div'); div.className='deck-tile';
+  const ok = custom && validateDeck(custom).ok;
+  div.innerHTML = `<h3>Custom Deck</h3><p>${ok ? `Your saved deck (${custom.length} cards). Click to play it.` : 'Build your own deck in the Deck Builder.'}</p>
+    <div class="preview">${ok ? [...new Set(custom)].slice(0,5).map(id=>cardArt(CARD_BY_ID[id])).join('') : ''}</div>`;
+  div.onclick = ()=> ok ? newGame(custom.slice(), 'Custom Deck') : openBuilder();
+  grid.appendChild(div);
+}
+
+/* =====================================================================
+   DECK BUILDER
+   ===================================================================== */
+const B = {deck:[], filter:'all'};
+function loadCustomDeck(){ try{ const d = JSON.parse(localStorage.getItem('critterDeck')||'null'); return Array.isArray(d) && d.every(id=>CARD_BY_ID[id]) ? d : null; }catch(e){ return null; } }
+function saveCustomDeck(){ try{ localStorage.setItem('critterDeck', JSON.stringify(B.deck)); }catch(e){} }
+function validateDeck(list){
+  const problems = [];
+  if(list.length < DECK_MIN) problems.push(`Need at least ${DECK_MIN} cards (${list.length} now)`);
+  if(list.length > DECK_MAX) problems.push(`Too many cards (max ${DECK_MAX})`);
+  const counts = {}; list.forEach(id=>counts[id]=(counts[id]||0)+1);
+  for(const [id,n] of Object.entries(counts)){ const c=CARD_BY_ID[id]; if(n > COPY_LIMIT[c.rarity]) problems.push(`Too many copies of ${c.name}`); }
+  if(!list.some(id=>CARD_BY_ID[id].type==='building')) problems.push('Include at least one Building card');
+  return {ok: problems.length===0, problems};
+}
+function openBuilder(){
+  B.deck = loadCustomDeck() || [];
+  showScreen('builder');
+  const f = $('#filters');
+  f.innerHTML = ['all','resource','building','disruption'].map(t=>`<button class="${B.filter===t?'on':''}" onclick="B.filter='${t}';renderBuilder()">${t[0].toUpperCase()+t.slice(1)}</button>`).join('');
+  renderBuilder();
+}
+function renderBuilder(){
+  $('#filters').querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.textContent.toLowerCase()===B.filter));
+  const counts = {}; B.deck.forEach(id=>counts[id]=(counts[id]||0)+1);
+  const pool = $('#pool'); pool.innerHTML='';
+  CARDS.filter(c=>B.filter==='all'||c.type===B.filter).forEach(c=>{
+    const n = counts[c.id]||0, maxed = n >= COPY_LIMIT[c.rarity] || B.deck.length >= DECK_MAX;
+    const w = document.createElement('div'); w.style.position='relative';
+    w.innerHTML = cardHTML(c, maxed?'maxed':'') + (n?`<div class="count" style="position:absolute;top:-8px;right:-8px;background:var(--ink);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px">${n}</div>`:'');
+    w.title = `${c.name} — click to add (max ${COPY_LIMIT[c.rarity]})`;
+    w.onclick = ()=>{ if(!maxed){ B.deck.push(c.id); saveCustomDeck(); renderBuilder(); } };
+    pool.appendChild(w);
+  });
+  const tc = deckTypeCounts(B.deck);
+  $('#deck-count').textContent = `(${B.deck.length}/${DECK_MAX})`;
+  $('#deck-rules').innerHTML = `${DECK_MIN}–${DECK_MAX} cards · max 2 copies (rares: 1)<br>${tc.resource} resource · ${tc.building} building · ${tc.disruption} disruption`;
+  const ul = $('#deck-list'); ul.innerHTML='';
+  Object.keys(counts).map(id=>CARD_BY_ID[id]).sort((a,b)=>a.type.localeCompare(b.type)||a.cost-b.cost||a.name.localeCompare(b.name)).forEach(c=>{
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="res-pill" style="background:var(--${c.type==='resource'?'res':c.type==='building'?'bld':'dis'})">${c.cost}🌰</span><span class="n">${c.name} ×${counts[c.id]}</span><button class="rm" title="Remove one">−</button>`;
+    li.querySelector('.rm').onclick = ()=>{ B.deck.splice(B.deck.indexOf(c.id),1); saveCustomDeck(); renderBuilder(); };
+    ul.appendChild(li);
+  });
+  const v = validateDeck(B.deck);
+  $('#deck-valid').innerHTML = v.ok ? '<span style="color:#2e7d32;font-weight:bold">✓ Deck is legal</span>' : v.problems.map(p=>`<div class="invalid">✗ ${p}</div>`).join('');
+  $('#btn-play-custom').disabled = !v.ok;
+}
+function clearDeck(){ B.deck = []; saveCustomDeck(); renderBuilder(); }
+function loadPremadeIntoBuilder(){ B.deck = pick(PREMADE_DECKS).list.slice(); saveCustomDeck(); renderBuilder(); }
+function playCustom(){ if(validateDeck(B.deck).ok) newGame(B.deck.slice(), 'Custom Deck'); }
+
+/* =====================================================================
+   GAME RENDERING
+   ===================================================================== */
+function render(){
+  if(!G) return;
+  renderTown(0); renderTown(1); renderPiles(0); renderPiles(1); renderTurn(); renderHand();
+  $('#btn-end').disabled = UI.busy || G.current!==0 || G.phase!=='main' || !!G.winner;
+  document.getElementById('me-area').classList.toggle('turn-active', G.current===0 && !G.winner);
+  document.getElementById('opp-area').classList.toggle('turn-active', G.current===1 && !G.winner);
+}
+function renderTown(pi){
+  const p = G.players[pi], root = document.getElementById('town-'+pi);
+  if(!root.dataset.built){
+    root.innerHTML = `<div class="town-head"></div><div class="villagers"></div><div class="buildings"></div>`;
+    root.dataset.built = 1;
+  }
+  const tags = [];
+  if(p.flags.skip) tags.push('<span class="tag bad">💤 skips next turn</span>');
+  if(p.flags.frozen) tags.push('<span class="tag bad">❄️ frozen next turn</span>');
+  if(p.flags.drain) tags.push(`<span class="tag bad">🦨 −${p.flags.drain} acorn next turn</span>`);
+  if(p.buildings.some(b=>b.id==='fence'&&b.done)) tags.push('<span class="tag">🛡️ fence up</span>');
+  root.querySelector('.town-head').innerHTML = `<span class="pname">${pi===0?'🏡':'🏰'} ${p.name}</span>
+    <span class="scorebox" title="Town Score">★ ${score(p)} / ${SCORE_TO_WIN}</span>
+    <span class="tag" title="Required structures completed">🏗️ ${requiredDone(p)}/${REQUIRED_BUILDINGS.length} required</span>
+    <span class="resbar"><span class="resbox" data-res="wood">🪵 ${p.res.wood}</span><span class="resbox" data-res="stone">🪨 ${p.res.stone}</span><span class="resbox" data-res="food">🍎 ${p.res.food}</span><span class="resbox" data-res="acorn" title="Acorns this turn">🌰 ${p.acorns}</span></span>
+    <span class="status-tags">${tags.join('')}</span>`;
+  // villagers (keyed)
+  const vRoot = root.querySelector('.villagers');
+  const keep = new Set(p.villagers.map(v=>v.uid));
+  vRoot.querySelectorAll('.villager').forEach(el=>{ if(!keep.has(+el.dataset.uid)) el.remove(); });
+  for(const v of p.villagers){
+    let el = vRoot.querySelector(`.villager[data-uid="${v.uid}"]`);
+    if(!el){ el = document.createElement('div'); el.className='villager'; el.dataset.uid=v.uid; el.innerHTML = animalSVG(cardOf(v).animal); vRoot.appendChild(el); }
+    const c = cardOf(v);
+    el.title = `${c.name}: ${c.text}`;
+    el.classList.toggle('frozen', p.flags.frozen);
+    if(UI.leaving.has(v.uid)){ el.classList.add('leaving'); UI.leaving.delete(v.uid); }
+  }
+  if(!p.villagers.length) vRoot.innerHTML = `<span style="font-size:11px;color:var(--muted);align-self:center">No villagers yet</span>`;
+  else vRoot.querySelectorAll('span').forEach(s=>s.remove());
+  // buildings (keyed; required ghost slots first)
+  const bRoot = root.querySelector('.buildings');
+  const order = [];
+  for(const id of REQUIRED_BUILDINGS){ const b = p.buildings.find(x=>x.id===id); order.push(b ? {b} : {ghost:id}); }
+  for(const b of p.buildings) if(!REQUIRED_BUILDINGS.includes(b.id)) order.push({b});
+  const present = new Set(p.buildings.map(b=>String(b.uid)));
+  bRoot.querySelectorAll('.bslot').forEach(el=>{ if(el.dataset.uid && !present.has(el.dataset.uid)) el.remove(); if(el.dataset.ghost && p.buildings.some(x=>x.id===el.dataset.ghost)) el.remove(); });
+  const canHammer = pi===0 && G.current===0 && G.phase==='main' && !UI.busy && p.acorns>=1;
+  order.forEach((o,i)=>{
+    let el;
+    if(o.ghost){
+      el = bRoot.querySelector(`.bslot[data-ghost="${o.ghost}"]`);
+      if(!el){ el = document.createElement('div'); el.className='bslot ghost'; el.dataset.ghost=o.ghost; const c=CARD_BY_ID[o.ghost]; el.innerHTML = `${buildingSVG(c.building)}<span>${c.name}</span>`; el.title = `Required: ${c.name}`; }
+    } else {
+      const b = o.b, c = cardOf(b);
+      el = bRoot.querySelector(`.bslot[data-uid="${b.uid}"]`);
+      if(!el){
+        el = document.createElement('div'); el.className='bslot'; el.dataset.uid=b.uid;
+        el.innerHTML = `<div class="name">${buildingSVG(c.building)}<span>${c.name}</span></div><div class="bar"><i></i></div><div class="st"></div><span class="scaffold"></span>`;
+        el.title = `${c.name}: ${c.text}`;
+        if(UI.placed.has(b.uid)){ el.classList.add('placed'); UI.placed.delete(b.uid); }
+      }
+      el.classList.toggle('done', b.done);
+      el.classList.toggle('hammerable', canHammer && !b.done);
+      el.querySelector('.st').textContent = b.done ? `Complete · ★${c.score}` : `${b.progress}/${c.work} 🔨${canHammer?' · click to hammer':''}`;
+      el.querySelector('.scaffold').textContent = b.done ? '' : '🚧';
+      el.onclick = (!b.done && pi===0) ? ()=>onHammerClick(b.uid) : null;
+      requestAnimationFrame(()=>{ el.querySelector('.bar i').style.width = (b.progress/c.work*100)+'%'; });
+      if(UI.completed.has(b.uid)){ el.classList.add('complete-fx'); UI.completed.delete(b.uid); setTimeout(()=>{ fxSparkle(el); el.classList.remove('complete-fx'); }, 30); }
+      if(UI.wrecked.has(b.uid)){ el.classList.remove('wreck'); void el.offsetWidth; el.classList.add('wreck'); UI.wrecked.delete(b.uid); }
+      if(UI.demolished.has(b.uid)){ el.classList.add('demolish'); UI.demolished.delete(b.uid); }
+    }
+    // maintain order
+    if(bRoot.children[i] !== el) bRoot.insertBefore(el, bRoot.children[i] || null);
+  });
+  while(bRoot.children.length > order.length) bRoot.lastChild.remove();
+}
+function renderPiles(pi){
+  const p = G.players[pi], root = document.getElementById('piles-'+pi);
+  const top = p.discard[p.discard.length-1];
+  root.innerHTML = `${pi===1 ? `<div class="pile"><div class="opp-hand" id="opp-hand">${p.hand.map(()=>'<div class="card-back mini"></div>').join('') || '<div class="slot">–</div>'}</div><span>Hand ${p.hand.length}</span></div>` : ''}
+    <div class="pile" id="deck-pile-${pi}"><div class="card-back mini" title="Deck"></div><span>Deck ${p.deck.length}</span></div>
+    <div class="pile" id="discard-pile-${pi}"><div class="slot" title="${top?`Top of discard: ${cardOf(top).name}`:'Discard pile'}">${top ? `<div style="width:40px;height:40px">${cardArt(cardOf(top))}</div>` : '🗑️'}</div><span>Discard ${p.discard.length}</span></div>`;
+}
+function renderTurn(){
+  const p = G.players[G.current];
+  const phases = ['start','draw','main','end'];
+  $('#turn-ind').innerHTML = `<div class="big">Turn ${G.turn}</div>
+    <div style="font-weight:bold;color:${G.current===0?'#2e7d32':'var(--dis)'}">${G.winner!=null ? 'Game over' : (G.current===0 ? '🏡 Your turn' : '🏰 AI turn')}</div>
+    <div class="phases">${phases.map(ph=>`<span class="phase ${G.phase===ph?'on':''}">${ph[0].toUpperCase()+ph.slice(1)}</span>`).join('')}</div>
+    <div id="acorn-disp">🌰 ${p.acorns} acorn${p.acorns===1?'':'s'} left</div>`;
+}
+function renderHand(){
+  const p = G.players[0], hand = $('#hand');
+  hand.innerHTML = '';
+  const mine = G.current===0 && G.phase==='main' && !UI.busy;
+  const deckRect = document.getElementById('deck-pile-0')?.getBoundingClientRect();
+  p.hand.forEach((inst,i)=>{
+    const c = cardOf(inst);
+    const playable = mine && canAfford(p,c);
+    const w = document.createElement('div');
+    w.innerHTML = cardHTML(c, (playable?'playable':(mine?'unplayable':'')) + (UI.selectedUid===inst.uid?' selected':''));
+    const el = w.firstElementChild; el.dataset.uid = inst.uid;
+    el.title = playable ? `Play ${c.name}` : (mine ? whyNot(p,c) : c.name);
+    el.onclick = ()=>onCardClick(inst.uid);
+    hand.appendChild(el);
+    if(G.newlyDrawn.has(inst.uid)){
+      el.classList.add('drawn');
+      if(deckRect){ const r = el.getBoundingClientRect(); el.style.setProperty('--dx', (deckRect.left - r.left)+'px'); el.style.setProperty('--dy', (deckRect.top - r.top)+'px'); }
+      G.newlyDrawn.delete(inst.uid);
+    }
+  });
+  // AI draws are not animated card-by-card; clear leftovers
+  for(const inst of G.players[1].hand) G.newlyDrawn.delete(inst.uid);
+}
+
+/* ---------- human input ---------- */
+function onCardClick(cardUid){
+  if(!G || UI.busy || G.current!==0 || G.phase!=='main') return;
+  const p = G.players[0]; const inst = p.hand.find(x=>x.uid===cardUid); if(!inst) return;
+  const c = cardOf(inst);
+  if(!canAfford(p,c)){ setHint(`Can't play ${c.name}: ${whyNot(p,c)}.`); return; }
+  if(c.type==='disruption' && (c.effect==='demolish' || c.effect==='bounce' || c.effect==='storm')){
+    const targets = disruptionTargets(1, c);
+    if(targets.length > 1){ UI.selectedUid = cardUid; render(); return askTarget(c, targets, t=>playCard(0, cardUid, t)); }
+    return playCard(0, cardUid, targets[0]?.uid);
+  }
+  playCard(0, cardUid);
+}
+function onHammerClick(buildingUid){
+  if(!G || UI.busy || G.current!==0 || G.phase!=='main') return;
+  const p = G.players[0];
+  if(p.acorns < 1){ setHint('No acorns left to hammer with.'); return; }
+  hammer(0, buildingUid);
+}
+let targetResolve = null;
+function askTarget(card, targets, cb){
+  $('#target-title').textContent = `${card.name}: choose a target`;
+  const list = $('#target-list'); list.innerHTML='';
+  targets.forEach(t=>{
+    const tc = cardOf(t); const b = document.createElement('button');
+    b.innerHTML = `<div style="width:40px;height:40px;margin:0 auto">${cardArt(tc)}</div>${tc.name}${t.progress!=null?` (${t.progress}/${tc.work})`:''}`;
+    b.onclick = ()=>{ closeOverlay('overlay-target'); cb(t.uid); };
+    list.appendChild(b);
+  });
+  $('#overlay-target').classList.add('active');
+}
+function cancelTarget(){ closeOverlay('overlay-target'); UI.selectedUid = null; render(); }
+
+/* =====================================================================
+   ANIMATIONS / FX
+   ===================================================================== */
+const fx = () => document.getElementById('fx-layer');
+async function animPlayCard(pi, inst){
+  const c = cardOf(inst);
+  let src;
+  if(pi===0) src = document.querySelector(`#hand .card[data-uid="${inst.uid}"]`);
+  else src = document.querySelector('#opp-hand .card-back') || document.getElementById('deck-pile-1');
+  const zone = document.getElementById('play-zone');
+  const zr = zone.getBoundingClientRect();
+  const sr = src ? src.getBoundingClientRect() : zr;
+  const ghost = document.createElement('div'); ghost.className='fly'; ghost.innerHTML = cardHTML(c);
+  ghost.style.left = sr.left+'px'; ghost.style.top = sr.top+'px';
+  ghost.style.transform = `scale(${src&&pi===1 ? 0.3 : 1})`;
+  fx().appendChild(ghost);
+  if(src && pi===0) src.style.visibility='hidden';
+  render();
+  const tx = zr.left + zr.width/2 - 75 - sr.left, ty = zr.top + zr.height/2 - 105 - sr.top;
+  await sleep(20);
+  ghost.style.transform = `translate(${tx}px,${ty}px) scale(1.05)`;
+  await sleep(560);
+  zone.innerHTML = cardHTML(c);
+  ghost.remove();
+  await sleep(c.type==='disruption' ? 500 : 650);
+  const z = zone.firstElementChild;
+  if(z){ z.style.transition='transform .35s, opacity .35s'; z.style.transform='scale(.4)'; z.style.opacity='0'; }
+  await sleep(300);
+  zone.innerHTML = '';
+}
+function floatFrom(el, text, color='#2e7d32'){
+  if(!el) return;
+  const r = el.getBoundingClientRect();
+  const t = document.createElement('div'); t.className='float-txt'; t.textContent = text; t.style.color=color;
+  t.style.left = (r.left + r.width/2 - 20)+'px'; t.style.top = (r.top - 8)+'px';
+  fx().appendChild(t); setTimeout(()=>t.remove(), 1200);
+}
+function fxGather(pi, vuid, text){ floatFrom(document.querySelector(`#town-${pi} .villager[data-uid="${vuid}"]`), text); }
+function fxBuildingText(pi, buid, text){ floatFrom(document.querySelector(`#town-${pi} .bslot[data-uid="${buid}"]`), text, '#b8600e'); }
+function fxResBump(pi){ document.querySelectorAll(`#town-${pi} .resbox`).forEach(el=>{ el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }); }
+function fxShake(pi){
+  const area = document.getElementById(pi===0?'me-area':'opp-area');
+  area.classList.remove('hit'); void area.offsetWidth; area.classList.add('hit');
+  const f = document.createElement('div'); f.className='flash'; fx().appendChild(f); setTimeout(()=>f.remove(), 600);
+}
+function fxZap(pi, emoji){
+  const area = document.getElementById(pi===0?'me-area':'opp-area'); const r = area.getBoundingClientRect();
+  const z = document.createElement('div'); z.className='zap'; z.textContent = emoji;
+  z.style.left = (r.left + r.width/2 - 24)+'px'; z.style.top = (r.top + r.height/2 - 30)+'px';
+  fx().appendChild(z); setTimeout(()=>z.remove(), 1000);
+}
+function fxSparkle(el){
+  const r = el.getBoundingClientRect();
+  for(let i=0;i<14;i++){
+    const s = document.createElement('div'); s.className='spark';
+    s.style.background = pick(['#f0b429','#4c9a5f','#e8772e','#5ea1e6','#c94a52']);
+    s.style.left = (r.left + r.width/2)+'px'; s.style.top = (r.top + r.height/2)+'px';
+    const a = Math.random()*Math.PI*2, d = 40+Math.random()*50;
+    s.style.setProperty('--sx', Math.cos(a)*d+'px'); s.style.setProperty('--sy', Math.sin(a)*d+'px');
+    fx().appendChild(s); setTimeout(()=>s.remove(), 1000);
+  }
+}
+function confetti(){
+  for(let i=0;i<80;i++){
+    const c = document.createElement('div'); c.className='confetti';
+    c.style.left = Math.random()*100+'vw'; c.style.background = pick(['#f0b429','#4c9a5f','#e8772e','#5ea1e6','#c94a52','#fff']);
+    c.style.animationDelay = Math.random()*1.5+'s'; c.style.animationDuration = (2+Math.random()*2)+'s';
+    document.body.appendChild(c); setTimeout(()=>c.remove(), 5000);
+  }
+}
+function showWin(){
+  const w = G.players[G.winner], l = G.players[other(G.winner)];
+  const youWon = G.winner===0;
+  if(youWon) confetti();
+  $('#win-box').innerHTML = `<div style="font-size:64px">${youWon ? '🎉' : '🐻'}</div>
+    <h2>${youWon ? 'You built Critter Town!' : 'Mayor Grizzle wins!'}</h2>
+    <p><b>${w.name}</b> ${G.winReason} on turn ${G.turn}.</p>
+    <table style="margin:12px auto;border-collapse:collapse;font-size:14px">
+      <tr><th></th><th style="padding:4px 10px">${w.name}</th><th style="padding:4px 10px">${l.name}</th></tr>
+      <tr><td>Town Score</td><td>★ ${score(w)}</td><td>★ ${score(l)}</td></tr>
+      <tr><td>Required built</td><td>${requiredDone(w)}/5</td><td>${requiredDone(l)}/5</td></tr>
+      <tr><td>Villagers</td><td>${w.villagers.length}</td><td>${l.villagers.length}</td></tr>
+    </table>
+    <button class="primary" onclick="closeOverlay('overlay-win');newGame(G.players[0].deck.concat(G.players[0].hand,G.players[0].discard,G.players[0].villagers,G.players[0].buildings).map(x=>x.id), G.players[0].deckName)">Play again (same deck)</button>
+    <button onclick="closeOverlay('overlay-win');showScreen('decks')">Choose a deck</button>
+    <button onclick="closeOverlay('overlay-win');G=null;showScreen('menu')">Main menu</button>`;
+  $('#overlay-win').classList.add('active');
+  render();
+}
+window.addEventListener('resize', ()=>{ if(G) render(); });
+</script>
+</body>
+</html>

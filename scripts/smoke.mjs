@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import { createGame, playGame } from '../src/engine/index.js';
+import { makeRandomAgent } from '../src/ai/random.js';
+const rules = JSON.parse(fs.readFileSync(new URL('../spec/game.json', import.meta.url)));
+const set = JSON.parse(fs.readFileSync(new URL('../spec/starter_card_set.json', import.meta.url)));
+const seed = Number(process.argv[2] || 1);
+const state = createGame(rules, set, { seed, decks: ['burrow-bloom', 'paws-papers'] });
+await playGame(state, [makeRandomAgent(seed), makeRandomAgent(seed + 1)]);
+console.log(state.log.map((l) => `[${l.turn}] ${l.text}`).join('\n'));
+console.log('winner', state.winner, state.result, 'turns', state.turnNumber, 'actions', state.actionCount);

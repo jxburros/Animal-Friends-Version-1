@@ -1,0 +1,72 @@
+/* Painted surroundings only. Card faces, readers and game states retain their own styles. */
+body {
+  background: var(--noise), radial-gradient(ellipse at 50% 0, #45614d, transparent 75%), #1d342c;
+}
+#screen-menu { padding: 32px 18px; }
+.book-cover { max-width: 1020px; padding: 14px 16px 14px 24px; }
+.cover-inner { padding: 0 32px 24px; overflow: hidden; border-radius: 8px; }
+.cover-landscape {
+  position: relative; margin: 0 -32px 26px; height: clamp(220px, 31vw, 340px);
+  border-bottom: 4px double #ab8a47; background: #6b8063; overflow: hidden;
+}
+.cover-landscape img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+.cover-landscape::after { content: ''; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, #152b24c9); pointer-events: none; }
+.cover-caption { position: absolute; z-index: 1; bottom: 18px; left: 12px; right: 12px; color: #fff5d9; font: bold 11px var(--sans); letter-spacing: .22em; text-transform: uppercase; }
+.logo { font-size: clamp(38px, 5.5vw, 62px); }
+.logo-sub { margin-top: 8px; }
+.tagline { margin-bottom: 18px; }
+.expansion-note { margin: 0 auto 18px; max-width: 600px; line-height: 1.5; font-size: 13px; }
+.menu-field { margin: 22px 0; }
+.menu-label { display: flex; align-items: center; gap: 12px; color: #36533b; font-size: 16px; margin-bottom: 12px; }
+.menu-label::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, #b59a61, transparent); }
+.deck-choice { gap: 12px; }
+.deck-card { padding: 14px 18px; border-color: #c6b48c; box-shadow: 0 3px 8px #3c382214; }
+.deck-card::before, .deck-card:nth-child(n)::before { width: 4px; background: #a98a4e; }
+.deck-card h4 { color: #304c36; margin-left: 0; padding-right: 20px; }
+.deck-card p { margin-left: 0; line-height: 1.5; }
+.deck-card.selected { background: linear-gradient(120deg, #e1ead8, #f3f4e8); border-color: #56724b; box-shadow: 0 0 0 1px #56724b, 0 4px 10px #314b3820; }
+.deck-card.selected::before { background: #42623e; }
+.deck-card.selected::after { content: '✓'; position: absolute; right: 12px; top: 12px; color: #355536; font: bold 16px var(--sans); }
+.market-choice .deck-card h4 { color: #72532b; }
+.deck-tools button, .cover-links button { min-height: 44px; }
+#startGameBtn { min-height: 54px; border: 3px double #bda467; border-radius: 7px; letter-spacing: .05em; box-shadow: 0 4px 0 #1c3526, 0 8px 16px #243b2426; }
+.topbar { background: var(--noise), linear-gradient(110deg, #223d30, #365741); color: #fff1d0; border: 1px solid #b69a5e; padding: 12px 16px; }
+.topbar .turn-banner, .topbar .pace-label { color: #fff1d0; }
+.topbar .tb-chapter, .topbar .tb-status { color: #eadaba; }
+.topbar .tb-who.you { color: #c5e9b6; }
+.topbar .tb-who.rival { color: #ffcfbd; }
+.topbar .tb-phase { color: #554832; background: #f5e8cd; }
+.topbar .tb-phase.on { color: #342b19; background: #f6d27a; }
+.page { box-shadow: 0 8px 24px #081b2333, inset 0 0 0 3px #fff5dd, inset 0 0 0 4px #cbbb98; }
+.town-head { margin: -2px 0 14px; padding: 12px; border-bottom: 3px double #b5a176; border-radius: 5px; background: var(--noise), linear-gradient(110deg, #dde5d1, #f3e9d5); }
+.town-head::before { content: '❦'; display: grid; place-items: center; flex: 0 0 38px; height: 38px; border: 3px double #a58b4c; border-radius: 50%; color: #45613e; background: #fff2ce; font-size: 25px; }
+.rival .town-head { background: var(--noise), linear-gradient(110deg, #dce1e5, #f3e9d5); }
+.cc-head {
+  position: relative; isolation: isolate; min-height: 190px; align-content: flex-end;
+  margin: -14px -14px 14px; padding: 24px 18px 16px; border-radius: 6px 6px 0 0;
+  border-bottom: 3px double #b99b5d; background: #213b40; color: #fff4d9;
+}
+.cc-head::before { content: ''; position: absolute; z-index: -1; inset: 0; border-radius: inherit; background: linear-gradient(0deg, #11292af5, #11292ab8 45%, #11292a15), url('../../assets/ui/capital-twilight.webp') center 46% / cover; }
+.cc-title { color: #fff3d1; background: #203b32ed; border: 3px double #b99b5d; border-radius: 5px; padding: 7px 12px; box-shadow: none; font-size: 22px; }
+.cc-title .ico { color: #e0c181; }
+.cc-head .cc-sub { color: #fff4df; background: #11292ae6; padding: 8px 12px; line-height: 1.5; }
+.cc-head .pile-chip { color: #3b3929; background: #fff2d8; }
+.log-panel { border-color: #aa915c; }
+.log-title { color: #3e583e; letter-spacing: .1em; }
+.db-head { border: 3px double #ad915c; padding: 24px; background: linear-gradient(90deg, #fff3dcfa 35%, #fff3dce8 70%, #fff3dc9c), url('../../assets/ui/borough-daylight.webp') center 55% / cover; }
+.welcome-landscape { height: 160px; margin: -6px -6px 20px; border-radius: 8px; border: 1px solid #b99b5d; background: #708268 url('../../assets/ui/borough-daylight.webp') center 60% / cover; }
+.win-box { border: 3px double #b99b5d; background: linear-gradient(#fff4dce8, #fff4dcfa), url('../../assets/ui/capital-twilight.webp') center / cover; }
+@media (max-width: 700px) {
+  #screen-menu { padding: 12px 8px; }
+  .book-cover { padding: 8px 8px 8px 14px; }
+  .cover-inner { padding: 0 14px 20px; }
+  .cover-landscape { margin: 0 -14px 22px; height: 230px; }
+  .cover-landscape img { object-position: 65% 65%; }
+  .cover-caption { font-size: 9px; letter-spacing: .14em; }
+  .deck-card { padding: 12px; }
+  .town-head { padding: 8px; gap: 8px; }
+  .cc-head { margin: -8px -4px 12px; padding: 22px 12px 12px; min-height: 200px; }
+  .cc-title { font-size: 19px; }
+  .db-head { padding: 16px; }
+  .welcome-landscape { height: 120px; }
+}

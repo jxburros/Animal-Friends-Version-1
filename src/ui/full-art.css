@@ -1,0 +1,103 @@
+/* Full Art Collection. Opt-in by exact card ID; regular storybook cards keep their frames. */
+.card-face.full-art {
+  --foil-ink: #fff3d5;
+  isolation: isolate;
+  background: #152b29;
+  border: 1px solid #d3b777;
+  padding: 8px;
+  box-shadow: 0 2px 3px #101d2440, 0 8px 20px #102c3340, 0 0 0 1px #67583a;
+}
+.card-face.full-art.large { padding: 11px; }
+.card-face.full-art .art, .card-reader .card-face.full-art.large .art {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
+  border: 0; border-radius: inherit; z-index: -2; background: #152b29;
+}
+.card-face.full-art::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: linear-gradient(180deg, #091c2999, transparent 24%, transparent 47%, #091c2940 67%, #091c29f0);
+}
+.card-face.full-art .banner {
+  background: linear-gradient(110deg, #122c30ee, #172a38d9);
+  border: 1px solid #d4bb7e99; border-radius: 6px 6px 0 0;
+  color: var(--foil-ink);
+}
+.card-face.full-art .cname { text-shadow: 0 1px 3px #06171e; line-height: 1.15; }
+.card-face.full-art.large .banner { height: 49px; }
+.card-face.full-art .cost {
+  color: #243332; background: linear-gradient(135deg, #fff4ca, #d6b878 60%, #fff4d9);
+  border-color: #ffedb9; box-shadow: 0 1px 5px #0005;
+}
+.card-face.full-art .ticon { color: #f0d89e; border-color: #e9d29988; }
+.card-face.full-art .gem { top: 37px; right: 6px; }
+.card-face.full-art.large .gem { top: 54px; right: 8px; }
+.card-face.full-art .card-subtitle {
+  z-index: 3; position: relative; color: #fcebc7; background: #112e35d9;
+  border-color: #d4bb7e66; border-radius: 0 0 5px 5px; letter-spacing: .025em;
+}
+.card-face.full-art .body {
+  flex: 0 1 auto; margin-top: auto; padding: 7px 5px 5px;
+  background: linear-gradient(135deg, #142c30ed, #112331f5);
+  border: 1px solid #d4bb7e66; border-radius: 6px;
+  max-height: 46%; gap: 4px;
+}
+.card-face.full-art .rules { color: #fff7e5; text-align: left; }
+.card-face.full-art .traits { color: #f2dfb6; }
+.card-face.full-art .trait .ico { color: #e8cd91; }
+.card-face.full-art .burden { color: #ffd0b5; }
+.card-face.full-art .shiftpill {
+  background: #e8d5a9; border-color: #ffecc2; color: #203b33; align-self: flex-start;
+}
+.card-face.full-art .card-footer {
+  position: relative; z-index: 3; color: #fff1c7; text-shadow: 0 1px 3px #081c23;
+  padding-inline: 2px; letter-spacing: .045em;
+}
+.card-face.full-art .inspect-card { background: #182f37; color: #fff0cd; border: 1px solid #d9bd7a; }
+.card-face.full-art .frame { border: 0; box-shadow: inset 0 0 0 2px #fff0ba38; }
+.card-face.full-art .foil-sheen {
+  z-index: 1; opacity: .18; mix-blend-mode: screen; animation: none;
+  background: radial-gradient(ellipse at var(--mx,30%) var(--my,20%), #fff8d675, transparent 48%),
+    linear-gradient(118deg, transparent 18%, #8bdad628 29%, #fff5bd80 31%, #c7b8ec35 34%, transparent 43%, transparent 72%, #f4d5a940 75%, transparent 79%);
+  background-size: 100% 100%, 200% 200%; background-position: center, 40% 30%;
+  transition: opacity .35s, background-position .6s;
+}
+.card-face.full-art:hover .foil-sheen, .card-face.full-art:focus-within .foil-sheen { opacity: .31; background-position: center, 58% 43%; }
+.card-face.full-art.large .body { padding: 10px 9px 8px; }
+.card-reader .card-face.full-art.large { min-height: 590px; }
+.card-reader .card-face.full-art.large .banner { height: auto; min-height: 58px; padding-block: 5px; }
+.card-reader .card-face.full-art.large .cname { overflow: visible; line-height: 1.2; }
+.card-reader .card-face.full-art.large .body { margin-top: 280px; max-height: none; flex: none; }
+.card-reader .card-face.full-art.large .flavor { color: #e7d7b8; border-color: #d4bb7e66; }
+.full-art-gallery {
+  width: min(1180px, calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px);
+  color: #f4e8cb; background: radial-gradient(ellipse at top, #28434a, #10242a 70%);
+  border: 1px solid #b8a16d; border-radius: 16px; padding: 24px;
+  box-shadow: 0 25px 100px #08171fb3;
+}
+.full-art-gallery::backdrop { background: #08171ee6; backdrop-filter: blur(5px); }
+.full-art-gallery header { text-align: center; position: relative; padding: 12px 55px 24px; }
+.full-art-gallery h2 { font: 36px/1.1 var(--serif); color: #fff0c7; margin: 10px 0; }
+.full-art-gallery p { color: #cfdbd5; margin: 8px auto; max-width: 620px; line-height: 1.5; }
+.full-art-gallery .collection-kicker { font: 11px var(--sans); text-transform: uppercase; letter-spacing: .22em; color: #d6bd87; }
+.gallery-close { position: absolute; right: 0; top: 0; min-width: 44px; min-height: 44px; background: #19363e; color: #ffedc3; }
+.full-art-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 18px; justify-items: center; }
+.full-art-grid figure { margin: 0; min-width: 0; }
+.full-art-grid .card-face.large { width: 238px; height: 412px; }
+.full-art-grid figcaption { text-align: center; font: 11px/1.5 var(--sans); color: #bbcdc8; margin: 10px 0 0; }
+.full-art-grid .inspect-card { min-height: 28px; }
+.cover-shelf { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 0 0 18px; }
+.full-art-gallery-link { margin: 0; background: #243f43; color: #fff0c7; border: 1px solid #b59a61; padding: 10px 18px; }
+@media (max-width: 1100px) { .full-art-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 830px) { .full-art-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 570px) {
+  .full-art-gallery { padding: 16px; }
+  .full-art-gallery header { padding: 40px 0 20px; }
+  .full-art-gallery h2 { font-size: 30px; }
+  .full-art-grid { grid-template-columns: 1fr; gap: 24px; }
+  .full-art-grid .card-face.large { width: min(300px, calc(100vw - 72px)); height: 480px; }
+  .full-art-grid .card-face.large .rules { font-size: 13px; }
+  .full-art-grid .inspect-card { min-height: 44px; }
+  .card-reader .card-face.full-art.large .body { margin-top: 250px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-face.full-art .foil-sheen { transition: none; background-position: center, 40% 30%; }
+}
